@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "html2canvas": "^1.4.1",
+    "jquery": "^3.7.1",
+    "jspdf": "^3.0.0",
+    "marked": "^15.0.7",
+    "mdb-ui-kit": "^8.2.0",
+    "signature_pad": "^5.0.4",
+    "sweetalert2": "^11.17.2"
+  }
+}
