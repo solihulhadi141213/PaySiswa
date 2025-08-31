@@ -10,17 +10,13 @@ function ShowGrafik() {
         // Konfigurasi grafik
         var options = {
             chart: {
-                type: 'bar',
+                type: 'area',
                 height: 400
             },
             series: [
                 {
                     name: 'Simpanan',
                     data: simpananSeries
-                },
-                {
-                    name: 'Pinjaman',
-                    data: pinjamanSeries
                 }
             ],
             xaxis: {

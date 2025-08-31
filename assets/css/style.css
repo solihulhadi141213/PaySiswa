@@ -251,8 +251,8 @@ h6 {
   animation: fadeIn 1.2s ease-out;
 }
 .nav_background {
-  background: rgb(28,59,103);
-  background: linear-gradient(90deg, rgba(28,59,103,1) 0%, rgba(10,40,83,1) 54%, rgba(28,59,103,1) 100%);
+  background: #5833dc;
+  background: linear-gradient(90deg, #5833dc 0%, #5833dc 54%, #5833dc 100%);
 }
 .landing_background {
   min-height: 100vh;
@@ -266,8 +266,8 @@ h6 {
   background-size: cover;
 }
 .menu_background {
-  background: rgb(35,49,66);
-  background: linear-gradient(90deg, rgba(35,49,66,1) 0%, rgba(35,49,66,1) 35%, rgba(35,49,66,1) 100%);
+  background: #2f1b77;
+  background: linear-gradient(90deg, #2f1b77 0%, #2f1b77 35%, #2f1b77 100%);
 }
 /* Card */
 .card {

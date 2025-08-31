@@ -7,10 +7,27 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Akses"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Akses">
+            <a class="nav-link <?php if($PageMenu=="AksesFitur"||$PageMenu=="AksesEntitas"||$PageMenu=="Akses"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#akses-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-person"></i>
-                <span>Akses</span>
+                <span>Akses</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="akses-nav" class="nav-content collapse <?php if($PageMenu=="AksesFitur"||$PageMenu=="AksesEntitas"||$PageMenu=="Akses"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=AksesFitur" class="<?php if($PageMenu=="AksesFitur"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Fitur Aplikasi</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=AksesEntitas" class="<?php if($PageMenu=="AksesEntitas"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Group/Entitas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=Akses" class="<?php if($PageMenu=="Akses"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Akses Pengguna</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Siswa"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Siswa">
@@ -70,20 +87,20 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="AutoJurnal"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="PaymentGateway"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-gear"></i>
                     <span>Pengaturan</span><i class="bi bi-chevron-down ms-auto">
                 </i>
             </a>
-            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="AutoJurnal"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="PaymentGateway"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="index.php?Page=SettingGeneral" class="<?php if($PageMenu=="SettingGeneral"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Pengaturan Umum</span>
                     </a>
                 </li> 
                 <li>
-                    <a href="index.php?Page=AutoJurnal" class="<?php if($PageMenu=="AutoJurnal"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Auto Jurnal</span>
+                    <a href="index.php?Page=PaymentGateway" class="<?php if($PageMenu=="PaymentGateway"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Payment Gateway</span>
                     </a>
                 </li>
                 <li>

@@ -28,36 +28,6 @@
     </div>
     <div class="row">
         <div class="col-md-3 col-12">
-            <div class="card info-card sales-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h3>20</h3>
-                            <small>Akses/Pengguna</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-12">
-            <div class="card info-card blue-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-calendar"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h3>14</h3>
-                            <small>Tahun Ajaran</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-12">
             <div class="card info-card revenue-card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -77,11 +47,11 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-building"></i>
+                            <i class="bi bi-wallet"></i>
                         </div>
                         <div class="ps-3">
-                            <h3>12</h3>
-                            <small>Kelas</small>
+                            <h3>5</h3>
+                            <small>Komponen Biaya</small>
                         </div>
                     </div>
                 </div>
@@ -92,11 +62,26 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-wallet"></i>
+                            <i class="bi bi-coin"></i>
                         </div>
                         <div class="ps-3">
-                            <h3>5</h3>
-                            <small>Komponen Biaya</small>
+                            <h3>Rp 15.000.000</h3>
+                            <small>Pembayaran Masuk</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-12">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h3>Rp 23.500.000</h3>
+                            <small>Tunggakan Siswa</small>
                         </div>
                     </div>
                 </div>
@@ -125,11 +110,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <b class="card-title">
-                                Anggota / <small class="text text-muted">5 Record terbaru</small>
+                                Siswa / <small class="text text-muted">Pendaftar Baru</small>
                             </b>
                         </div>
                         <div class="card-body">
@@ -149,11 +134,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <b class="card-title">
-                                Simpanan / <small class="text text-muted">5 Record terbaru</small>
+                                Pembayaran / <small class="text text-muted">5 Record Terbaru</small>
                             </b>
                         </div>
                         <div class="card-body">
@@ -168,30 +153,6 @@
                                 data-bs-placement="top" 
                                 data-bs-custom-class="custom-tooltip" 
                                 data-bs-title="Lihat Selengkapnya Di Halaman Simpanan" >
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <b class="card-title">
-                                Pinjaman / <small class="text text-muted">5 Record terbaru</small>
-                            </b>
-                        </div>
-                        <div class="card-body">
-                            <div class="activity" id="ShowPinjamanTerbaru">
-                                <!-- Menampilkan Pinjaman Terbaru -->
-                            </div>
-                        </div>
-                        <div class="card-footer text-end">
-                            <a href="index.php?Page=Pinjaman" 
-                                class="btn btn-secondary btn-sm btn-floating" 
-                                data-bs-toggle="tooltip" 
-                                data-bs-placement="top" 
-                                data-bs-custom-class="custom-tooltip" 
-                                data-bs-title="Lihat Selengkapnya Di Halaman Pinjaman" >
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </div>
