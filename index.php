@@ -2,7 +2,7 @@
     include "_Config/Connection.php";
     include "_Config/GlobalFunction.php";
     include "_Config/Session.php";
-    if(empty($SessionIdAkses)){
+    if(empty($SessionIdAccess)){
         header("Location:Login.php");
     }else{
         //Apabila Login Berrhasil

@@ -105,14 +105,14 @@
     
     //Loging
     function addLog($Conn,$id_access,$log_datetime,$kategori_log,$deskripsi_log){
-        $entry="INSERT INTO access_log  (
+        $entry="INSERT INTO access_log (
             id_access,
             log_datetime,
             log_category,
             log_description
         ) VALUES (
-            '$id_akses',
-            '$datetime_log',
+            '$id_access',
+            '$log_datetime',
             '$kategori_log',
             '$deskripsi_log'
         )";
@@ -325,19 +325,19 @@
         return $d && $d->format($format) === $date;
     }
     function IjinAksesSaya($Conn,$SessionIdAkses,$KodeFitur){
-        $QryParam = mysqli_query($Conn,"SELECT * FROM akses_ijin WHERE id_akses='$SessionIdAkses' AND kode='$KodeFitur'")or die(mysqli_error($Conn));
+        $QryParam = mysqli_query($Conn,"SELECT * FROM akses_ijin WHERE id_access='$SessionIdAkses' AND kode='$KodeFitur'")or die(mysqli_error($Conn));
         $DataParam = mysqli_fetch_array($QryParam);
-        if(empty($DataParam['id_akses'])){
+        if(empty($DataParam['id_access'])){
             $Response="Tidak Ada";
         }else{
             $Response="Ada";
         }
         return $Response;
     }
-    function CekFiturEntitias($Conn,$uuid_akses_entitas,$id_akses_fitur){
-        $QryParam = mysqli_query($Conn,"SELECT * FROM akses_referensi WHERE uuid_akses_entitas='$uuid_akses_entitas' AND id_akses_fitur='$id_akses_fitur'")or die(mysqli_error($Conn));
+    function CekFiturEntitias($Conn,$uuid_access_entitas,$id_access_fitur){
+        $QryParam = mysqli_query($Conn,"SELECT * FROM akses_referensi WHERE uuid_access_entitas='$uuid_access_entitas' AND id_access_fitur='$id_access_fitur'")or die(mysqli_error($Conn));
         $DataParam = mysqli_fetch_array($QryParam);
-        if(empty($DataParam['id_akses_referensi'])){
+        if(empty($DataParam['id_access_referensi'])){
             $Response="Tidak Ada";
         }else{
             $Response="Ada";

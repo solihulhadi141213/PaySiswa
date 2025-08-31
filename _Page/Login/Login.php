@@ -78,7 +78,7 @@
                 <div class="row mt-3">
                     <div class="col-12" id="NotifikasiLogin"></div>
                     <div class="col-12">
-                        <button class="btn btn-lg btn-primary w-100" type="submit">Login</button>
+                        <button class="btn btn-lg btn-primary w-100" type="submit" id="TombolLogin">Login</button>
                     </div>
                     <div class="col-12">
                         <p class="small mb-0">Anda Lupa Password? <a href="Login.php?Page=LupaPassword">Reset password</a></p>

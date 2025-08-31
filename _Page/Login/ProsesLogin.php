@@ -79,8 +79,8 @@
                 $deleteTokenStmt->execute();
 
                 // Buat token baru
-                $token = generateTokenNew();
-                $insertTokenStmt = $Conn->prepare("INSERT INTO access_login (id_access, token, date_creat, date_expired) VALUES (?, ?, ?, ?)");
+                $token = GenerateToken(36);
+                $insertTokenStmt = $Conn->prepare("INSERT INTO access_login (id_access, token, datetime_creat, datetime_expired) VALUES (?, ?, ?, ?)");
                 $insertTokenStmt->bind_param("isss", $id_access, $token, $timestamp_now, $date_expired);
 
                 if ($insertTokenStmt->execute()) {

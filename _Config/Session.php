@@ -6,7 +6,7 @@
     date_default_timezone_set('Asia/Jakarta');
 
     //Jika Session id_access_login Tidak ADa
-    if(empty($_SESSION["id_access_login"])){
+    if(empty($_SESSION["id_access"])){
         $SessionIdAccess="";
         $SessionLoginToken="";
     }else{
@@ -18,15 +18,15 @@
         }else{
 
             //Membuat Variabel
-            $SessionIdAccess=validateAndSanitizeInput($_SESSION ["id_access_login"]);
+            $SessionIdAccess=validateAndSanitizeInput($_SESSION ["id_access"]);
             $SessionLoginToken=validateAndSanitizeInput($_SESSION ["login_token"]);
             
             //Validasi Token Akses
-            $QryAksesLogin = mysqli_query($Conn,"SELECT * FROM access_login WHERE id_access_login='$SessionIdAccess' AND token='$SessionLoginToken'")or die(mysqli_error($Conn));
+            $QryAksesLogin = mysqli_query($Conn,"SELECT * FROM access_login WHERE id_access='$SessionIdAccess' AND token='$SessionLoginToken'")or die(mysqli_error($Conn));
             $DataAksesLogin = mysqli_fetch_array($QryAksesLogin);
             
-            //Apabila id_access tidak ditemukan
-            if(empty($DataAksesLogin['id_access'])){
+            //Apabila id_access_login tidak ditemukan
+            if(empty($DataAksesLogin['id_access_login'])){
                 $SessionIdAccess="";
                 $SessionLoginToken="";
             }else{

@@ -1,19 +1,24 @@
 <?php
-    if($SessionModeAkses=="Anggota"){
-        $SessionGambar=GetDetailData($Conn,'anggota','id_anggota',$SessionIdAkses,'foto');
-        $SessionNama=GetDetailData($Conn,'anggota','id_anggota',$SessionIdAkses,'nama');
-        $SessionAkses=$SessionModeAkses;
+    //Buka Akses Pengguna Berdasarkan SessionIdAccess
+    $QryAccessSession = mysqli_query($Conn,"SELECT * FROM access WHERE id_access='$SessionIdAccess'")or die(mysqli_error($Conn));
+    $DataAccessSession = mysqli_fetch_array($QryAccessSession);
+    if(empty($DataAccessSession['id_access'])){
+        $access_name="";
+        $access_email="";
+        $access_contact="";
+        $access_foto="";
+        $access_client="";
+        $access_group="";
     }else{
-        $SessionNama=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'nama_akses');
-        $SessionKontakAkses=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'kontak_akses');
-        $SessionEmailAkses=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'email_akses');
-        $SessionGambar=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'image_akses');
-        $SessionLevelAkses=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'akses');
-        $SessionDatetimeDaftar=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'datetime_daftar');
-        $SessionDatetimeUpdate=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'datetime_update');
-        $SessionAkses=$SessionModeAkses;
-    }
-    if(empty($SessionGambar)){
-        $SessionGambar="No-Image.png";
+        $access_name=$DataAccessSession['access_name'];
+        $access_email=$DataAccessSession['access_email'];
+        $access_contact=$DataAccessSession['access_contact'];
+        if(empty($DataAccessSession['access_foto'])){
+            $access_foto="No-Image.png";
+        }else{
+            $access_foto=$DataAccessSession['access_foto'];
+        }
+        $access_client=$DataAccessSession['access_client'];
+        $access_group=$DataAccessSession['access_group'];
     }
 ?>

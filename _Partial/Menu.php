@@ -9,9 +9,9 @@
     }else{
         $SubMenu=$_GET['Sub'];
     }
-    if($SessionAkses=="Anggota"){
-        include "_Partial/MenuAnggota.php";
+    if($access_group=="Admin"){
+        include "_Partial/MenuAdmin.php";
     }else{
-        include "_Partial/MenuPengurus.php";
+        include "_Partial/MenuClient.php";
     }
 ?>

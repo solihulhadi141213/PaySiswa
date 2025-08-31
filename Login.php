@@ -71,45 +71,20 @@
             $('#ProsesLogin').submit(function(){
                 var ProsesLogin = $('#ProsesLogin').serialize();
                 var Loading='<div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div>';
-                $('#NotifikasiLogin').html("Loading...");
+                $('#TombolLogin').html(Loading);
                 $.ajax({
                     type 	    : 'POST',
                     url 	    : '_Page/Login/ProsesLogin.php',
                     data 	    :  ProsesLogin,
-                    success     : function(data){
-                        $('#NotifikasiLogin').html(data);
-                        var NotifikasiProsesLoginBerhasil=$('#NotifikasiProsesLoginBerhasil').html();
-                        if(NotifikasiProsesLoginBerhasil=="Success"){
-                            window.location.href = "index.php";
-                        }
-                    }
-                });
-            });
-
-            //Proses Kirim Tautan Lupa Password
-            $('#ProsesLupaPassword').submit(function(){
-                var ProsesLupaPassword = $('#ProsesLupaPassword').serialize();
-                var Loading='<div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div>';
-                $('#NotifikasiLupaPassword').html("Loading...");
-                $.ajax({
-                    type 	    : 'POST',
-                    url 	    : '_Page/ResetPassword/ProsesLupaPassword.php',
-                    data 	    :  ProsesLupaPassword,
-                    success     : function(data){
-                        $('#NotifikasiLupaPassword').html(data);
-                        var NotifikasiLupaPasswordBerhasil=$('#NotifikasiLupaPasswordBerhasil').html();
-                        if(NotifikasiLupaPasswordBerhasil=="Success"){
-                            //Tampilkan Swal Bahwa Proses Berhasil
-                            Swal.fire({
-                                title: 'Berhasil!',
-                                text: 'Kami telah mengirim tautan ke email anda',
-                                icon: 'success',
-                                confirmButtonText: 'Tutup'
-                            }).then((result) => {
-                                if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
-                                    window.location.href = 'Login.php';
-                                }
-                            });
+                    dataType    : 'json',
+                    success     : function(response){
+                        $('#TombolLogin').html('Login');
+                        if (response.status === 'success') {
+                            // Redirect jika login berhasil
+                            window.location.href = 'index.php';
+                        } else {
+                            // Tampilkan notifikasi error jika gagal
+                            $('#NotifikasiLogin').html('<div class="alert alert-danger">' + response.message + '</div>');
                         }
                     }
                 });
@@ -125,36 +100,9 @@
                     $('#PasswordBaru2').attr('type','password');
                 }
             });
-            $('#ProsesResetPassword').submit(function(){
-                var ProsesResetPassword = $('#ProsesResetPassword').serialize();
-                var Loading='<div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div>';
-                $('#NotifikasiResetPassword').html("Loading...");
-                $.ajax({
-                    type 	    : 'POST',
-                    url 	    : '_Page/ResetPassword/ProsesResetPassword.php',
-                    data 	    :  ProsesResetPassword,
-                    success     : function(data){
-                        $('#NotifikasiResetPassword').html(data);
-                        var NotifikasiResetPasswordBerhasil=$('#NotifikasiResetPasswordBerhasil').html();
-                        if(NotifikasiResetPasswordBerhasil=="Success"){
-                            //Tampilkan Swal Bahwa Proses Berhasil
-                            Swal.fire({
-                                title: 'Ubah Password Berhasil',
-                                text: 'Silahkan Login Menggunakan Password Baru Anda',
-                                icon: 'success',
-                                confirmButtonText: 'Tutup'
-                            }).then((result) => {
-                                if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
-                                    window.location.href = 'Login.php';
-                                }
-                            });
-                        }
-                    }
-                });
 
-                // Jalankan reloadCaptcha setiap 1 menit (60.000 ms)
-                setInterval(reloadCaptcha, 60000); // 60000 ms = 1 menit
-            });
+            // Jalankan reloadCaptcha setiap 1 menit (60.000 ms)
+            setInterval(reloadCaptcha, 60000); // 60000 ms = 1 menit
         </script>
     </body>
 </html>
