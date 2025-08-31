@@ -1,72 +1,71 @@
 <?php
-    //Koneksi
+    // Koneksi dan konfigurasi
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
-    //Time Zone
+
+    // Time Zone
     date_default_timezone_set('Asia/Jakarta');
-    //Time Now Tmp
-    $now=date('Y-m-d H:i:s');
-    //Validasi nama tidak boleh kosong
-    if(empty($SessionIdAkses)){
+    $now = date('Y-m-d H:i:s');
+
+    if (empty($SessionIdAccess)) {
         echo '<small class="text-danger">Sesi Login Sudah Berakhir, Silahkan Login Ulang</small>';
-    }else{
-        $id_akses=$SessionIdAkses;
-        //Bersihkan Variabel
-        $id_akses=validateAndSanitizeInput($id_akses);
-        $ImageLama=GetDetailData($Conn,'akses','id_akses',$id_akses,'image_akses');
-        if(empty($_FILES['image_akses']['name'])){
+    } else {
+        $ImageLama = GetDetailData($Conn, 'access', 'id_access', $SessionIdAccess, 'access_foto');
+        
+
+        if (empty($_FILES['image_akses']['name'])) {
             echo '<small class="text-danger">File Foto tidak boleh kosong</small>';
-        }else{
-            //nama gambar
-            $nama_gambar=$_FILES['image_akses']['name'];
-            $ukuran_gambar = $_FILES['image_akses']['size']; 
-            $tipe_gambar = $_FILES['image_akses']['type']; 
+        } else {
+            $nama_gambar = $_FILES['image_akses']['name'];
+            $ukuran_gambar = $_FILES['image_akses']['size'];
+            $tipe_gambar = $_FILES['image_akses']['type'];
             $tmp_gambar = $_FILES['image_akses']['tmp_name'];
-            $timestamp = strval(time()-strtotime('1970-01-01 00:00:00'));
-            $key=implode('', str_split(substr(strtolower(md5(microtime().rand(1000, 9999))), 0, 30), 6));
-            $FileNameRand=$key;
-            $Pecah = explode("." , $nama_gambar);
-            $BiasanyaNama=$Pecah[0];
-            $Ext=$Pecah[1];
-            $namabaru = "$FileNameRand.$Ext";
-            $path = "../../assets/img/User/".$namabaru;
-            if($tipe_gambar == "image/jpeg"||$tipe_gambar == "image/jpg"||$tipe_gambar == "image/gif"||$tipe_gambar == "image/png"){
-                if($ukuran_gambar<2000000){
-                    if(move_uploaded_file($tmp_gambar, $path)){
-                        $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
-                            image_akses='$namabaru',
-                            datetime_update='$now'
-                        WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
-                        if($UpdateAkses){
-                            if(!empty($ImageLama)){
-                                $file = '../../assets/img/User/'.$ImageLama.'';
-                                if (file_exists($file)) {
-                                    if (unlink($file)) {
-                                        $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
-                                        echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
-                                    } else {
-                                        echo '<span class="text-danger">Terjadi kesalahan pada saat menghapus foto lama</span>';
-                                    }
-                                }else{
-                                    $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
-                                    echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
-                                }
-                            }else{
-                                $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
-                                echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
-                            }
-                        }else{
-                            echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data akses</small>';
+
+            // Generate nama file acak
+            $key = implode('', str_split(substr(strtolower(md5(microtime() . rand(1000, 9999))), 0, 30), 6));
+            $ext = pathinfo($nama_gambar, PATHINFO_EXTENSION);
+            $namabaru = $key . "." . $ext;
+            $path = "../../assets/img/User/" . $namabaru;
+
+            // Validasi tipe file
+            $allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+            if (!in_array($tipe_gambar, $allowedTypes)) {
+                echo '<small class="text-danger">Tipe file hanya boleh JPG, JPEG, PNG, dan GIF</small>';
+                exit;
+            }
+
+            // Validasi ukuran file
+            if ($ukuran_gambar > 2000000) {
+                echo '<small class="text-danger">File gambar tidak boleh lebih dari 2 MB</small>';
+                exit;
+            }
+
+            // Proses upload file
+            if (!move_uploaded_file($tmp_gambar, $path)) {
+                echo '<small class="text-danger">Upload file gambar gagal</small>';
+                exit;
+            }
+
+            // Simpan ke database dengan PDO
+            $UpdateFoto = mysqli_query($Conn,"UPDATE access SET access_foto='$namabaru' WHERE id_access='$SessionIdAccess'") or die(mysqli_error($Conn)); 
+                
+            if($UpdateFoto){
+                // Hapus gambar lama jika ada
+                if (!empty($ImageLama)) {
+                    $fileLama = "../../assets/img/User/" . $ImageLama;
+                    if (file_exists($fileLama)) {
+                        if (!unlink($fileLama)) {
+                            echo '<span class="text-danger">Gagal menghapus foto lama</span>';
+                            exit;
                         }
-                    }else{
-                        echo '<small class="text-danger">Upload file gambar gagal</small>';
                     }
-                }else{
-                    echo '<small class="text-danger">File gambar tidak boleh lebih dari 2 mb</small>';
                 }
-            }else{
-                echo '<small class="text-danger">Tipe file hanya boleh JPG, JPEG, PNG and GIF</small>';
+
+                $_SESSION["NotifikasiSwal"] = "Ubah Foto Profil Berhasil";
+                echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+            } else {
+                echo '<small class="text-danger">Terjadi kesalahan saat menyimpan ke database</small>';
             }
         }
     }
