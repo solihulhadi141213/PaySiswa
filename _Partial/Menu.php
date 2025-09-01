@@ -9,9 +9,5 @@
     }else{
         $SubMenu=$_GET['Sub'];
     }
-    if($access_group=="Admin"){
-        include "_Partial/MenuAdmin.php";
-    }else{
-        include "_Partial/MenuClient.php";
-    }
+    include "_Partial/MenuAdmin.php";
 ?>

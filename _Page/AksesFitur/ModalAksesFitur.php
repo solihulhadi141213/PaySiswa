@@ -116,13 +116,7 @@
                             </label>
                             <input type="text" class="form-control" name="kategori" id="kategori" list="ListKategori">
                             <datalist id="ListKategori">
-                                <?php
-                                    $query = mysqli_query($Conn, "SELECT DISTINCT feature_category FROM access_feature ORDER BY feature_category ASC");
-                                    while ($data = mysqli_fetch_array($query)) {
-                                        $feature_category= $data['feature_category'];
-                                        echo '<option value="'.$feature_category.'">';
-                                    }
-                                ?>
+                                
                             </datalist>
                         </div>
                     </div>

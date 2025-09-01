@@ -30,10 +30,23 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Siswa"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Siswa">
+            <a class="nav-link <?php if($PageMenu=="Kelas"||$PageMenu=="Siswa"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#siswa-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-people"></i>
                 <span>Siswa</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="siswa-nav" class="nav-content collapse <?php if($PageMenu=="Kelas"||$PageMenu=="Siswa"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=Kelas" class="<?php if($PageMenu=="Kelas"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Group/Kelas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=Siswa" class="<?php if($PageMenu=="Siswa"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Daftar Siswa</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="JenisSimpanan"||$PageMenu=="SimpananWajib"||$PageMenu=="Tabungan"||$PageMenu=="RekapSimpanan"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#simpanan-nav" data-bs-toggle="collapse" href="javascript:void(0);">

@@ -324,23 +324,52 @@
         // Pastikan format sesuai dan tanggal valid (misalnya tidak ada 30 Februari)
         return $d && $d->format($format) === $date;
     }
-    function IjinAksesSaya($Conn,$SessionIdAkses,$KodeFitur){
-        $QryParam = mysqli_query($Conn,"SELECT * FROM akses_ijin WHERE id_access='$SessionIdAkses' AND kode='$KodeFitur'")or die(mysqli_error($Conn));
-        $DataParam = mysqli_fetch_array($QryParam);
+    function IjinAksesSaya($Conn, $SessionIdAccess, $id_access_feature){
+        // Siapkan query dengan placeholder
+        $stmt = $Conn->prepare("SELECT id_access FROM access_permission WHERE id_access = ? AND id_access_feature = ?");
+        
+        // Bind parameter (sama-sama integer, jadi 'ii')
+        $stmt->bind_param("is", $SessionIdAccess, $id_access_feature);
+        
+        // Eksekusi
+        $stmt->execute();
+        
+        // Ambil hasil
+        $result = $stmt->get_result();
+        $DataParam = $result->fetch_assoc();
+        
+        // Tentukan respon
         if(empty($DataParam['id_access'])){
-            $Response="Tidak Ada";
+            $Response = "Tidak Ada";
         }else{
-            $Response="Ada";
+            $Response = "Ada";
         }
+        
+        // Tutup statement
+        $stmt->close();
+        
         return $Response;
     }
-    function CekFiturEntitias($Conn,$uuid_access_entitas,$id_access_fitur){
-        $QryParam = mysqli_query($Conn,"SELECT * FROM akses_referensi WHERE uuid_access_entitas='$uuid_access_entitas' AND id_access_fitur='$id_access_fitur'")or die(mysqli_error($Conn));
-        $DataParam = mysqli_fetch_array($QryParam);
-        if(empty($DataParam['id_access_referensi'])){
-            $Response="Tidak Ada";
+    function CekFiturEntitias($Conn, $id_access_group, $id_access_feature){
+        
+        // Query dengan prepared statement
+        $stmt = $Conn->prepare("SELECT id_access_reference 
+                                FROM access_reference 
+                                WHERE id_access_group = ? AND id_access_feature = ? 
+                                LIMIT 1");
+        if($stmt){
+            $stmt->bind_param("is", $id_access_group, $id_access_feature);
+            $stmt->execute();
+            $stmt->store_result();
+
+            if($stmt->num_rows > 0){
+                $Response = "Ada";
+            }else{
+                $Response = "Tidak Ada";
+            }
+            $stmt->close();
         }else{
-            $Response="Ada";
+            $Response = "Tidak Ada";
         }
         return $Response;
     }

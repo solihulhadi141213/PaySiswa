@@ -1,7 +1,7 @@
 <div class="pagetitle">
     <h1>
         <a href="">
-            <i class="bi bi-person"></i> Akses Pengurus</a>
+            <i class="bi bi-person"></i> Akses Pengguna</a>
         </a>
     </h1>
     <nav>

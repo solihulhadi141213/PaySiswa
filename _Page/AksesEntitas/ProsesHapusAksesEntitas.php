@@ -3,31 +3,58 @@
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+
+    //Keterangan Waktu
     date_default_timezone_set("Asia/Jakarta");
+
+    //Datetime Sekarang
     $now=date('Y-m-d H:i:s');
-    //Validasi uuid_akses_entitas tidak boleh kosong
-    if(empty($_POST['uuid_akses_entitas'])){
-        echo '<code class="text-danger">ID Akses Entitias Tidak Boleh Kosong</code>';
-    }else{
-        $uuid_akses_entitas=$_POST['uuid_akses_entitas'];
-        $uuid_akses_entitas=validateAndSanitizeInput($uuid_akses_entitas);
-        $HapusEntitias = mysqli_query($Conn, "DELETE FROM akses_entitas WHERE uuid_akses_entitas='$uuid_akses_entitas'") or die(mysqli_error($Conn));
-        if($HapusEntitias){
-            $HapusReferensi = mysqli_query($Conn, "DELETE FROM akses_referensi WHERE uuid_akses_entitas='$uuid_akses_entitas'") or die(mysqli_error($Conn));
-            if($HapusReferensi){
-                $kategori_log="Entitas Akses";
-                $deskripsi_log="Hapus Entitas Akses";
-                $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
-                if($InputLog=="Success"){
-                    echo '<small class="text-success" id="NotifikasiHapusAksesEntitasBerhasil">Success</small>';
-                }else{
-                    echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan Log</small>';
-                }
-            }else{
-                echo '<small class="text-danger">Terjadi kesalahan pada saat menghapus referensi entitias</small>';
-            }
+
+    //Validasi Akses
+    if (empty($SessionIdAccess)) {
+        echo '
+            <div class="alert alert-danger">
+                <small>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Validasi id_access_group
+    if(empty($_POST['id_access_group'])){
+        echo '
+            <div class="alert alert-danger">
+                <small>ID Entitas/Group Akses Tidak Boleh Kosong!</small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Buat Variabel
+    $id_access_group=validateAndSanitizeInput($_POST['id_access_group']);
+
+    //Hapus Data
+    $HapusEntitias = mysqli_query($Conn, "DELETE FROM access_group WHERE id_access_group='$id_access_group'") or die(mysqli_error($Conn));
+    if($HapusEntitias){
+
+        //Simpan Log
+        $kategori_log="Entitas Akses";
+        $deskripsi_log="Hapus Entitas Akses";
+        $InputLog=addLog($Conn,$SessionIdAccess,$now,$kategori_log,$deskripsi_log);
+        if($InputLog=="Success"){
+            echo '<small class="text-success" id="NotifikasiHapusAksesEntitasBerhasil">Success</small>';
         }else{
-            echo '<small class="text-danger">Terjadi kesalahan pada saat menghapus entitias</small>';
+            echo '
+                <div class="alert alert-danger">
+                    <small>Terjadi kesalahan pada saat menyimpan Log!</small>
+                </div>
+            ';
         }
+    }else{
+        echo '
+            <div class="alert alert-danger">
+                <small>Terjadi kesalahan pada saat menghapus entitas/group akses!</small>
+            </div>
+        ';
     }
 ?>

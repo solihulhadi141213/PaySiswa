@@ -1,44 +1,75 @@
 <?php
-    date_default_timezone_set('Asia/Jakarta');
+    //Koneksi
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
-    if(empty($_POST['uuid_akses_entitas'])){
-        echo '<code>ID Entitias Tidak Boleh Kosong!</code>';
+
+    //Keterangan Waktu
+    date_default_timezone_set('Asia/Jakarta');
+
+    //Validasi Akses
+    if (empty($SessionIdAccess)) {
+        echo '
+            <div class="alert alert-danger">
+                <small>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Validasi id_access_group
+    if(empty($_POST['id_access_group'])){
+        echo '
+            <div class="alert alert-danger">
+                <small>ID Entitas/Group Akses Tidak Boleh Kosong!</small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Buat Variabel
+    $id_access_group=validateAndSanitizeInput($_POST['id_access_group']);
+    
+    //Buka Data
+    $Qry = $Conn->prepare("SELECT * FROM access_group WHERE id_access_group = ?");
+    $Qry->bind_param("i", $id_access_group);
+    if (!$Qry->execute()) {
+        $error=$Conn->error;
+        echo '
+            <div class="alert alert-danger">
+                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
+            </div>
+        ';
     }else{
-        $uuid_akses_entitas=$_POST['uuid_akses_entitas'];
-        //Bersihkan Data
-        $uuid_akses_entitas=validateAndSanitizeInput($uuid_akses_entitas);
-        $uuid_akses_entitas=GetDetailData($Conn,'akses_entitas','uuid_akses_entitas',$uuid_akses_entitas,'uuid_akses_entitas');
-        if(empty($uuid_akses_entitas)){
-            echo '<code>ID Entitias Tidak Valid, Atau Tidak Ditemukan Pada Database!</code>';
-        }else{
-            $NamaAkses=GetDetailData($Conn,'akses_entitas','uuid_akses_entitas',$uuid_akses_entitas,'akses');
-            $KeteranganEntitias=GetDetailData($Conn,'akses_entitas','uuid_akses_entitas',$uuid_akses_entitas,'keterangan');
-?>
-        <input type="hidden" name="uuid_akses_entitas" value="<?php echo $uuid_akses_entitas; ?>">
-        <div class="row mb-3">
-            <div class="col col-md-4">Nama Entitias</div>
-            <div class="col col-md-8">
-                <small class="credit">
-                    <code class="text text-grayish"><?php echo "$NamaAkses"; ?></code>
-                </small>
+        $Result = $Qry->get_result();
+        $Data = $Result->fetch_assoc();
+        $Qry->close();
+
+        //Buat Variabel
+        $group_name             =$Data['group_name'];
+        $group_description      =$Data['group_description'];
+
+        echo '
+            <input type="hidden" name="id_access_group" value="'.$id_access_group.'">
+            <div class="row mb-3">
+                <div class="col-4"><small>Entitas/Group</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7"><small class="text text-grayish">'.$group_name.'</small></div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4 mb-3">Keterangan</div>
-            <div class="col col-md-8 mb-3">
-                <small class="credit">
-                    <code class="text text-grayish"><?php echo "$KeteranganEntitias"; ?></code>
-                </small>
+            <div class="row mb-3">
+                <div class="col-4"><small>Deskripsi</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7"><small class="text text-grayish">'.$group_description.'</small></div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-12 mb-3 text-center text-danger">
-                Apakah anda yakin akan menghapus data ini?
+            <div class="row mb-3">
+                <div class="col-12 text-center">
+                    <div class="alert alert-danger">
+                        <h1><i class="bi bi-exclamation-triangle"></i> Penting!</h1>
+                        <small>Menghapus Entitas/Group akses akan menyebabkan beberapa akun yang terhubung kehilangan ijin aksesnya.</small>
+                        <p><b>Apakah anda yakin akan menghapus data ini?</b></p>
+                    </div>
+                </div>
             </div>
-        </div>
-<?php
-        }
+        ';
     }
 ?>

@@ -11,16 +11,17 @@ function filterAndLoadTable() {
     });
 }
 
-//Fungsi Generate Kode
-function generateRandomString(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+//Fungsi Menampilkan Data List Kategori
+function ShowDataListKategori() {
+    $.ajax({
+        type: 'POST',
+        url: '_Page/AksesFitur/ListKategori.php',
+        success: function(data) {
+            $('#ListKategori').html(data);
+        }
+    });
 }
+
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     filterAndLoadTable();
@@ -38,63 +39,69 @@ $(document).ready(function() {
         $('#page').val(next_page);
         filterAndLoadTable(0);
     });
-});
-//Filter Data
-$('#ProsesFilter').submit(function(){
-    $('#page').val("1");
-    filterAndLoadTable();
-    $('#ModalFilter').modal('hide');
-});
-//Ketika KeywordBy Diubah
-$('#KeywordBy').change(function(){
-    var KeywordBy = $('#KeywordBy').val();
-    $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/AksesFitur/FormFilter.php',
-        data        : {KeywordBy: KeywordBy},
-        success     : function(data){
-            $('#FormFilter').html(data);
-        }
+
+    //Filter Data
+    $('#ProsesFilter').submit(function(){
+        $('#page').val("1");
+        filterAndLoadTable();
+        $('#ModalFilter').modal('hide');
     });
-});
-//Generate Kode
-$('#GenerateKode').click(function(){
-    var randomString = generateRandomString(19);
-    $('#kode').val('Loading...');
-    $('#kode').val(randomString);
-});
-//Proses Tambah Fitur
-$('#ProsesTambahFitur').submit(function(){
-    $('#TombolTambahFitur').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
-    var ProsesTambahFitur = $('#ProsesTambahFitur').serialize();
-    $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/AksesFitur/ProsesTambahFitur.php',
-        data 	    :  ProsesTambahFitur,
-        enctype     : 'multipart/form-data',
-        success     : function(data){
-            $('#NotifikasiTambahAksesFitur').html(data);
-            var NotifikasiTambahAksesFiturBerhasil=$('#NotifikasiTambahAksesFiturBerhasil').html();
-            if(NotifikasiTambahAksesFiturBerhasil=="Success"){
-                $('#TombolTambahFitur').html('<i class="bi bi-save"></i> Simpan');
-                $('#NotifikasiTambahAksesFitur').html('');
-                $('#page').val("1");
-                $("#ProsesFilter")[0].reset();
-                $("#ProsesTambahFitur")[0].reset();
-                $('#ModalTambahFitur').modal('hide');
-                Swal.fire(
-                    'Success!',
-                    'Tambahh Fitur Akses Berhasil!',
-                    'success'
-                )
-                //Menampilkan Data
-                filterAndLoadTable();
-            }else{
-                $('#TombolTambahFitur').html('<i class="bi bi-save"></i> Simpan');
+
+    //Ketika KeywordBy Diubah
+    $('#KeywordBy').change(function(){
+        var KeywordBy = $('#KeywordBy').val();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/AksesFitur/FormFilter.php',
+            data        : {KeywordBy: KeywordBy},
+            success     : function(data){
+                $('#FormFilter').html(data);
             }
-        }
+        });
+    });
+
+    //Ketika Modal Tambah Fitur Muncul
+    $('#ModalTambahFitur').on('show.bs.modal', function (e) {
+        ShowDataListKategori();
+    });
+
+    //Proses Tambah Fitur
+    $('#ProsesTambahFitur').submit(function(){
+        $('#TombolTambahFitur').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+        var ProsesTambahFitur = $('#ProsesTambahFitur').serialize();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/AksesFitur/ProsesTambahFitur.php',
+            data 	    :  ProsesTambahFitur,
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#NotifikasiTambahAksesFitur').html(data);
+                var NotifikasiTambahAksesFiturBerhasil=$('#NotifikasiTambahAksesFiturBerhasil').html();
+                if(NotifikasiTambahAksesFiturBerhasil=="Success"){
+                    $('#TombolTambahFitur').html('<i class="bi bi-save"></i> Simpan');
+                    $('#NotifikasiTambahAksesFitur').html('');
+                    $('#page').val("1");
+                    $("#ProsesFilter")[0].reset();
+                    $("#ProsesTambahFitur")[0].reset();
+                    $('#ModalTambahFitur').modal('hide');
+                    Swal.fire(
+                        'Success!',
+                        'Tambahh Fitur Akses Berhasil!',
+                        'success'
+                    )
+                    //Menampilkan Data
+                    filterAndLoadTable();
+                }else{
+                    $('#TombolTambahFitur').html('<i class="bi bi-save"></i> Simpan');
+                }
+            }
+        });
     });
 });
+
+
+
+
 //Ketika Modal Hapus Fitur Muncul
 $('#ModalHapusFitur').on('show.bs.modal', function (e) {
     var id_access_feature = $(e.relatedTarget).data('id');
