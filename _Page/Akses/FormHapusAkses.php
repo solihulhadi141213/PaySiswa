@@ -1,90 +1,105 @@
 <?php
-    //Koneksi
+    //Zona Waktu
     date_default_timezone_set('Asia/Jakarta');
+
+    //Koneksi
     include "../../_Config/Connection.php";
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
-    //Harus Login Terlebih Dulu
-    if(empty($SessionIdAkses)){
-        echo '<div class="row">';
-        echo '  <div class="col-md-12 mb-3 text-center">';
-        echo '      <code>Sesi Login Sudah Berakhir, Silahkan Login Ulang!</code>';
-        echo '  </div>';
-        echo '</div>';
+
+    //Validasi Sesi Akses
+    if (empty($SessionIdAccess)) {
+        echo '
+            <div class="alert alert-danger">
+                <small>
+                    Sesi akses sudah berakhir. Silahkan <b>login</b> ulang!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Validasi id_access
+    if(empty($_POST['id_access'])){
+        echo '
+            <div class="alert alert-danger">
+                <small>
+                    ID Akses Tidak Boleh Kosong!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+    $id_access=$_POST['id_access'];
+    $id_access=validateAndSanitizeInput($_POST['id_access']);
+    //Buka Data access
+    $Qry = $Conn->prepare("SELECT * FROM access WHERE id_access = ?");
+    $Qry->bind_param("i", $id_access);
+    if (!$Qry->execute()) {
+        $error=$Conn->error;
+        echo '
+            <div class="alert alert-danger">
+                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
+            </div>
+        ';
     }else{
-        //Tangkap id_akses
-        if(empty($_POST['id_akses'])){
-            echo '<div class="row">';
-            echo '  <div class="col-md-12 mb-3 text-center">';
-            echo '      <code>ID Akses Tidak Boleh Kosong</code>';
-            echo '  </div>';
-            echo '</div>';
-        }else{
-            $id_akses=$_POST['id_akses'];
-            //Bersihkan Variabel
-            $id_akses=validateAndSanitizeInput($id_akses);
-            //Buka data askes
-            $nama_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'nama_akses');
-            $kontak_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'kontak_akses');
-            $email_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'email_akses');
-            $image_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'image_akses');
-            $akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'akses');
-            $datetime_daftar=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_daftar');
-            $datetime_update=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_update');
-            //Jumlah
-            $JumlahAktivitas =mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM log WHERE id_akses='$id_akses'"));
-            $JumlahRole =mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM akses_ijin WHERE id_akses='$id_akses'"));
-            //Format Tanggal
-            $strtotime1=strtotime($datetime_daftar);
-            $strtotime2=strtotime($datetime_update);
-            //Menampilkan Tanggal
-            $DateDaftar=date('d/m/Y H:i:s T', $strtotime1);
-            $DateUpdate=date('d/m/Y H:i:s T', $strtotime2);
-            if(!empty($image_akses)){
-                $image_akses=$image_akses;
-            }else{
-                $image_akses="No-Image.png";
-            }
-?>
-            <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
-            <div class="row mb-3">
-                <div class="col col-md-4">Nama Lengkap</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+        $Result = $Qry->get_result();
+        $Data = $Result->fetch_assoc();
+        $Qry->close();
+
+        //Buat Variabel
+        $id_access_group    =$Data['id_access_group'];
+        $access_name        =$Data['access_name'];
+        $access_email       =$Data['access_email'];
+        $access_contact     =$Data['access_contact'];
+        $access_foto_saya   =$Data['access_foto'];
+
+        //Buka Nama Group
+        $group_name=GetDetailData($Conn, 'access_group', 'id_access_group', $id_access_group, 'group_name');
+
+        //Tampilkan Data
+        echo '
+            <input type="hidden" name="id_access" value="'.$id_access.'">
+            <div class="row mb-2">
+                <div class="col-4"><small>Nama</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$access_name.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Email</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$access_email.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Kontak</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$access_contact.'</small>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col col-md-4">Kontak</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                <div class="col-4"><small>Entitas/Group</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$group_name.'</small>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col col-md-4">Email</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $email_akses; ?></code>
+            <div class="row mb-3 mt-3">
+                <div class="col-12 text-center">
+                    <div class="alert alert-danger">
+                        <h2><i class="bi bi-exclamation-triangle"></i> Penting!</h2>
+                        <small>
+                            Dengan menghapus data akses tersebut akan menyebabkan yang bersangkutan tidak dapat masuk / mengakses aplikasi.<br>
+                            <b>Apakah anda yakin akan menghapus data tersebut?</b>
+                        </small>
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col col-md-4">Akses</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $akses; ?></code>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col col-md-4">Creat</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $DateDaftar; ?></code>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col col-md-4">Update</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $DateUpdate; ?></code>
-                </div>
-            </div>
-<?php 
-        } 
-    } 
+        ';
+    }
 ?>

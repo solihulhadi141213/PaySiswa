@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesFilter">
-                <input type="hidden" name="page" id="page">
+                <input type="hidden" name="page" id="page" value="1">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark"><i class="bi bi-funnel"></i> Filter Data</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

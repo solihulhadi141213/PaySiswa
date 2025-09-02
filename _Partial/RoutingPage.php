@@ -18,7 +18,7 @@
         if (array_key_exists($Page, $page_arry)) { 
             include $page_arry[$Page]; 
         } else { 
-            include "_Page/Dashboard/Dashboard.php";
+            include "_Page/Error/PageNotFound.php";
         }
     }
 ?>

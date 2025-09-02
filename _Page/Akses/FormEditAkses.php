@@ -1,78 +1,109 @@
 <?php
-    //Koneksi
+    //Zona Waktu
     date_default_timezone_set('Asia/Jakarta');
+
+    //Koneksi
     include "../../_Config/Connection.php";
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
-    //Harus Login Terlebih Dulu
-    if(empty($SessionIdAkses)){
-        echo '<div class="row">';
-        echo '  <div class="col-md-12 mb-3 text-center">';
-        echo '      <code>Sesi Login Sudah Berakhir, Silahkan Login Ulang!</code>';
+
+    //Validasi Sesi Akses
+    if (empty($SessionIdAccess)) {
+        echo '
+            <div class="alert alert-danger">
+                <small>
+                    Sesi akses sudah berakhir. Silahkan <b>login</b> ulang!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+    //Tangkap id_access
+    if(empty($_POST['id_access'])){
+         echo '
+            <div class="alert alert-danger">
+                <small>
+                    ID Access Tidak Boleh Kosong!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Buat variabel
+    $id_access=validateAndSanitizeInput($_POST['id_access']);
+
+    //Buka Data access
+    $Qry = $Conn->prepare("SELECT * FROM access WHERE id_access = ?");
+    $Qry->bind_param("i", $id_access);
+    if (!$Qry->execute()) {
+        $error=$Conn->error;
+        echo '
+            <div class="alert alert-danger">
+                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
+            </div>
+        ';
+    }else{
+        $Result = $Qry->get_result();
+        $Data = $Result->fetch_assoc();
+        $Qry->close();
+
+        //Buat Variabel
+        $id_access_group    =$Data['id_access_group'];
+        $access_name        =$Data['access_name'];
+        $access_email       =$Data['access_email'];
+        $access_contact     =$Data['access_contact'];
+        $access_foto_saya   =$Data['access_foto'];
+
+        //Menampilkan Form
+        echo '
+            <input type="hidden" name="id_access" value="'.$id_access.'">
+            <div class="row mb-3">
+                <div class="col col-md-4">
+                    <label for="nama_akses_edit">Nama</label>
+                </div>
+                <div class="col col-md-8">
+                    <input type="text" name="nama_akses" id="nama_akses_edit" class="form-control" value="'.$access_name.'">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-md-4">
+                    <label for="kontak_akses_edit">Kontak</label>
+                </div>
+                <div class="col col-md-8">
+                    <input type="text" name="kontak_akses" id="kontak_akses_edit" class="form-control" value="'.$access_contact.'">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col col-md-4">
+                    <label for="email_akses_edit">Email</label>
+                </div>
+                <div class="col col-md-8">
+                    <input type="email" name="email_akses" id="email_akses_edit" class="form-control" value="'.$access_email.'">
+                </div>
+            </div>
+        ';
+        echo '<div class="row mb-3">';
+        echo '  <div class="col-4">';
+        echo '      <label for="akses_edit"><small>Entitas/Group</small></label>';
+        echo '  </div>';
+        echo '  <div class="col-8">';
+        echo '      <select name="akses" id="akses_edit" class="form-control">';
+        echo '          <option value="">Pilih</option>';
+                        //Array Data Mitra
+                        $QryMitra = mysqli_query($Conn, "SELECT id_access_group, group_name FROM access_group ORDER BY group_name ASC");
+                        while ($DataMitra = mysqli_fetch_array($QryMitra)) {
+                            $id_access_group_list= $DataMitra['id_access_group'];
+                            $group_name= $DataMitra['group_name'];
+                            if($id_access_group_list==$id_access_group){
+                                echo '<option selected value="'.$id_access_group_list.'">'.$group_name.'</option>';
+                            }else{
+                                echo '<option value="'.$id_access_group_list.'">'.$group_name.'</option>';
+                            }
+                        }
+        echo '      </select>';
         echo '  </div>';
         echo '</div>';
-    }else{
-        //Tangkap id_akses
-        if(empty($_POST['id_akses'])){
-            echo '<div class="row">';
-            echo '  <div class="col-md-12 mb-3 text-center">';
-            echo '      <code>ID Akses Tidak Boleh Kosong</code>';
-            echo '  </div>';
-            echo '</div>';
-        }else{
-            $id_akses=$_POST['id_akses'];
-            //Bersihkan Variabel
-            $id_akses=validateAndSanitizeInput($id_akses);
-            //Buka data askes
-            $nama_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'nama_akses');
-            $kontak_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'kontak_akses');
-            $email_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'email_akses');
-            $image_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'image_akses');
-            $akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'akses');
-            $datetime_daftar=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_daftar');
-            $datetime_update=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_update');
-            //Jumlah
-            $JumlahAktivitas =mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM log WHERE id_akses='$id_akses'"));
-            $JumlahRole =mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM akses_ijin WHERE id_akses='$id_akses'"));
-            //Format Tanggal
-            $strtotime1=strtotime($datetime_daftar);
-            $strtotime2=strtotime($datetime_update);
-            //Menampilkan Tanggal
-            $DateDaftar=date('d/m/Y H:i:s T', $strtotime1);
-            $DateUpdate=date('d/m/Y H:i:s T', $strtotime2);
-            if(!empty($image_akses)){
-                $image_akses=$image_akses;
-            }else{
-                $image_akses="No-Image.png";
-            }
-?>
-        <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
-        <div class="row mb-3">
-            <div class="col col-md-4">
-                <label for="nama_akses_edit">Nama Lengkap</label>
-            </div>
-            <div class="col col-md-8">
-                <input type="text" name="nama_akses" id="nama_akses_edit" class="form-control" value="<?php echo "$nama_akses"; ?>">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4">
-                <label for="kontak_akses_edit">Nomor Kontak</label>
-            </div>
-            <div class="col col-md-8">
-                <input type="text" name="kontak_akses" id="kontak_akses_edit" class="form-control" value="<?php echo "$kontak_akses"; ?>">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4">
-                <label for="email_akses_edit">Email</label>
-            </div>
-            <div class="col col-md-8">
-                <input type="email" name="email_akses" id="email_akses_edit" class="form-control" value="<?php echo "$email_akses"; ?>">
-            </div>
-        </div>
-<?php 
-        } 
     } 
 ?>

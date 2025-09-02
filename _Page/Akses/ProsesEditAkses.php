@@ -1,86 +1,88 @@
 <?php
-    //Koneksi
+    // Koneksi & dependensi
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+
     date_default_timezone_set('Asia/Jakarta');
-    $now=date('Y-m-d H:i:s');
-    if(empty($SessionIdAkses)){
-        echo '<small class="text-danger">Sesi Akses Sudah Berakhir, Silahkan Login Ulang!</small>';
-    }else{
-        //Id Akses
-        if(empty($_POST['id_akses'])){
-            echo '<small class="text-danger">ID Akses tidak boleh kosong</small>';
-        }else{
-            //Validasi nama tidak boleh kosong
-            if(empty($_POST['nama_akses'])){
-                echo '<small class="text-danger">Nama tidak boleh kosong</small>';
-            }else{
-                //Validasi kontak tidak boleh kosong
-                if(empty($_POST['kontak_akses'])){
-                    echo '<small class="text-danger">Kontak tidak boleh kosong</small>';
-                }else{
-                    //Validasi kontak tidak boleh lebih dari 20 karakter
-                    $JumlahKarakterKontak=strlen($_POST['kontak_akses']);
-                    if($JumlahKarakterKontak>20||$JumlahKarakterKontak<6||!preg_match("/^[0-9]*$/", $_POST['kontak_akses'])){
-                        echo '<small class="text-danger">Kontak hanya boleh terdiri dari 6-20 karakter numerik</small>';
-                    }else{
-                        //Validasi kontak tidak boleh duplikat
-                        $id_akses=$_POST['id_akses'];
-                        $id_akses=validateAndSanitizeInput($id_akses);
-                        $kontak_akses=$_POST['kontak_akses'];
-                        $kontak_akses_lama=GetDetailData($Conn,'akses','id_akses',$id_akses,'kontak_akses');
-                        if($kontak_akses_lama==$kontak_akses){
-                            $ValidasiKontakDuplikat=0;
-                        }else{
-                            $ValidasiKontakDuplikat=mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM akses WHERE kontak_akses='$kontak_akses'"));
-                        }
-                        if(!empty($ValidasiKontakDuplikat)){
-                            echo '<small class="text-danger">Nomor kontak sudah terdaftar</small>';
-                        }else{
-                            //Validasi email tidak boleh kosong
-                            if(empty($_POST['email_akses'])){
-                                echo '<small class="text-danger">Email tidak boleh kosong</small>';
-                            }else{
-                                //Validasi email duplikat
-                                $email_akses=$_POST['email_akses'];
-                                $email_akses=validateAndSanitizeInput($email_akses);
-                                $email_akses_lama=GetDetailData($Conn,'akses','id_akses',$id_akses,'email_akses');
-                                if($email_akses_lama==$email_akses){
-                                    $ValidasiEmailDuplikat=0;
-                                }else{
-                                    $ValidasiEmailDuplikat=mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM akses WHERE email_akses='$email_akses'"));
-                                }
-                                if(!empty($ValidasiEmailDuplikat)){
-                                    echo '<small class="text-danger">Email yang anda gunakan sudah terdaftar</small>';
-                                }else{
-                                    //Variabel Lainnya
-                                    $id_akses=$_POST['id_akses'];
-                                    $nama_akses=$_POST['nama_akses'];
-                                    $kontak_akses=$_POST['kontak_akses'];
-                                    $email_akses=$_POST['email_akses'];
-                                    //Membersihkan Variabel
-                                    $id_akses=validateAndSanitizeInput($id_akses);
-                                    $nama_akses=validateAndSanitizeInput($nama_akses);
-                                    $kontak_akses=validateAndSanitizeInput($kontak_akses);
-                                    $email_akses=validateAndSanitizeInput($email_akses);
-                                    $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
-                                        nama_akses='$nama_akses',
-                                        kontak_akses='$kontak_akses',
-                                        email_akses='$email_akses',
-                                        datetime_update='$now'
-                                    WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
-                                    if($UpdateAkses){
-                                        echo '<small class="text-success" id="NotifikasiEditAksesBerhasil">Success</small>';
-                                    }else{
-                                        echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data</small>';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    $now = date('Y-m-d H:i:s');
+
+    // --- Validasi sesi ---
+    if (empty($SessionIdAccess)) {
+        echo '<div class="alert alert-danger"><small>Sesi akses sudah berakhir! Silahkan login ulang!</small></div>';
+        exit;
+    }
+
+    // --- Validasi input wajib ---
+    $required = ['id_access','nama_akses','kontak_akses','email_akses','akses'];
+    foreach($required as $r){
+        if(empty($_POST[$r])){
+            echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
+            exit;
         }
     }
+
+    // --- Sanitasi input ---
+    $id_access          = validateAndSanitizeInput($_POST['id_access']);
+    $access_name        = validateAndSanitizeInput($_POST['nama_akses']);
+    $access_contact     = validateAndSanitizeInput($_POST['kontak_akses']);
+    $access_email       = validateAndSanitizeInput($_POST['email_akses']);
+    $id_access_group    = intval($_POST['akses']); // integer
+
+    // --- Ambil id_access_group lama ---
+    $id_access_group_lama = GetDetailData($Conn, 'access', 'id_access', $id_access, 'id_access_group');
+
+    // --- Update data access ---
+    $sql = "UPDATE access SET id_access_group=?, access_name=?, access_email=?, access_contact=? WHERE id_access=?";
+    $stmt = $Conn->prepare($sql);
+    $stmt->bind_param("isssi", $id_access_group, $access_name, $access_email, $access_contact, $id_access);
+
+    if ($stmt->execute()) {
+
+        // Jika group akses berubah → reset permission
+        if ($id_access_group !== $id_access_group_lama) {
+
+            // Hapus permission lama
+            $del = $Conn->prepare("DELETE FROM access_permission WHERE id_access=?");
+            $del->bind_param("i", $id_access);
+            if ($del->execute()) {
+
+                // Ambil semua fitur dari access_reference berdasarkan group baru
+                $qryRef = $Conn->prepare("SELECT id_access_feature FROM access_reference WHERE id_access_group=?");
+                $qryRef->bind_param("i", $id_access_group);
+                $qryRef->execute();
+                $resRef = $qryRef->get_result();
+
+                $okCount = 0;
+                $total = $resRef->num_rows;
+
+                $ins = $Conn->prepare("INSERT INTO access_permission (id_access, id_access_feature) VALUES (?, ?)");
+                while ($row = $resRef->fetch_assoc()) {
+                    $feature = $row['id_access_feature']; // varchar (UUID)
+                    $ins->bind_param("is", $id_access, $feature);
+                    if ($ins->execute()) {
+                        $okCount++;
+                    }
+                }
+
+                if ($okCount === $total) {
+                    echo '<small class="text-success" id="NotifikasiEditAksesBerhasil">Success</small>';
+                } else {
+                    echo '<div class="alert alert-warning"><small>Data akses berhasil diupdate, tetapi tidak semua permission tersimpan!</small></div>';
+                }
+
+            } else {
+                echo '<div class="alert alert-danger"><small>Gagal menghapus permission lama!</small></div>';
+            }
+
+        } else {
+            // Tidak ada perubahan group → selesai
+            echo '<small class="text-success" id="NotifikasiEditAksesBerhasil">Success</small>';
+        }
+
+    } else {
+        echo '<div class="alert alert-danger"><small>Gagal update data akses!</small></div>';
+    }
+
+    $stmt->close();
 ?>

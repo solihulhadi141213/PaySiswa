@@ -1,51 +1,83 @@
 <?php
     //Koneksi
-    date_default_timezone_set('Asia/Jakarta');
     include "../../_Config/Connection.php";
-    include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
-    //Harus Login Terlebih Dulu
-    if(empty($SessionIdAkses)){
-        echo '<small class="text-danger">Sesi Akses Sudah Berakhir, Silahkan Login Ulang!</small>';
+
+    //Time Zone
+    date_default_timezone_set('Asia/Jakarta');
+
+    //Time Now Tmp
+    $now=date('Y-m-d H:i:s');
+
+    //Validasi Sesi Akses
+    if (empty($SessionIdAccess)) {
+        echo '
+            <div class="alert alert-danger">
+                <small>
+                    Sesi akses sudah berakhir. Silahkan <b>login</b> ulang!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Tangkap id_access
+    if(empty($_POST['id_access'])){
+         echo '
+            <div class="alert alert-danger">
+                <small>
+                    ID Access Tidak Boleh Kosong!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Tangkap password1
+    if(empty($_POST['password1'])){
+         echo '
+            <div class="alert alert-danger">
+                <small>
+                    Password Baru Tidak Boleh Kosong!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Validasi password1 sama dengan password2
+    if($_POST['password1']!==$_POST['password2']){
+         echo '
+            <div class="alert alert-danger">
+                <small>
+                    Password Baru Yang Anda Masukan Tidak Sama!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Sanitasi Variabel
+    $id_access=validateAndSanitizeInput($_POST['id_access']);
+    $password1=validateAndSanitizeInput($_POST['password1']);
+    $password2=validateAndSanitizeInput($_POST['password2']);
+
+    // Validasi panjang password
+    if(strlen($password1) < 6 || strlen($password1) > 20 || !preg_match("/^[a-zA-Z0-9]*$/", $password1)){
+        echo '<div class="alert alert-danger"><small>Password harus 6-20 karakter huruf/angka!</small></div>';
+        exit;
+    }
+
+    // Hash password
+    $password = password_hash($password1, PASSWORD_DEFAULT);
+            
+    $UpdateAkses = mysqli_query($Conn,"UPDATE access SET 
+        access_password='$password'
+    WHERE id_access='$id_access'") or die(mysqli_error($Conn)); 
+    if($UpdateAkses){
+        echo '<small class="text-success" id="NotifikasiUbahPasswordBerhasil">Success</small>';
     }else{
-        if(empty($_POST['id_akses'])){
-            echo '<small class="text-danger">ID Akses tidak boleh kosong</small>';
-        }else{
-            $id_akses=$_POST['id_akses'];
-            $id_akses=validateAndSanitizeInput($id_akses);
-            //Buka data askes
-            $QryDetailAkses = mysqli_query($Conn,"SELECT * FROM akses WHERE id_akses='$id_akses'")or die(mysqli_error($Conn));
-            $DataDetailAkses = mysqli_fetch_array($QryDetailAkses);
-            $kontak_akses_lama= $DataDetailAkses['kontak_akses'];
-            $email_akses_lama = $DataDetailAkses['email_akses'];
-            //Validasi Password tidak boleh kosong
-            if(empty($_POST['password1'])){
-                echo '<small class="text-danger">Password tidak boleh kosong</small>';
-            }else{
-                if($_POST['password1']!==$_POST['password2']){
-                    echo '<small class="text-danger">Password tidak sama</small>';
-                }else{
-                    //Validasi jumlah dan jenis karakter password
-                    $JumlahKarakterPassword=strlen($_POST['password1']);
-                    if($JumlahKarakterPassword>20||$JumlahKarakterPassword<6||!preg_match("/^[a-zA-Z0-9]*$/", $_POST['password1'])){
-                        echo '<small class="text-danger">Password hanya boleh terdiri dari 6-20 karakter numerik dan huruf</small>';
-                    }else{
-                        $password1=$_POST['password1'];
-                        $password1=validateAndSanitizeInput($password1);
-                        //md5
-                        $password1=MD5($password1);                           
-                        $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
-                            password='$password1'
-                        WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
-                        if($UpdateAkses){
-                            echo '<small class="text-success" id="NotifikasiUbahPasswordBerhasil">Success</small>';
-                        }else{
-                            echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data</small>';
-                        }
-                    }
-                }
-            }
-        }
+        echo '<div class="alert alert-danger"><small>Terjadi kesalahan pada saat update password!</small></div>';
     }
 ?>
