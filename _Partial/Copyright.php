@@ -1,6 +1,6 @@
 <footer id="footer" class="footer nav_background">
     <div class="copyright text-white">
-        &copy; Copyright <strong><span><?php echo "$app_title"; ?></span></strong>. All Rights Reserved 2023
+        &copy; Copyright <strong><span><?php echo "$app_title"; ?></span></strong>. All Rights Reserved <?php echo "$app_year"; ?>
     </div>
     <div class="credits">
         <!-- All the links in the footer should remain intact. -->

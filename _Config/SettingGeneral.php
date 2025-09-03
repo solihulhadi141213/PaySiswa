@@ -21,12 +21,22 @@
     $app_description = $DataSettingGeneral['app_description'] ?? null;
     $app_favicon = $DataSettingGeneral['app_favicon'] ?? null;
     $app_logo = $DataSettingGeneral['app_logo'] ?? null;
+    $app_base_url = $DataSettingGeneral['app_base_url'] ?? null;
     $app_author = $DataSettingGeneral['app_author'] ?? null;
+    $app_year = $DataSettingGeneral['app_year'] ?? null;
+    $app_company = $DataSettingGeneral['app_company'] ?? null;
 
     //Ubah keyword menjadi arry
     $app_keyword = json_decode($app_keyword, true);
     $app_keyword_show = strtolower(implode(", ", $app_keyword));
-    
+
+    //Buka Uraian app_company
+    $app_company_arry=json_decode($app_company,true);
+    $company_name=$app_company_arry['company_name'];
+    $company_contact=$app_company_arry['company_contact'];
+    $company_email=$app_company_arry['company_email'];
+    $company_address=$app_company_arry['company_address'];
+
     // Tutup statement
     $stmt->close();
 

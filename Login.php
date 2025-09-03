@@ -36,7 +36,7 @@
                                 <div class="credits text-center">
                                     <small>
                                         <div class="copyright text-white">
-                                            &copy; Copyright <strong><span><?php echo "$app_title"; ?></span></strong>. All Rights Reserved 2023
+                                            &copy; Copyright <strong><span><?php echo "$app_title"; ?></span></strong>. All Rights Reserved <?php echo "$app_year"; ?>
                                         </div>
                                         <div class="credits text-white">
                                             Designed by <span class="text text-decoration-underline"><?php echo "$app_author"; ?></span>
