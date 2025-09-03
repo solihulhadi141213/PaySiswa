@@ -1,6 +1,6 @@
 <?php
     //Cek Aksesibilitas ke halaman ini
-    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'jO3M0NopVQeXi4VuDHpvD9SRJzntpUGAe6Sw');
+    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'mOFQURHvlxqXre9cyx7FMjFtzqc1zWb0x2RD');
     if($IjinAksesSaya!=="Ada"){
         include "_Page/Error/NoAccess.php";
     }else{
@@ -8,13 +8,13 @@
     <div class="pagetitle">
         <h1>
             <a href="">
-                <i class="bi bi-person"></i> Akses Pengguna</a>
+                <i class="bi bi-building"></i> Group Kelas</a>
             </a>
         </h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Akses Pengurus</li>
+                <li class="breadcrumb-item active">Group Kelas</li>
             </ol>
         </nav>
     </div>
@@ -23,8 +23,8 @@
             <div class="col-md-12">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <small>
-                        Berikut ini adalah halaman pengelolaan data akses. 
-                        Anda bisa menentukan siapa saja yang bisa melakukan akses pada aplikasi dan menentukan ijin akses pada setiap halaman. 
+                        Berikut ini adalah halaman pengelolaan data kelas. 
+                        Silahkan tambahkan daftar kelas yang tersedia.  
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </small>
                 </div>
@@ -36,10 +36,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-12 text-end">
-                                <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilterAkses" title="Filter Data Akses">
-                                    <i class="bi bi-filter"></i>
-                                </button>
-                                <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambahAkses" title="Tambah Data Akses Baru">
+                                <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambah" title="Tambah Data">
                                     <i class="bi bi-plus"></i>
                                 </button>
                             </div>
@@ -47,22 +44,21 @@
                     </div>
                     <div class="card-body">
                         <div class="table table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
-                                        <th><b>Nama</b></th>
-                                        <th><b>Kontak</b></th>
-                                        <th><b>Email</b></th>
-                                        <th><b>Permission </b></th>
-                                        <th><b>Group</b></th>
+                                        <th><b>Level</b></th>
+                                        <th><b>Kelas</b></th>
+                                        <th><b>Siswa</b></th>
+                                        <th><b>Komponen Biaya</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>
-                                <tbody id="TabelAkses">
+                                <tbody id="TabelKelas">
                                     <tr>
-                                        <td class="text-center" colspan="7">
-                                            <small>Tidak ada data akun akses yang ditampilkan</small>
+                                        <td class="text-center" colspan="5">
+                                            <small>Tidak ada data kelas yang ditampilkan</small>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -71,18 +67,10 @@
                     </div>
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <small id="page_info">
                                     Page 1 Of 100
                                 </small>
-                            </div>
-                            <div class="col-6 text-end">
-                                <button type="button" class="btn btn-sm btn-outline-info btn-floating" id="prev_button">
-                                    <i class="bi bi-chevron-left"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-outline-info btn-floating" id="next_button">
-                                    <i class="bi bi-chevron-right"></i>
-                                </button>
                             </div>
                         </div>
                     </div>

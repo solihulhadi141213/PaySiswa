@@ -8,7 +8,8 @@
             "MyProfile"             => "_Page/MyProfile/ModalMyProfile.php",
             "AksesFitur"            => "_Page/AksesFitur/ModalAksesFitur.php",
             "AksesEntitas"          => "_Page/AksesEntitas/ModalAksesEntitas.php",
-            "Akses"                 => "_Page/Akses/ModalAkses.php"
+            "Akses"                 => "_Page/Akses/ModalAkses.php",
+            "Kelas"                 => "_Page/Kelas/ModalKelas.php"
         ];
 
         // Cek apakah halaman memiliki modal terkait dan sertakan file modalnya

@@ -9,6 +9,7 @@
             "AksesFitur"        =>  "_Page/AksesFitur/AksesFitur.php",
             "AksesEntitas"      =>  "_Page/AksesEntitas/AksesEntitas.php",
             "Akses"             =>  "_Page/Akses/Akses.php",
+            "Kelas"             =>  "_Page/Kelas/Kelas.php",
             "SettingGeneral"    =>  "_Page/SettingGeneral/SettingGeneral.php",
         ];
 
