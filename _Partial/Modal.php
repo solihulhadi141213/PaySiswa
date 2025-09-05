@@ -9,7 +9,8 @@
             "AksesFitur"            => "_Page/AksesFitur/ModalAksesFitur.php",
             "AksesEntitas"          => "_Page/AksesEntitas/ModalAksesEntitas.php",
             "Akses"                 => "_Page/Akses/ModalAkses.php",
-            "Kelas"                 => "_Page/Kelas/ModalKelas.php"
+            "Kelas"                 => "_Page/Kelas/ModalKelas.php",
+            "Siswa"                 => "_Page/Siswa/ModalSiswa.php"
         ];
 
         // Cek apakah halaman memiliki modal terkait dan sertakan file modalnya

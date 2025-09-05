@@ -10,6 +10,7 @@
             "AksesEntitas"      =>  "_Page/AksesEntitas/AksesEntitas.php",
             "Akses"             =>  "_Page/Akses/Akses.php",
             "Kelas"             =>  "_Page/Kelas/Kelas.php",
+            "Siswa"             =>  "_Page/Siswa/Siswa.php",
             "SettingGeneral"    =>  "_Page/SettingGeneral/SettingGeneral.php",
         ];
 

@@ -66,6 +66,13 @@
             <input type="hidden" name="Sub" value="Detail">
             <input type="hidden" name="id" value="'.$id_organization_class.'">
             <div class="row mb-2">
+                <div class="col-4"><small>ID</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$id_organization_class.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
                 <div class="col-4"><small>Level</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">

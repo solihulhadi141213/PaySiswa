@@ -76,9 +76,11 @@
                     </small>
                 </td>
                 <td>
-                    <small class="text text-grayish">
-                        '.$class_level.'
-                    </small>
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_organization_class .'">
+                        <small class="text text-primary text-decoration-underline">
+                            '.$class_level.'
+                        </small>
+                    </a>
                 </td>
                 <td>
                     <small class="text text-grayish">

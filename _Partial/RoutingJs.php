@@ -11,8 +11,9 @@
             "AksesFitur"        => "_Page/AksesFitur/AksesFitur.js",
             "AksesEntitas"      => "_Page/AksesEntitas/AksesEntitas.js",
             "Akses"             => "_Page/Akses/Akses.js",
-            "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js",
-            "Kelas"             => "_Page/Kelas/Kelas.js"
+            "Kelas"             => "_Page/Kelas/Kelas.js",
+            "Siswa"             => "_Page/Siswa/Siswa.js",
+            "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js"
         ];
 
         // Cek apakah halaman ada dalam daftar dan sertakan file JS yang sesuai

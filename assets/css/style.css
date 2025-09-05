@@ -737,7 +737,8 @@ h6 {
   align-items: center;
   font-size: 15px;
   font-weight: 600;
-  color: #9193f5;
+  color: #000000;
+  background: #e7efff;
   transition: 0.3;
   padding: 10px 15px;
   border-radius: 4px;
@@ -746,11 +747,12 @@ h6 {
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;
-  color: #9193f5;
+  color: #000000;
 }
 
 .sidebar-nav .nav-link.collapsed {
   color: #ffffff;
+  background: #2f1b77;
 }
 
 .sidebar-nav .nav-link.collapsed i {
