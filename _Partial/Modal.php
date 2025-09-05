@@ -10,7 +10,10 @@
             "AksesEntitas"          => "_Page/AksesEntitas/ModalAksesEntitas.php",
             "Akses"                 => "_Page/Akses/ModalAkses.php",
             "Kelas"                 => "_Page/Kelas/ModalKelas.php",
-            "Siswa"                 => "_Page/Siswa/ModalSiswa.php"
+            "Siswa"                 => "_Page/Siswa/ModalSiswa.php",
+            "KomponenBiaya"         => "_Page/KomponenBiaya/ModalKomponenBiaya.php",
+            "PaymentGateway"        => "_Page/SettingPayment/ModalSettingPayment.php",
+            "SettingEmail"          => "_Page/SettingEmail/ModalSettingEmail.php"
         ];
 
         // Cek apakah halaman memiliki modal terkait dan sertakan file modalnya

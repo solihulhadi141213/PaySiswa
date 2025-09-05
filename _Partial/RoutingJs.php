@@ -13,7 +13,10 @@
             "Akses"             => "_Page/Akses/Akses.js",
             "Kelas"             => "_Page/Kelas/Kelas.js",
             "Siswa"             => "_Page/Siswa/Siswa.js",
-            "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js"
+            "KomponenBiaya"     => "_Page/KomponenBiaya/KomponenBiaya.js",
+            "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js",
+            "PaymentGateway"    => "_Page/SettingPayment/SettingPayment.js",
+            "SettingEmail"      => "_Page/SettingEmail/SettingEmail.js"
         ];
 
         // Cek apakah halaman ada dalam daftar dan sertakan file JS yang sesuai

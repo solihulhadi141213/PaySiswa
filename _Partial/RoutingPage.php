@@ -11,7 +11,10 @@
             "Akses"             =>  "_Page/Akses/Akses.php",
             "Kelas"             =>  "_Page/Kelas/Kelas.php",
             "Siswa"             =>  "_Page/Siswa/Siswa.php",
+            "KomponenBiaya"     =>  "_Page/KomponenBiaya/KomponenBiaya.php",
             "SettingGeneral"    =>  "_Page/SettingGeneral/SettingGeneral.php",
+            "PaymentGateway"    =>  "_Page/SettingPayment/SettingPayment.php",
+            "SettingEmail"      =>  "_Page/SettingEmail/SettingEmail.php",
         ];
 
         //Tangkap 'Page'
