@@ -203,4 +203,55 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Modal Komponen Biaya
+    $('#ModalKomponenBiaya').on('show.bs.modal', function (e) {
+        var id_organization_class = $(e.relatedTarget).data('id');
+        $('#FormKomponenBiaya').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/FormKomponenBiaya.php',
+            data        : {id_organization_class: id_organization_class},
+            success     : function(data){
+                $('#FormKomponenBiaya').html(data);
+            }
+        });
+    });
+
+    //Proses Komponen Biaya
+    $('#ProsesKomponenBiaya').submit(function(){
+        $('#NotifikasiKomponenBiaya').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+        var form = $('#ProsesKomponenBiaya')[0];
+        var data = new FormData(form);
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/ProsesKomponenBiaya.php',
+            data 	    :  data,
+            cache       : false,
+            processData : false,
+            contentType : false,
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#NotifikasiKomponenBiaya').html(data);
+                var NotifikasiKomponenBiayaBerhasil=$('#NotifikasiKomponenBiayaBerhasil').html();
+                if(NotifikasiKomponenBiayaBerhasil=="Success"){
+                    $('#NotifikasiKomponenBiaya').html('');
+
+                    //Swal
+                    Swal.fire(
+                        'Success!',
+                        'Komponen Biaya Berhasil Diatur!',
+                        'success'
+                    )
+
+                    //Tutup Modal
+                    $('#ModalKomponenBiaya').modal('hide');
+
+                    //Menampilkan Data
+                    filterAndLoadTable();
+                }
+            }
+        });
+    });
+
 });

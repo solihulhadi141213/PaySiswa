@@ -93,9 +93,11 @@
                     </small>
                 </td>
                 <td>
-                    <small class="text text-grayish">
-                        '.$jumlah_komponen.' Component
-                    </small>
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
+                        <small class="text text-dark text-decoration-underline">
+                            '.$jumlah_komponen.' Component
+                        </small>
+                    </a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-secondary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
@@ -108,6 +110,11 @@
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_organization_class .'">
                                 <i class="bi bi-info-circle"></i> Detail
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
+                                <i class="bi bi-list"></i> Komponen Biaya
                             </a>
                         </li>
                         <li>

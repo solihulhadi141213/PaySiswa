@@ -146,3 +146,55 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalKomponenBiaya" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesKomponenBiaya">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-list-check"></i> Komponen Biaya</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><b>No</b></th>
+                                            <th><b>Nama Biaya</b></th>
+                                            <th><b>Periode</b></th>
+                                            <th><b>Berlaku</b></th>
+                                            <th><b>Nominal</b></th>
+                                            <th><b>Opsi</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FormKomponenBiaya">
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                <small>Tidak Ada Komponen Biaya Yang Ditampilkan</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="NotifikasiKomponenBiaya">
+                            <!-- Notifikasi Komponen Biaya Muncul Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

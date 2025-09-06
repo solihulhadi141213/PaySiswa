@@ -47,13 +47,13 @@
         </li>
         <li class="nav-heading">Referensi</li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Kelas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Kelas">
-                <i class="bi bi-building"></i> <span>Kelas</span>
+            <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
+                <i class="bi bi-tags"></i> <span>Komponen Biaya</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
-                <i class="bi bi-tags"></i> <span>Komponen Biaya</span>
+            <a class="nav-link <?php if($PageMenu=="Kelas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Kelas">
+                <i class="bi bi-building"></i> <span>Kelas</span>
             </a>
         </li>
         <li class="nav-heading">Master</li>
