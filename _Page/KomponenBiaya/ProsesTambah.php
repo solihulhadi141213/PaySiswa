@@ -15,7 +15,7 @@
     }
 
     //Validasi Form Required
-    $required = ['component_name','period_value','period_unit','periode_start','periode_end','fee_nominal'];
+    $required = ['component_name','component_category','periode_start','periode_end','fee_nominal'];
     foreach($required as $r){
         if(empty($_POST[$r])){
             echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
@@ -25,8 +25,7 @@
     
     //Buat Variabel
     $component_name     = validateAndSanitizeInput($_POST['component_name']);
-    $period_value       = validateAndSanitizeInput($_POST['period_value']);
-    $period_unit        = validateAndSanitizeInput($_POST['period_unit']);
+    $component_category = validateAndSanitizeInput($_POST['component_category']);
     $periode_start      = validateAndSanitizeInput($_POST['periode_start']);
     $periode_end        = validateAndSanitizeInput($_POST['periode_end']);
     $fee_nominal        = validateAndSanitizeInput($_POST['fee_nominal']);
@@ -35,16 +34,14 @@
     // Menggunakan Prepared Statement
     $stmt = $Conn->prepare("INSERT INTO fee_component (
         component_name, 
-        period_value, 
-        period_unit, 
+        component_category, 
         periode_start, 
         periode_end,
         fee_nominal
-    ) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", 
+    ) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", 
         $component_name, 
-        $period_value, 
-        $period_unit, 
+        $component_category, 
         $periode_start, 
         $periode_end,
         $fee_nominal

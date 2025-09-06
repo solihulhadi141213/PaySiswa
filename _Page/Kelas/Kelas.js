@@ -9,6 +9,75 @@ function filterAndLoadTable() {
     });
 }
 
+//Fungsi Menampilkan Komponen Biaya
+function ShowKomponenBiaya(id_organization_class) {
+    //Tempelkan id_organization_class
+    $('#put_id_organization_class').val(id_organization_class);
+
+    //Tangkap Data Dari Form
+    var ProsesFilterKomponenBiaya = $('#ProsesFilterKomponenBiaya').serialize();
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Kelas/TabelTambahKomponenBiaya.php',
+        data    : ProsesFilterKomponenBiaya,
+        success: function(data) {
+            $('#TabelTambahKomponenBiaya').html(data);
+        }
+    });
+}
+
+//Fungsi Tambah Komponen Biaya
+function AddKomponenBiaya(id_fee_component, id_organization_class) {
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Kelas/ProsesTambahKomponenBiaya.php',
+        data: {
+            id_fee_component: id_fee_component,
+            id_organization_class: id_organization_class
+        },
+        dataType: 'json', // Pastikan response diparse sebagai JSON
+        success: function(response) {
+            if (response.status === 'success') {
+                filterAndLoadTable();
+                ShowKomponenBiaya(id_organization_class);
+            } else {
+                // kalau gagal, tampilkan pesan error
+                alert(response.message || 'Terjadi kesalahan!');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+            alert("Gagal menghubungi server!");
+        }
+    });
+}
+
+//Fungsi Hapus Komponen Biaya
+function HapusKomponenBiaya(id_fee_component, id_organization_class) {
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Kelas/ProsesHapusKomponenBiaya.php',
+        data: {
+            id_fee_component: id_fee_component,
+            id_organization_class: id_organization_class
+        },
+        dataType: 'json', // Pastikan response diparse sebagai JSON
+        success: function(response) {
+            if (response.status === 'success') {
+                filterAndLoadTable();
+                ShowKomponenBiaya(id_organization_class);
+            } else {
+                // kalau gagal, tampilkan pesan error
+                alert(response.message || 'Terjadi kesalahan!');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+            alert("Gagal menghubungi server!");
+        }
+    });
+}
+
 //Fungsi Menampilkan Data List Level Kelas
 function ShowListLevel() {
     $.ajax({
@@ -207,49 +276,86 @@ $(document).ready(function() {
     //Modal Komponen Biaya
     $('#ModalKomponenBiaya').on('show.bs.modal', function (e) {
         var id_organization_class = $(e.relatedTarget).data('id');
-        $('#FormKomponenBiaya').html("Loading...");
+        ShowKomponenBiaya(id_organization_class);
+    });
+
+    //Submit ProsesFilterKomponenBiaya
+    $('#ProsesFilterKomponenBiaya').submit(function(){
+        $('#page_komponen').val("1");
+        var id_organization_class=$('#put_id_organization_class').val();
+        ShowKomponenBiaya(id_organization_class);
+    });
+
+    //Pagging komponen biaya
+    $(document).on('click', '#next_button_komponen', function() {
+        var id_organization_class=$('#put_id_organization_class').val();
+        var page_now = parseInt($('#page_komponen').val(), 10);
+        var next_page = page_now + 1;
+        $('#page_komponen').val(next_page);
+        ShowKomponenBiaya(id_organization_class);
+    });
+    $(document).on('click', '#prev_button_komponen', function() {
+        var id_organization_class=$('#put_id_organization_class').val();
+        var page_now = parseInt($('#page_komponen').val(), 10);
+        var next_page = page_now - 1;
+        $('#page_komponen').val(next_page);
+        ShowKomponenBiaya(id_organization_class);
+    });
+
+    //Ketika class tambah komponen di click
+    $(document).on('click', '.tambah_komponen', function(){
+        var $btn = $(this);
+        var id_fee_component = $btn.data('id_1');
+        var id_organization_class = $btn.data('id_2');
+
+        // Simpan isi tombol asli
+        var originalHtml = $btn.html();
+        // Ganti dengan indikator loading (titik tiga / spinner)
+        $btn.html('<span class="spinner-border spinner-border-sm"></span>');
+
+        //Lanjutkan proses Ajax menggunakan function
+        AddKomponenBiaya(id_fee_component, id_organization_class);
+    });
+
+    //Ketika class hapus komponen di click
+    $(document).on('click', '.hapus_komponen', function(){
+        var $btn = $(this);
+        var id_fee_component = $btn.data('id_1');
+        var id_organization_class = $btn.data('id_2');
+
+        // Simpan isi tombol asli
+        var originalHtml = $btn.html();
+        // Ganti dengan indikator loading (titik tiga / spinner)
+        $btn.html('<span class="spinner-border spinner-border-sm"></span>');
+
+        //Lanjutkan proses Ajax menggunakan function
+        HapusKomponenBiaya(id_fee_component, id_organization_class);
+    });
+
+    //Modal List Komponen Biaya
+    $('#ModalListKomponenBiaya').on('show.bs.modal', function (e) {
+        var id_organization_class = $(e.relatedTarget).data('id');
+        $('#TabelKomponenBiaya').html("Loading...");
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/Kelas/FormKomponenBiaya.php',
+            url 	    : '_Page/Kelas/TabelKomponenBiaya.php',
             data        : {id_organization_class: id_organization_class},
             success     : function(data){
-                $('#FormKomponenBiaya').html(data);
+                $('#TabelKomponenBiaya').html(data);
             }
         });
     });
 
-    //Proses Komponen Biaya
-    $('#ProsesKomponenBiaya').submit(function(){
-        $('#NotifikasiKomponenBiaya').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
-        var form = $('#ProsesKomponenBiaya')[0];
-        var data = new FormData(form);
+    //Modal Siswa
+    $('#ModalSiswa').on('show.bs.modal', function (e) {
+        var id_organization_class = $(e.relatedTarget).data('id');
+        $('#TabelSiswa').html("Loading...");
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/Kelas/ProsesKomponenBiaya.php',
-            data 	    :  data,
-            cache       : false,
-            processData : false,
-            contentType : false,
-            enctype     : 'multipart/form-data',
+            url 	    : '_Page/Kelas/TabelSiswa.php',
+            data        : {id_organization_class: id_organization_class},
             success     : function(data){
-                $('#NotifikasiKomponenBiaya').html(data);
-                var NotifikasiKomponenBiayaBerhasil=$('#NotifikasiKomponenBiayaBerhasil').html();
-                if(NotifikasiKomponenBiayaBerhasil=="Success"){
-                    $('#NotifikasiKomponenBiaya').html('');
-
-                    //Swal
-                    Swal.fire(
-                        'Success!',
-                        'Komponen Biaya Berhasil Diatur!',
-                        'success'
-                    )
-
-                    //Tutup Modal
-                    $('#ModalKomponenBiaya').modal('hide');
-
-                    //Menampilkan Data
-                    filterAndLoadTable();
-                }
+                $('#TabelSiswa').html(data);
             }
         });
     });

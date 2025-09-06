@@ -67,38 +67,38 @@
             //Hitung Komponen Biaya
             $jumlah_komponen=mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_class FROM fee_by_class WHERE id_organization_class='$id_organization_class'"));
 
+            //Routing $jumlah_komponen
+            if(empty($jumlah_komponen)){
+                $label_jumlah_komponen='<small class="text text-grayish">0 Component</small>';
+            }else{
+                $label_jumlah_komponen='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalListKomponenBiaya" data-id="'.$id_organization_class .'"><small>'.$jumlah_komponen.' Component</small></a>';
+            }
+
+            //Routing $jumlah_siswa
+            if(empty($jumlah_siswa)){
+                $label_jumlah_siswa='<small class="text text-grayish">0 Orang</small>';
+            }else{
+                $label_jumlah_siswa='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalSiswa" data-id="'.$id_organization_class .'"><small>'.$jumlah_siswa.' Orang</small></a>';
+            }
+
             //Tampilkan Data
             echo '
             <tr>
-                <td align="left">
-                     <small class="text text-grayish">
+                <td align="left"></td>
+                <td>
+                    <small class="text text-grayish">
                         '.$no_level.'.'.$no_kelas.'
                     </small>
                 </td>
                 <td>
                     <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_organization_class .'">
                         <small class="text text-primary text-decoration-underline">
-                            '.$class_level.'
+                            '.$class_level.' ('.$class_name.')
                         </small>
                     </a>
                 </td>
-                <td>
-                    <small class="text text-grayish">
-                        '.$class_name.'
-                    </small>
-                </td>
-                <td>
-                    <small class="text text-grayish">
-                        '.$jumlah_siswa.' Orang
-                    </small>
-                </td>
-                <td>
-                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
-                        <small class="text text-dark text-decoration-underline">
-                            '.$jumlah_komponen.' Component
-                        </small>
-                    </a>
-                </td>
+                <td>'.$label_jumlah_siswa.'</td>
+                <td>'.$label_jumlah_komponen.'</td>
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-secondary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>

@@ -52,8 +52,7 @@
         //Buat Variabel
         $id_fee_component   =$Data['id_fee_component'];
         $component_name     =$Data['component_name'] ?? '-';
-        $period_value       =$Data['period_value'] ?? '-';
-        $period_unit        =$Data['period_unit'] ?? '-';
+        $component_category =$Data['component_category'] ?? '-';
         $periode_start      =$Data['periode_start'] ?? '-';
         $periode_end        =$Data['periode_end'] ?? '-';
         $fee_nominal        =$Data['fee_nominal'] ?? '-';
@@ -61,25 +60,20 @@
         //Format Rupiah
         $fee_nominal_format="Rp" . number_format($fee_nominal,0,',','.');
 
-        //Routing Periode Unit
-        $select_month="";
-        $select_year="";
-        $select_once="";
-        if($period_unit=="month"){
-            $select_month="selected";
-        }else{
-            if($period_unit=="year"){
-                $select_year="selected";
-            }else{
-                if($period_unit=="once"){
-                    $select_once="selected";
-                }
-            }
-        }
-
         //Tampilkan Data
         echo '
             <input type="hidden" name="id_fee_component" value="'.$id_fee_component.'">
+            <div class="row mb-3">
+                <div class="col-4">
+                    <label for="component_category_edit">
+                        <small>Kategori <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
+                    </label>
+                </div>
+                <div class="col-8">
+                    <input type="text" name="component_category" id="component_category_edit" list="component_category_list" class="form-control" value="'.$component_category.'">
+                    <small class="text text-grayish">Contoh : SPP Kelas 4-6 (2024/2025)</small>
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="col-4">
                     <label for="component_name_edit">
@@ -88,33 +82,7 @@
                 </div>
                 <div class="col-8">
                     <input type="text" name="component_name" id="component_name_edit" class="form-control" value="'.$component_name.'" required>
-                    <small class="text text-grayish">Contoh : SPP Kelas 1</small>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-4">
-                    <label for="period_value_edit">
-                        <small>Periode Pembayaran <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
-                    </label>
-                </div>
-                <div class="col-8">
-                    <input type="number" name="period_value" id="period_value_edit" class="form-control" value="'.$period_value.'">
-                    <small class="text text-grayish">Menunjukan berapa kali Komponen harus membayar tiap rute</small>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-4">
-                    <label for="period_unit_edit">
-                        <small>Rute Pembayaran <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
-                    </label>
-                </div>
-                <div class="col-8">
-                    <select name="period_unit" id="period_unit_edit" class="form-control" required>
-                        <option value="">Pilih</option>
-                        <option '.$select_month.' value="month">Bulanan</option>
-                        <option '.$select_year.' value="year">Tahunan</option>
-                        <option '.$select_once.' value="once">Sekali</option>
-                    </select>
+                    <small class="text text-grayish">Contoh : SPP Januari</small>
                 </div>
             </div>
             <div class="row mb-3">

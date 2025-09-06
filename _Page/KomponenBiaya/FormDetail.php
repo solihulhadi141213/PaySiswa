@@ -34,7 +34,7 @@
     //Buat variabel
     $id_fee_component=validateAndSanitizeInput($_POST['id_fee_component']);
 
-    //Buka Data sISWA
+    //Buka Data fee_component
     $Qry = $Conn->prepare("SELECT * FROM fee_component WHERE id_fee_component = ?");
     $Qry->bind_param("i", $id_fee_component);
     if (!$Qry->execute()) {
@@ -52,14 +52,13 @@
         //Buat Variabel
         $id_fee_component   =$Data['id_fee_component'];
         $component_name     =$Data['component_name'] ?? '-';
-        $period_value       =$Data['period_value'] ?? '-';
-        $period_unit        =$Data['period_unit'] ?? '-';
+        $component_category =$Data['component_category'] ?? '-';
         $periode_start      =$Data['periode_start'] ?? '-';
         $periode_end        =$Data['periode_end'] ?? '-';
         $fee_nominal        =$Data['fee_nominal'] ?? '-';
         
         //Format Rupiah
-        $fee_nominal_format="Rp" . number_format($fee_nominal,0,',','.');
+        $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
 
         //Tampilkan Data
         echo '
@@ -71,10 +70,10 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4"><small>Periode</small></div>
+                <div class="col-4"><small>Kategori</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
-                    <small class="text text-grayish">'.$period_value.' '.$period_unit.'</small>
+                    <small class="text text-grayish">'.$component_category.'</small>
                 </div>
             </div>
             <div class="row mb-2">

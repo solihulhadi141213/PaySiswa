@@ -33,45 +33,49 @@
 
     //Buat variabel
     $id_organization_class=validateAndSanitizeInput($_POST['id_organization_class']);
-    echo '
-        <tr>
-            <td colspan="6">
-                <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
-            </td>
-        </tr>
-    ';
+    
     //Looping Daftar Komponen
     $no = 1;
-    $query = mysqli_query($Conn, "SELECT*FROM fee_component  ORDER BY id_fee_component ASC");
+    $query = mysqli_query($Conn, "SELECT*FROM fee_by_class WHERE id_organization_class='$id_organization_class' ORDER BY id_fee_component ASC");
     while ($data = mysqli_fetch_array($query)) {
-        $id_fee_component   = $data['id_fee_component'];
-        $component_name     = $data['component_name'];
-        $period_value       = $data['period_value'];
-        $period_unit        = $data['period_unit'];
-        $periode_start      = $data['periode_start'];
-        $periode_end        = $data['periode_end'];
-        $fee_nominal        = $data['fee_nominal'];
-        
-        //Format Rupiah
-        $fee_nominal_format="Rp" . number_format($fee_nominal,0,',','.');
+        $id_fee_by_class            = $data['id_fee_by_class'];
+        $id_organization_class      = $data['id_organization_class'];
+        $id_fee_component           = $data['id_fee_component'];
 
-        //Check Apakkah komponen tersebut terpilih
-        $cek_komponen = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_class FROM fee_by_class WHERE id_organization_class='$id_organization_class' AND id_fee_component='$id_fee_component'"));
-        if(empty($cek_komponen)){
-            $label_cek_komponen="";
+        //Buka Data Komponen
+        $Qry = $Conn->prepare("SELECT * FROM fee_component WHERE id_fee_component = ?");
+        $Qry->bind_param("i", $id_fee_component);
+        if (!$Qry->execute()) {
+            $error=$Conn->error;
+            $component_name     =$Conn->error;
+            $component_category =$Conn->error;
+            $periode_start      =$Conn->error;
+            $periode_end        =$Conn->error;
+            $fee_nominal        =$Conn->error;
         }else{
-            $label_cek_komponen="checked";
+            $Result = $Qry->get_result();
+            $Data = $Result->fetch_assoc();
+            $Qry->close();
+
+            //Buat Variabel
+            $component_name     =$Data['component_name'] ?? '-';
+            $component_category =$Data['component_category'] ?? '-';
+            $periode_start      =$Data['periode_start'] ?? '-';
+            $periode_end        =$Data['periode_end'] ?? '-';
+            $fee_nominal        =$Data['fee_nominal'] ?? '-';
+            
+            //Format Rupiah
+            $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
+       
         }
+
         echo '
             <tr>
                 <td><small>'.$no.'</small></td>
                 <td><small>'.$component_name.'</small></td>
-                <td><small>'.$period_value.' '.$period_unit.'</small></td>
+                <td><small>'.$component_category.'</small></td>
                 <td><small>'.date('d/m/Y', strtotime($periode_start)).' - '.date('d/m/Y', strtotime($periode_end)).'</small></td>
                 <td><small>'.$fee_nominal_format.'</small></td>
-                <td>
-                    <input type="checkbox" '.$label_cek_komponen.' class="form-check-input"  name="id_fee_component[]" value="'.$id_fee_component.'">
-                </td>
             </tr>
         ';
         $no++;

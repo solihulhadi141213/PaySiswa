@@ -6,18 +6,18 @@
         echo '<input type="text" name="keyword" id="keyword" class="form-control">';
     }else{
         $keyword_by=$_POST['KeywordBy'];
-        if($keyword_by=="period_value"){
-            echo '<input type="number" name="keyword" id="keyword" class="form-control">';
+        if($keyword_by=="periode_start"||$keyword_by=="periode_end"){
+            echo '<input type="date" name="keyword" id="keyword" class="form-control">';
         }else{
-            if($keyword_by=="period_unit"){
-                echo '
-                    <select name="keyword" id="keyword" class="form-control" required>
-                        <option value="">Pilih</option>
-                        <option value="month">Bulanan</option>
-                        <option value="year">Tahunan</option>
-                        <option value="once">Sekali</option>
-                    </select>
-                ';
+            if($keyword_by=="component_category"){
+                echo '<select name="keyword" id="keyword" class="form-control" required>';
+                echo '  <option value="">Pilih</option>';
+                        $query = mysqli_query($Conn, "SELECT DISTINCT component_category FROM fee_component ORDER BY component_category ASC");
+                        while ($data = mysqli_fetch_array($query)) {
+                            $component_category= $data['component_category'];
+                            echo '<option value="'.$component_category.'">'.$component_category.'</option>';
+                        }
+                echo '</select>';
             }else{
                 if($keyword_by=="fee_nominal"){
                     echo '<input type="number" name="keyword" id="keyword" class="form-control">';

@@ -12,6 +12,7 @@
             "Kelas"                 => "_Page/Kelas/ModalKelas.php",
             "Siswa"                 => "_Page/Siswa/ModalSiswa.php",
             "KomponenBiaya"         => "_Page/KomponenBiaya/ModalKomponenBiaya.php",
+            "Pembayaran"            => "_Page/Pembayaran/ModalPembayaran.php",
             "PaymentGateway"        => "_Page/SettingPayment/ModalSettingPayment.php",
             "SettingEmail"          => "_Page/SettingEmail/ModalSettingEmail.php",
             "Help"                  => "_Page/Help/ModalHelp.php"

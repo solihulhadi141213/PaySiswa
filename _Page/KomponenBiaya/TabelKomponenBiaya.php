@@ -58,7 +58,7 @@
             if(empty($keyword)){
                 $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component "));
             }else{
-                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component  WHERE component_name like '%$keyword%' OR period_value like '%$keyword%' OR period_unit like '%$keyword%' OR fee_nominal like '%$keyword%'"));
+                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component  WHERE component_name like '%$keyword%' OR component_category like '%$keyword%' OR periode_start like '%$keyword%' OR periode_end like '%$keyword%' OR fee_nominal like '%$keyword%'"));
             }
         }else{
             if(empty($keyword)){
@@ -84,7 +84,7 @@
                 if(empty($keyword)){
                     $query = mysqli_query($Conn, "SELECT*FROM fee_component  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }else{
-                    $query = mysqli_query($Conn, "SELECT*FROM fee_component  WHERE component_name like '%$keyword%' OR period_value like '%$keyword%' OR period_unit like '%$keyword%' OR fee_nominal like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                    $query = mysqli_query($Conn, "SELECT*FROM fee_component  WHERE component_name like '%$keyword%' OR component_category like '%$keyword%' OR periode_start like '%$keyword%' OR periode_end like '%$keyword%' OR fee_nominal like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                 }
             }else{
                 if(empty($keyword)){
@@ -96,14 +96,13 @@
             while ($data = mysqli_fetch_array($query)) {
                 $id_fee_component   = $data['id_fee_component'];
                 $component_name     = $data['component_name'];
-                $period_value       = $data['period_value'];
-                $period_unit        = $data['period_unit'];
+                $component_category = $data['component_category'];
                 $periode_start      = $data['periode_start'];
                 $periode_end        = $data['periode_end'];
                 $fee_nominal        = $data['fee_nominal'];
                 
                 //Format Rupiah
-                $fee_nominal_format="Rp" . number_format($fee_nominal,0,',','.');
+                $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
 
                 //Tampilkan Data
                 echo '
@@ -115,7 +114,7 @@
                             </a>
                         </td>
                         <td>
-                            <small>'.$period_value.' '.$period_unit.'</small>
+                            <small>'.$component_category.'</small>
                         </td>
                         <td>
                             <small>'.date('d/m/Y', strtotime($periode_start)).' - '.date('d/m/Y', strtotime($periode_end)).'</small>

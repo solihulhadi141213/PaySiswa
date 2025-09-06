@@ -14,6 +14,7 @@
             "Kelas"             => "_Page/Kelas/Kelas.js",
             "Siswa"             => "_Page/Siswa/Siswa.js",
             "KomponenBiaya"     => "_Page/KomponenBiaya/KomponenBiaya.js",
+            "Pembayaran"        => "_Page/Pembayaran/Pembayaran.js",
             "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js",
             "PaymentGateway"    => "_Page/SettingPayment/SettingPayment.js",
             "SettingEmail"      => "_Page/SettingEmail/SettingEmail.js",

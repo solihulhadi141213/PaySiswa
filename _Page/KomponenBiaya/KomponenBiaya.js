@@ -17,6 +17,17 @@ function filterAndLoadTable() {
         });
     });
 }
+//Fungsi Data List Kategori
+function ShowDataListKategori(ElementIdName) {
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/KomponenBiaya/ListKategori.php',
+        success : function(data) {
+            $(ElementIdName).html(data);
+        }
+    });
+}
+
 // Fungsi untuk memproses input pada elemen dengan class form-money
 function processInput(event) {
     let input = event.target;
@@ -99,6 +110,7 @@ $(document).ready(function() {
 
     //Ketika Modal Tambah Fitur Muncul
     $('#ModalTambah').on('show.bs.modal', function (e) {
+        ShowDataListKategori('#component_category_list')
         $('#NotifikasiTambah').html('');
     });
 

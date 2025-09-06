@@ -36,8 +36,9 @@
                             <select name="OrderBy" id="OrderBy" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="component_name">Nama Komponen</option>
-                                <option value="period_value">Jumlah Periode</option>
-                                <option value="period_unit">Periode Pembayaran</option>
+                                <option value="component_category">Kategori</option>
+                                <option value="periode_start">Awal Tempo</option>
+                                <option value="periode_end">Akhir Tempo</option>
                                 <option value="fee_nominal">Nominal</option>
                             </select>
                         </div>
@@ -65,8 +66,9 @@
                             <select name="keyword_by" id="KeywordBy" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="component_name">Nama Komponen</option>
-                                <option value="period_value">Jumlah Periode</option>
-                                <option value="period_unit">Periode Pembayaran</option>
+                                <option value="component_category">Kategori</option>
+                                <option value="periode_start">Awal Tempo</option>
+                                <option value="periode_end">Akhir Tempo</option>
                                 <option value="fee_nominal">Nominal</option>
                             </select>
                         </div>
@@ -97,12 +99,26 @@
 <div class="modal fade" id="ModalTambah" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesTambah">
+            <form action="javascript:void(0);" id="ProsesTambah" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title text-dak"><i class="bi bi-plus"></i> Tambah Komponen Biaya</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="component_category">
+                                <small>Kategori <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" name="component_category" id="component_category" list="component_category_list" class="form-control">
+                            <small class="text text-grayish">Contoh : SPP Kelas 4-6 (2024/2025)</small>
+                            <datalist id="component_category_list">
+                                <!-- Menampilkan Kategori Komponen -->
+                            </datalist>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <div class="col-4">
                             <label for="component_name">
@@ -111,33 +127,7 @@
                         </div>
                         <div class="col-8">
                             <input type="text" name="component_name" id="component_name" class="form-control" required>
-                            <small class="text text-grayish">Contoh : SPP Kelas 1</small>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-4">
-                            <label for="period_value">
-                                <small>Periode Pembayaran <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
-                            </label>
-                        </div>
-                        <div class="col-8">
-                            <input type="number" name="period_value" id="period_value" class="form-control">
-                            <small class="text text-grayish">Menunjukan berapa kali Komponen harus membayar tiap rute</small>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-4">
-                            <label for="period_unit">
-                                <small>Rute Pembayaran <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
-                            </label>
-                        </div>
-                        <div class="col-8">
-                            <select name="period_unit" id="period_unit" class="form-control" required>
-                                <option value="">Pilih</option>
-                                <option value="month">Bulanan</option>
-                                <option value="year">Tahunan</option>
-                                <option value="once">Sekali</option>
-                            </select>
+                            <small class="text text-grayish">Contoh : SPP Januari</small>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -219,7 +209,7 @@
 <div class="modal fade" id="ModalEdit" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesEdit">
+            <form action="javascript:void(0);" id="ProsesEdit" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Komponen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

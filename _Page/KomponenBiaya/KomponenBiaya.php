@@ -52,7 +52,7 @@
                                     <tr>
                                         <th><b>No</b></th>
                                         <th><b>Nama Komponen</b></th>
-                                        <th><b>Periode Pembayaran</b></th>
+                                        <th><b>Kategori</b></th>
                                         <th><b>Start/End</b></th>
                                         <th><b>Nominal</b></th>
                                         <th><b>Opsi</b></th>
