@@ -13,7 +13,8 @@
             "Siswa"                 => "_Page/Siswa/ModalSiswa.php",
             "KomponenBiaya"         => "_Page/KomponenBiaya/ModalKomponenBiaya.php",
             "PaymentGateway"        => "_Page/SettingPayment/ModalSettingPayment.php",
-            "SettingEmail"          => "_Page/SettingEmail/ModalSettingEmail.php"
+            "SettingEmail"          => "_Page/SettingEmail/ModalSettingEmail.php",
+            "Help"                  => "_Page/Help/ModalHelp.php"
         ];
 
         // Cek apakah halaman memiliki modal terkait dan sertakan file modalnya

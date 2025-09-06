@@ -16,7 +16,8 @@
             "KomponenBiaya"     => "_Page/KomponenBiaya/KomponenBiaya.js",
             "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js",
             "PaymentGateway"    => "_Page/SettingPayment/SettingPayment.js",
-            "SettingEmail"      => "_Page/SettingEmail/SettingEmail.js"
+            "SettingEmail"      => "_Page/SettingEmail/SettingEmail.js",
+            "Help"              => "_Page/Help/Help.js"
         ];
 
         // Cek apakah halaman ada dalam daftar dan sertakan file JS yang sesuai
