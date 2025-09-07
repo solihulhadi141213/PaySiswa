@@ -10,7 +10,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="9" class="text-center">
+                <td colspan="8" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -50,7 +50,7 @@
         if(!empty($_POST['OrderBy'])){
             $OrderBy=$_POST['OrderBy'];
         }else{
-            $OrderBy="id_student ";
+            $OrderBy="student_name";
         }
         //Atur Page
         if(!empty($_POST['page'])){
@@ -95,7 +95,7 @@
         if(empty($jml_data)){
             echo '
                 <tr>
-                    <td colspan="9" class="text-center">
+                    <td colspan="8" class="text-center">
                         <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
                     </td>
                 </tr>
@@ -149,9 +149,9 @@
 
                 //Routing Gender
                 if($student_gender=="Male"){
-                    $gender_label='<span class="badge badge-success"><i class="bi bi-gender-male"></i> Male</span>';
+                    $gender_label='<i class="bi bi-gender-male"></i> Male';
                 }else{
-                    $gender_label='<span class="badge badge-danger"><i class="bi bi-gender-female"></i> Female</span>';
+                    $gender_label='<i class="bi bi-gender-female"></i> Female';
                 }
 
                 //Buka Kelas
@@ -177,46 +177,64 @@
                         $label_status='<span class="badge badge-danger">Keluar</span>';
                     }
                 }
+
+                //Buka Data Tagihan Siswa
+                $jumlah_tagihan=0;
+                $query_tagihan = mysqli_query($Conn, "SELECT fee_nominal, fee_discount FROM  fee_by_student WHERE id_student='$id_student'");
+                while ($data_tagihan = mysqli_fetch_array($query_tagihan)) {
+                    $fee_nominal = $data_tagihan['fee_nominal'];
+                    $fee_discount = $data_tagihan['fee_discount'];
+
+                    //Hitung Subtotal
+                    $subtotal = $fee_nominal-$fee_discount;
+
+                    //Totalkan
+                    $jumlah_tagihan=$jumlah_tagihan+$subtotal;
+                }
+                
+                //Format Uang Tagihan
+                $jumlah_tagihan_format="Rp " . number_format($jumlah_tagihan,0,',','.');
+
+                //Buka Data Pembayaran Siswa
+                $jumlah_payment=0;
+                $query_payment = mysqli_query($Conn, "SELECT payment_nominal FROM payment WHERE id_student='$id_student'");
+                while ($data_payment = mysqli_fetch_array($query_payment)) {
+                    if(empty($data_payment['payment_nominal'])){
+                        $payment_nominal =0;
+                    }else{
+                        $payment_nominal = $data_payment['payment_nominal'];
+                    }
+                    
+
+                    //Totalkan
+                    $jumlah_payment=$jumlah_payment+$payment_nominal;
+                }
+                
+                //Format Uang Tagihan
+                $jumlah_payment_format="Rp " . number_format($jumlah_payment,0,',','.');
+
+                //Menghitung Sisa Pembayaran
+                $sisa=$jumlah_tagihan-$jumlah_payment;
+                $sisa_format="Rp " . number_format($sisa,0,',','.');
+
+                //Tampilkan Data
                 echo '
                     <tr>
-                        <td>
-                            <input type="checkbox" name="id_student[]" class="form-check-input" value="'.$id_student .'">
-                        </td>
                         <td><small>'.$no.'</small></td>
-                        <td>
-                        <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
-                             <small>'.$student_name.'</small>
-                        </a>
-                        </td>
                         <td><small>'.$student_nis.'</small></td>
-                        <td><small>'.$label_kelas.'</small></td>
-                        <td><small>'.$gender_label.'</small></td>
-                        <td><small>'.$tanggal_daftar.'</small></td>
-                        <td><small>'.$label_status.'</small></td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
+                            <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetailSiswa" data-id="'.$id_student .'">
+                                <small>'.$student_name.'</small>
+                            </a>
+                        </td>
+                        <td><small>'.$label_kelas.'</small></td>
+                        <td><small>'.$jumlah_tagihan_format.'</small></td>
+                        <td><small>'.$jumlah_payment_format.'</small></td>
+                        <td><small>'.$sisa_format.'</small></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_student .'">
+                                <i class="bi bi-arrow-right"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                <li class="dropdown-header text-start">
-                                    <h6>Option</h6>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
-                                        <i class="bi bi-info-circle"></i> Detail
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="'.$id_student .'">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="'.$id_student .'">
-                                        <i class="bi bi-x"></i> Hapus
-                                    </a>
-                                </li>
-                            </ul>
                         </td>
                     </tr>
                 ';
