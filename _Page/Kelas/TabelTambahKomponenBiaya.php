@@ -82,9 +82,9 @@
         }
     }else{
         if(empty($keyword)){
-            $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component "));
+            $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component"));
         }else{
-            $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component  WHERE $keyword_by like '%$keyword%'"));
+            $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component WHERE $keyword_by like '%$keyword%'"));
         }
     }
     //Mengatur Halaman

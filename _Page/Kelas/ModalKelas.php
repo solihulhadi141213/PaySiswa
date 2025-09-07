@@ -230,7 +230,7 @@
                             <label for="keyword_komponen">
                                 <small>Kata Kunci</small>
                             </label>
-                            <div class="FormFilterKomponen">
+                            <div id="FormFilterKomponen">
                                 <input type="text" name="keyword_komponen" id="keyword_komponen" class="form-control" placeholder="Kata Kunci">
                             </div>
                         </div>

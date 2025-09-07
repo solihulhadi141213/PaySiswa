@@ -279,6 +279,19 @@ $(document).ready(function() {
         ShowKomponenBiaya(id_organization_class);
     });
 
+    //Ketika keyword_by_komponen Diubah
+    $('#keyword_by_komponen').change(function(){
+        var keyword_by_komponen = $('#keyword_by_komponen').val();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/FormFilterKomponen.php',
+            data        : {keyword_by_komponen: keyword_by_komponen},
+            success     : function(data){
+                $('#FormFilterKomponen').html(data);
+            }
+        });
+    });
+
     //Submit ProsesFilterKomponenBiaya
     $('#ProsesFilterKomponenBiaya').submit(function(){
         $('#page_komponen').val("1");
