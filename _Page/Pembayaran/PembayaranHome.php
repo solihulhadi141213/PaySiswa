@@ -30,7 +30,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-12 text-end">
-                                <button type="button" class="btn btn-md btn-info btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExport" title="Download Pembayaran">
+                                <button type="button" class="btn btn-md btn-info btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExport" title="Export Data Pembayaran">
                                     <i class="bi bi-download"></i>
                                 </button>
                                 <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter" title="Filter Data">
@@ -48,12 +48,12 @@
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
-                                        <th><b>Tanggal</b></th>
+                                        <th><b>Tgl.Bayar</b></th>
                                         <th><b>NIS</b></th>
                                         <th><b>Siswa</b></th>
                                         <th><b>Kelas</b></th>
-                                        <th><b>Komponen</b></th>
-                                        <th><b>Nominal</b></th>
+                                        <th><b>Komponen/Uraian</b></th>
+                                        <th><b>Pembayaran</b></th>
                                         <th><b>Metode</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>

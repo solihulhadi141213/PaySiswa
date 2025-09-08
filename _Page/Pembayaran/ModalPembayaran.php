@@ -222,13 +222,272 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalSiswa">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalSiswa">
                     <i class="bi bi-chevron-left"></i> Kembali
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalBayar" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesBayar">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-plus"></i> Bayar Tagihan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormBayar">
+                            <!-- Form Bayar -->
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="NotifikasiBayar">
+                            <!-- Notifikasi Bayar -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalDetailTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Tagihan
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12" id="FormDetailTagihan">
+                        <!-- Form Detail Tagihan -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                    <i class="bi bi-chevron-left"></i> Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalEditTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditTagihan">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-pencil"></i> Edit Tagihan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormEditTagihan">
+                            <!-- Form Edit Tagihan -->
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="NotifikasiEditTagihan">
+                            <!-- Notifikasi Edit Tagihan -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusTagihan">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-trash"></i> Hapus Tagihan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusTagihan">
+                            <!-- Form Hapus Tagihan -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiHapusTagihan">
+                            <!-- Notifikasi Hapus Tagihan -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-check-circle"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalDetail" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Pembayaran
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12" id="FormDetail">
+                        <!-- Form Detail Pembayaran -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEdit" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEdit">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-pencil"></i> Edit Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormEdit">
+                            <!-- Form Edit Pembayaran -->
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="NotifikasiEdit">
+                            <!-- Notifikasi Edit Pembayaran -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapus" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapus">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-trash"></i> Hapus Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapus">
+                            <!-- Form Hapus -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiHapus">
+                            <!-- Notifikasi Hapus -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-check-circle"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalExport" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="_Page/Pembayaran/ProsesExportPembayaran.php" method="GET" target="_blak">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-download"></i> Export Data Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="periode_1">Periode Awal</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="date" class="form-control" name="periode_1" id="periode_1" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="periode_2">Periode Akhir</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="date" class="form-control" name="periode_2" id="periode_2" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

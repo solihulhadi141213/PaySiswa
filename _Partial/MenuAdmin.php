@@ -47,29 +47,34 @@
         </li>
         <li class="nav-heading">Referensi</li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
-                <i class="bi bi-tags"></i> <span>Komponen Biaya</span>
+            <a class="nav-link <?php if($PageMenu=="TahunAjaran"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=TahunAjaran">
+                <i class="bi bi-calendar-event"></i> <span>Tahun Ajaran</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Kelas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Kelas">
-                <i class="bi bi-building"></i> <span>Kelas</span>
+                <i class="bi bi-building"></i> <span>Manajemen Kelas</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
+                <i class="bi bi-tags"></i> <span>Biaya Pendidikan</span>
             </a>
         </li>
         <li class="nav-heading">Master</li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Siswa"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Siswa">
-                <i class="bi bi-people"></i> <span>Siswa</span>
+                <i class="bi bi-people"></i> <span>Daftar Siswa</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Tagihan"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Tagihan">
-                <i class="bi bi-calendar-week"></i> <span>Tagihan</span>
+                <i class="bi bi-calendar-week"></i> <span>Tagihan Siswa</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Pembayaran"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Pembayaran">
-                <i class="bi bi-cash-coin"></i> <span>Pembayaran</span>
+                <i class="bi bi-cash-coin"></i> <span>Riwayat Pembayaran</span>
             </a>
         </li>
         <li class="nav-heading">Fitur Lainnya</li>

@@ -10,6 +10,7 @@ function filterAndLoadTable() {
         }
     });
 }
+
 //Fungsi Untuk Menampilkan Data Bantuan
 function filterAndLoadTableBantuan() {
     var ProsesFilterBantuan = $('#ProsesFilterBantuan').serialize();

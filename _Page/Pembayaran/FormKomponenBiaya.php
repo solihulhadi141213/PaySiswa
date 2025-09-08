@@ -171,6 +171,7 @@
                                         $id_fee_component = $data['id_fee_component'];
                                         $fee_nominal= $data['fee_nominal'];
                                         $fee_discount= $data['fee_discount'];
+                                        $fee_nominal= $fee_nominal-$fee_discount;
                                         
                                         //Buka Detail Komponen
                                         $component_name=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
@@ -205,7 +206,36 @@
                                                 <td><small>'.$fee_nominal_format.'</small></td>
                                                 <td><small>'.$JumlahPembayaranMasukFormat.'</small></td>
                                                 <td><small>'.$sisa_pembayaran_format.'</small></td>
-                                                <td><small>'.$tomol_bayar.'</small></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                        <li class="dropdown-header text-start">
+                                                            <h6>Option</h6>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalBayar" data-id="'.$id_fee_by_student .'">
+                                                                <i class="bi bi-plus"></i> Bayar
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailTagihan" data-id="'.$id_fee_by_student .'">
+                                                                <i class="bi bi-info-circle"></i> Detail Tagihan
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditTagihan" data-id="'.$id_fee_by_student .'">
+                                                                <i class="bi bi-pencil"></i> Edit Tagihan
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihan" data-id="'.$id_fee_by_student .'">
+                                                                <i class="bi bi-x"></i> Hapus Tagihan
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
                                             </tr>
                                         ';
                                         $no++;
