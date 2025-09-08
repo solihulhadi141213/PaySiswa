@@ -232,9 +232,24 @@
                         <td><small>'.$jumlah_payment_format.'</small></td>
                         <td><small>'.$sisa_format.'</small></td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_student .'">
-                                <i class="bi bi-arrow-right"></i>
+                            <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
                             </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                <li class="dropdown-header text-start">
+                                    <h6>Option</h6>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_student .'">
+                                        <i class="bi bi-list-check"></i> List Tagihan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaranSiswa" data-id="'.$id_student .'">
+                                        <i class="bi bi-clock-history"></i> Riwayat Pembayaran
+                                    </a>
+                                </li>
+                            </ul>
                         </td>
                     </tr>
                 ';

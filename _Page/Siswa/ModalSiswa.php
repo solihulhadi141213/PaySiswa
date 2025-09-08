@@ -92,7 +92,7 @@
                         <div class="col-8">
                             <select name="kelompok_status_siswa" id="kelompok_status_siswa" class="form-control">
                                 <option value="">Semua</option>
-                                <option value="Terdaftar">Terdaftar</option>
+                                <option selected value="Terdaftar">Terdaftar</option>
                                 <option value="Lulus">Lulus</option>
                                 <option value="Keluar">Keluar</option>
                             </select>

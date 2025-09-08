@@ -59,6 +59,19 @@ function ShowRiwayatPembayaran(id_fee_component,id_student) {
     });
 }
 
+//Fungsi Show Riwayat Pembayaran SIswa
+function ShowRiwayatPembayaranSiswa(id_student) {
+    $('#FromRiwayatPembayaranSiswa').html('Loading...');
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Tagihan/FromRiwayatPembayaranSiswa.php',
+        data 	    :  {id_student: id_student},
+        success     : function(data){
+            $('#FromRiwayatPembayaranSiswa').html(data);
+        }
+    });
+}
+
 // Fungsi untuk memproses input pada elemen dengan class form-money
 function processInput(event) {
     let input = event.target;
@@ -162,6 +175,12 @@ $(document).ready(function() {
         ShowFormBayar(id_fee_component,id_student);
     });
 
+    //Modal Riwayat Pembayaran Siswa
+    $('#ModalRiwayatPembayaranSiswa').on('show.bs.modal', function (e) {
+        var id_student = $(e.relatedTarget).data('id');
+        ShowRiwayatPembayaranSiswa(id_student);
+    });
+
     //Proses Bayar
     $('#ProsesBayar').submit(function(){
                
@@ -237,6 +256,33 @@ $(document).ready(function() {
         });
     });
 
+    //Modal Detail Pembayaran2
+    $('#ModalDetailPembayaran2').on('show.bs.modal', function (e) {
+        var id_payment = $(e.relatedTarget).data('id');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/FormDetailPembayaran.php',
+            data 	    :  {id_payment: id_payment},
+            success     : function(data){
+                $('#FormDetailPembayaran2').html(data);
+            }
+        });
+    });
+
+    //Modal Hapus Pembayaran2
+    $('#ModalHapusPembayaran2').on('show.bs.modal', function (e) {
+        var id_payment = $(e.relatedTarget).data('id');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/FormHapusPembayaran.php',
+            data 	    :  {id_payment: id_payment},
+            success     : function(data){
+                $('#FormHapusPembayaran2').html(data);
+                $('#NotifikasiHapusPembayaran2').html('');
+            }
+        });
+    });
+
     //Proses Hapus Pembayaran
     $('#ProsesHapusPembayaran').submit(function(){
                
@@ -271,6 +317,47 @@ $(document).ready(function() {
                     //Buka Modal 'ModalTagihanSiswa'
                     $('#ModalRiwayatPembayaran').modal('show');
                     ShowRiwayatPembayaran(id_fee_component,id_student);
+
+                    //Reload Tabel Tagihan
+                    FilterTagihan();
+                }
+            }
+        });
+    });
+
+    //Proses Hapus Pembayaran2
+    $('#ProsesHapusPembayaran2').submit(function(){
+               
+        //Loading
+        $('#NotifikasiHapusPembayaran2').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+
+        //Get Data Form
+        var ProsesHapusPembayaran2 = $('#ProsesHapusPembayaran2').serialize();
+
+        //Simpan Data Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/ProsesHapusPembayaran.php',
+            data 	    :  ProsesHapusPembayaran2,
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#NotifikasiHapusPembayaran2').html(data);
+
+                //Tangkap id_siswa
+                var id_student=$('#get_id_student2').val();
+
+                //Tangkap Notifikasi
+                var NotifikasiHapusPembayaranBerhasil=$('#NotifikasiHapusPembayaranBerhasil').html();
+
+                //Jika Berhasil
+                if(NotifikasiHapusPembayaranBerhasil=="Success"){
+
+                    //Tutup Modal 'ModalBayar'
+                    $('#ModalHapusPembayaran2').modal('hide');
+
+                    //Buka Modal 'ModalTagihanSiswa'
+                    $('#ModalRiwayatPembayaranSiswa').modal('show');
+                    ShowRiwayatPembayaranSiswa(id_student);
 
                     //Reload Tabel Tagihan
                     FilterTagihan();

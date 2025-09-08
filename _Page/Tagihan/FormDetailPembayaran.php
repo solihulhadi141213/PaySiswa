@@ -130,4 +130,7 @@
     // Tempelkan ke atribut data-id tombol
     $(".kembali_ke_riwayat_pembayaran").attr("data-id1", id_fee_component);
     $(".kembali_ke_riwayat_pembayaran").attr("data-id2", id_student);
+
+    //Pada modal riwayat pembayaran siswa
+    $(".kembali_ke_riwayat_pembayaran_siswa").attr("data-id", id_student);
 </script>
