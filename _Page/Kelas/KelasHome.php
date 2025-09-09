@@ -24,7 +24,7 @@
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <small>
                         Berikut ini adalah halaman pengelolaan data kelas. 
-                        Silahkan tambahkan daftar kelas yang tersedia.  
+                        Silahkan tambahkan daftar kelas yang tersedia sesuai dengan periode akademik.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </small>
                 </div>
@@ -35,7 +35,25 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-12 text-end">
+                            <div class="col-xl-3 col-lg-4 col-md-9 col-sx-9 col-9">
+                                <label for="id_academic_period">
+                                    <small>Pilih Periode Akademik</small>
+                                </label>
+                                <select name="id_academic_period" id="id_academic_period" class="form-control">
+                                    <option value="">Pilih</option>
+                                    <?php
+                                        //Menampilkan Tahun Akademik
+                                        $query = mysqli_query($Conn, "SELECT id_academic_period, academic_period FROM academic_period  ORDER BY academic_period_start DESC");
+                                        while ($data = mysqli_fetch_array($query)) {
+                                            $id_academic_period = $data['id_academic_period'];
+                                            $academic_period= $data['academic_period'];
+                                            echo '<option value="'.$id_academic_period.'">'.$academic_period.'</option>';
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-3 col-sx-3 col-3 text-end">
+                                <br>
                                 <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambah" title="Tambah Data">
                                     <i class="bi bi-plus"></i>
                                 </button>
@@ -51,13 +69,16 @@
                                         <th><b>Level</b></th>
                                         <th><b>Kelas</b></th>
                                         <th><b>Siswa</b></th>
-                                        <th><b>Komponen Biaya</b></th>
+                                        <th><b>BP</b></th>
+                                        <th><b>Tagihan</b></th>
+                                        <th><b>Pembayaran</b></th>
+                                        <th><b>Sisa/Tunggakan</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelKelas">
                                     <tr>
-                                        <td class="text-center" colspan="5">
+                                        <td class="text-center" colspan="9">
                                             <small>Tidak ada data kelas yang ditampilkan</small>
                                         </td>
                                     </tr>

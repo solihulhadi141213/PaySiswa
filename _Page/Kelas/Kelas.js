@@ -1,8 +1,10 @@
 //Fungsi Menampilkan Data
 function filterAndLoadTable() {
+    var id_academic_period=$('#id_academic_period').val();
     $.ajax({
         type    : 'POST',
         url     : '_Page/Kelas/TabelKelas.php',
+        data    : {id_academic_period: id_academic_period},
         success: function(data) {
             $('#TabelKelas').html(data);
         }
@@ -93,6 +95,11 @@ function ShowListLevel() {
 $(document).ready(function() {
     filterAndLoadTable();
 
+    //Ketika id_academic_period Diubah
+    $('#id_academic_period').change(function(){
+        filterAndLoadTable();
+    });
+
     //Pagging
     $(document).on('click', '#next_button', function() {
         var page_now = parseInt($('#page').val(), 10); // Pastikan nilai diambil sebagai angka
@@ -129,9 +136,21 @@ $(document).ready(function() {
 
     //Ketika Modal Tambah Fitur Muncul
     $('#ModalTambah').on('show.bs.modal', function (e) {
+
+        //Tangkap class_level
         var class_level = $(e.relatedTarget).data('id');
+
+        //Tangkap id_academic_period
+        var id_academic_period=$('#id_academic_period').val();
+
+        //Tempelkan Ke form
         $('#class_level').val(class_level);
+        $('#id_academic_period_tambah').val(id_academic_period);
+
+        //Tampilkan class_list datalist
         ShowListLevel();
+
+        //Kosongkan notifikasi
         $('#NotifikasiTambah').html('');
     });
 

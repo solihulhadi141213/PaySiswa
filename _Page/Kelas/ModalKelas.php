@@ -2,6 +2,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesTambah" autocomplete="off">
+                <input type="hidden" name="id_academic_period" id="id_academic_period_tambah" value="">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Kelas</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -36,7 +37,7 @@
                             </small>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-12" id="NotifikasiTambah">
                             <!-- Notifikasi Proses Akan Muncul Disini -->
                         </div>

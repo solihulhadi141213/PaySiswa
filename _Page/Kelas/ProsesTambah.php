@@ -15,7 +15,7 @@
     }
 
     //Validasi Form Required
-    $required = ['class_level','class_name'];
+    $required = ['id_academic_period','class_level','class_name'];
     foreach($required as $r){
         if(empty($_POST[$r])){
             echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
@@ -24,12 +24,13 @@
     }
 
     //Buat Variabel
+    $id_academic_period    = validateAndSanitizeInput($_POST['id_academic_period']);
     $class_level    = validateAndSanitizeInput($_POST['class_level']);
     $class_name     = validateAndSanitizeInput($_POST['class_name']);
 
     //Validasi Duplikat Data
-    $stmt = $Conn->prepare("SELECT COUNT(*) FROM  organization_class  WHERE class_level=? AND class_name=?");
-    $stmt->bind_param("ss", $class_level, $class_name);
+    $stmt = $Conn->prepare("SELECT COUNT(*) FROM  organization_class  WHERE class_level=? AND class_name=? AND id_academic_period=?");
+    $stmt->bind_param("ssi", $class_level, $class_name, $id_academic_period);
     $stmt->execute();
     $stmt->bind_result($count);
     $stmt->fetch();
@@ -41,8 +42,8 @@
     }
 
     // Insert Data Menggunakan Prepared Statement
-    $stmt = $Conn->prepare("INSERT INTO organization_class (class_level, class_name) VALUES (?, ?)");
-    $stmt->bind_param("ss", $class_level, $class_name);
+    $stmt = $Conn->prepare("INSERT INTO organization_class (id_academic_period, class_level, class_name) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss",$id_academic_period, $class_level, $class_name);
     $Input = $stmt->execute();
     $stmt->close();
 
