@@ -48,7 +48,7 @@
         <li class="nav-heading">Referensi</li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="TahunAjaran"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=TahunAjaran">
-                <i class="bi bi-calendar-event"></i> <span>Tahun Ajaran</span>
+                <i class="bi bi-calendar-event"></i> <span>Tahun Akademik</span>
             </a>
         </li>
         <li class="nav-item">

@@ -9,6 +9,7 @@
             "AksesFitur"        =>  "_Page/AksesFitur/AksesFitur.php",
             "AksesEntitas"      =>  "_Page/AksesEntitas/AksesEntitas.php",
             "Akses"             =>  "_Page/Akses/Akses.php",
+            "TahunAjaran"       =>  "_Page/TahunAjaran/TahunAjaran.php",
             "Kelas"             =>  "_Page/Kelas/Kelas.php",
             "Siswa"             =>  "_Page/Siswa/Siswa.php",
             "KomponenBiaya"     =>  "_Page/KomponenBiaya/KomponenBiaya.php",

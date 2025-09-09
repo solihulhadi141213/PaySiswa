@@ -11,6 +11,7 @@
             "AksesFitur"        => "_Page/AksesFitur/AksesFitur.js",
             "AksesEntitas"      => "_Page/AksesEntitas/AksesEntitas.js",
             "Akses"             => "_Page/Akses/Akses.js",
+            "TahunAjaran"       => "_Page/TahunAjaran/TahunAjaran.js",
             "Kelas"             => "_Page/Kelas/Kelas.js",
             "Siswa"             => "_Page/Siswa/Siswa.js",
             "KomponenBiaya"     => "_Page/KomponenBiaya/KomponenBiaya.js",
