@@ -1,13 +1,13 @@
 //Fungsi Menampilkan Data
 function filterAndLoadTable() {
-    var ProsesFilter = $('#ProsesFilter').serialize();
+    var id_academic_period = $('#id_academic_period').val();
 
     // Efek transisi: fadeOut dulu
     $('#TabelKomponenBiaya').fadeOut(200, function () {
         $.ajax({
             type    : 'POST',
             url     : '_Page/KomponenBiaya/TabelKomponenBiaya.php',
-            data    : ProsesFilter,
+            data    : {id_academic_period: id_academic_period},
             success : function(data) {
                 $('#TabelKomponenBiaya').html(data);
 
@@ -74,44 +74,34 @@ $(document).ready(function() {
     //Tampilkan Data Pertama kali
     filterAndLoadTable();
 
-    //Pagging
-    $(document).on('click', '#next_button', function() {
-        var page_now = parseInt($('#page').val(), 10); // Pastikan nilai diambil sebagai angka
-        var next_page = page_now + 1;
-        $('#page').val(next_page);
-        filterAndLoadTable(0);
-    });
-    $(document).on('click', '#prev_button', function() {
-        var page_now = parseInt($('#page').val(), 10); // Pastikan nilai diambil sebagai angka
-        var next_page = page_now - 1;
-        $('#page').val(next_page);
-        filterAndLoadTable(0);
-    });
-
-    //Filter Data
-    $('#ProsesFilter').submit(function(){
-        $('#page').val("1");
+    //Ketika id_academic_period Diubah
+    $('#id_academic_period').change(function(){
         filterAndLoadTable();
-        $('#ModalFilter').modal('hide');
-    });
-
-    //Ketika KeywordBy Diubah
-    $('#KeywordBy').change(function(){
-        var KeywordBy = $('#KeywordBy').val();
-        $.ajax({
-            type 	    : 'POST',
-            url 	    : '_Page/KomponenBiaya/FormFilter.php',
-            data        : {KeywordBy: KeywordBy},
-            success     : function(data){
-                $('#FormFilter').html(data);
-            }
-        });
     });
 
     //Ketika Modal Tambah Fitur Muncul
     $('#ModalTambah').on('show.bs.modal', function (e) {
-        ShowDataListKategori('#component_category_list')
+        //Tangkap id_academic_period
+        var id_academic_period = $('#id_academic_period').val();
+
+        //tempelkan id_academic_period ke id_academic_period_tambah
+        $('#id_academic_period_tambah').val(id_academic_period);
+
+        //Kosongkan Notifikasi
         $('#NotifikasiTambah').html('');
+
+        //Apabila id_academic_period kosong beri tahu
+        if(id_academic_period==""){
+            $('#NotifikasiTambah').html('<div class="alert alert-danger"><small>Periode Akademik Belum Dipilih!</small></div>');
+
+            //Disable tombol
+            $('#TombolSimpan').prop('disabled', true);
+        }else{
+            $('#NotifikasiTambah').html('');
+
+            //Enable tombol
+            $('#TombolSimpan').prop('disabled', false);
+        }
     });
 
     //Proses Tambah Kelas
@@ -250,6 +240,66 @@ $(document).ready(function() {
                      Swal.fire(
                         'Success!',
                         'Hapus KomponenBiaya Berhasil!',
+                        'success'
+                    )
+                    //Menampilkan Data
+                    filterAndLoadTable();
+                }
+            }
+        });
+    });
+
+    //Ketika Modal Copy Muncul
+    $('#ModalCopy').on('show.bs.modal', function (e) {
+        //Tangkap id_academic_period
+        var id_academic_period = $('#id_academic_period').val();
+
+        //tempelkan id_academic_period ke id_academic_period_tambah
+        $('#periode_tujuan').val(id_academic_period);
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiTambah').html('');
+
+        //Apabila id_academic_period kosong beri tahu
+        if(id_academic_period==""){
+            $('#NotifikasiCopy').html('<div class="alert alert-danger"><small>Periode Akademik Belum Dipilih!</small></div>');
+
+            //Disable tombol
+            $('#TombolCopy').prop('disabled', true);
+        }else{
+            $('#NotifikasiCopy').html('');
+
+            //Enable tombol
+            $('#TombolCopy').prop('disabled', false);
+        }
+    });
+
+    //Proses Copy
+    $('#ProsesCopy').submit(function(){
+        $('#NotifikasiCopy').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+        var form = $('#ProsesCopy')[0];
+        var data = new FormData(form);
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/KomponenBiaya/ProsesCopy.php',
+            data 	    :  data,
+            cache       : false,
+            processData : false,
+            contentType : false,
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#NotifikasiCopy').html(data);
+                var NotifikasiCopyBerhasil=$('#NotifikasiCopyBerhasil').html();
+                if(NotifikasiCopyBerhasil=="Success"){
+                    $('#NotifikasiCopy').html('');
+
+                    //Tutup Modal
+                    $('#ModalCopy').modal('hide');
+
+                    //Tampilkan Swal
+                     Swal.fire(
+                        'Success!',
+                        'Copy Komponen Biaya Berhasil!',
                         'success'
                     )
                     //Menampilkan Data

@@ -152,6 +152,19 @@ $(document).ready(function() {
 
         //Kosongkan notifikasi
         $('#NotifikasiTambah').html('');
+
+        //Apabila id_academic_period kosong beri tahu
+        if(id_academic_period==""){
+            $('#NotifikasiTambah').html('<div class="alert alert-danger"><small>Periode Akademik Belum Dipilih!</small></div>');
+
+            //Disable tombol
+            $('#TombolSimpan').prop('disabled', true);
+        }else{
+            $('#NotifikasiTambah').html('');
+
+            //Enable tombol
+            $('#TombolSimpan').prop('disabled', false);
+        }
     });
 
     //Proses Tambah Kelas

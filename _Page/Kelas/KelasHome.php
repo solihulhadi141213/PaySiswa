@@ -89,8 +89,8 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <small id="page_info">
-                                    Page 1 Of 100
+                                <small>
+                                    Level/Kelas : <span id="put_jumlah_data">0/0</span>
                                 </small>
                             </div>
                         </div>

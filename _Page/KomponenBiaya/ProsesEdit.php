@@ -27,6 +27,8 @@
     $id_fee_component   = validateAndSanitizeInput($_POST['id_fee_component']);
     $component_name     = validateAndSanitizeInput($_POST['component_name']);
     $component_category = validateAndSanitizeInput($_POST['component_category']);
+    $periode_year       = validateAndSanitizeInput($_POST['periode_year']);
+    $periode_month      = validateAndSanitizeInput($_POST['periode_month']);
     $periode_start      = validateAndSanitizeInput($_POST['periode_start']);
     $periode_end        = validateAndSanitizeInput($_POST['periode_end']);
     $fee_nominal        = validateAndSanitizeInput($_POST['fee_nominal']);
@@ -36,6 +38,8 @@
     $UpdateEntitias = mysqli_query($Conn,"UPDATE fee_component SET 
         component_name='$component_name',
         component_category='$component_category',
+        periode_month='$periode_month',
+        periode_year='$periode_year',
         periode_start='$periode_start',
         periode_end='$periode_end',
         fee_nominal='$fee_nominal'

@@ -15,7 +15,7 @@
     }
 
     //Validasi Form Required
-    $required = ['component_name','component_category','periode_start','periode_end','fee_nominal'];
+    $required = ['id_academic_period','component_name','component_category','periode_month','periode_year','periode_start','periode_end','fee_nominal'];
     foreach($required as $r){
         if(empty($_POST[$r])){
             echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
@@ -24,8 +24,12 @@
     }
     
     //Buat Variabel
+    $id_academic_period = validateAndSanitizeInput($_POST['id_academic_period']);
     $component_name     = validateAndSanitizeInput($_POST['component_name']);
     $component_category = validateAndSanitizeInput($_POST['component_category']);
+    $periode_month      = validateAndSanitizeInput($_POST['periode_month']);
+    $periode_year       = validateAndSanitizeInput($_POST['periode_year']);
+    $periode_year       = str_replace('.', '', $periode_year);
     $periode_start      = validateAndSanitizeInput($_POST['periode_start']);
     $periode_end        = validateAndSanitizeInput($_POST['periode_end']);
     $fee_nominal        = validateAndSanitizeInput($_POST['fee_nominal']);
@@ -33,15 +37,21 @@
 
     // Menggunakan Prepared Statement
     $stmt = $Conn->prepare("INSERT INTO fee_component (
+        id_academic_period, 
         component_name, 
         component_category, 
+        periode_month, 
+        periode_year, 
         periode_start, 
         periode_end,
         fee_nominal
-    ) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", 
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssss", 
+        $id_academic_period, 
         $component_name, 
         $component_category, 
+        $periode_month, 
+        $periode_year, 
         $periode_start, 
         $periode_end,
         $fee_nominal

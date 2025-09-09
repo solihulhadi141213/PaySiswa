@@ -189,6 +189,6 @@
     var jumlah_level=<?php echo $jumlah_level; ?>;
     
     //Put Into Pagging Element
-    $('#page_info').html('Level / Kelas :'+jml_data+'  /  '+jumlah_level+'');
+    $('#put_jumlah_data').html(' '+jumlah_level+' / '+jml_data+'');
     
 </script>
