@@ -33,8 +33,6 @@
 
     // Variabel tidak wajib
     $student_nisn          = $_POST['student_nisn'] ?? '';
-    $id_organization_class = (isset($_POST['id_organization_class']) && $_POST['id_organization_class']!=='')
-                            ? (int)$_POST['id_organization_class'] : NULL;
     $place_of_birth        = $_POST['place_of_birth'] ?? '';
     $date_of_birth_raw     = $_POST['date_of_birth'] ?? '';
     $student_contact       = $_POST['student_contact'] ?? '';
@@ -135,7 +133,6 @@
 
     // === UPDATE student (bukan INSERT) ===
     $sql = "UPDATE student SET
-                id_organization_class = ?,
                 student_nis           = ?,
                 student_nisn          = ?,
                 student_name          = ?,
@@ -166,8 +163,7 @@
     */
 
     $stmt->bind_param(
-        "isssssssssssssi",
-        $id_organization_class,
+        "sssssssssssssi",
         $student_nis,
         $student_nisn,
         $student_name,

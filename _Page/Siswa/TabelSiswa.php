@@ -10,7 +10,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="9" class="text-center">
+                <td colspan="10" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -95,7 +95,7 @@
         if(empty($jml_data)){
             echo '
                 <tr>
-                    <td colspan="9" class="text-center">
+                    <td colspan="10" class="text-center">
                         <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
                     </td>
                 </tr>
@@ -157,10 +157,16 @@
                 //Buka Kelas
                 if(empty($data['id_organization_class'])){
                     $label_kelas='-';
+                    $id_academic_period='';
+                    $academic_period='-';
                 }else{
                     $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
                     $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
+                    $id_academic_period=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
                     $label_kelas="$level-$kelas";
+
+                    //Periode Akademik
+                    $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
                 }
                 
 
@@ -184,12 +190,13 @@
                         </td>
                         <td><small>'.$no.'</small></td>
                         <td>
-                        <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
-                             <small>'.$student_name.'</small>
-                        </a>
+                            <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
+                                <small>'.$student_name.'</small>
+                            </a>
                         </td>
                         <td><small>'.$student_nis.'</small></td>
                         <td><small>'.$label_kelas.'</small></td>
+                        <td><small>'.$academic_period.'</small></td>
                         <td><small>'.$gender_label.'</small></td>
                         <td><small>'.$tanggal_daftar.'</small></td>
                         <td><small>'.$label_status.'</small></td>

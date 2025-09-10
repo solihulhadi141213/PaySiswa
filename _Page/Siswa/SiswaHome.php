@@ -54,6 +54,7 @@
                                         <th><b>Nama</b></th>
                                         <th><b>NIS</b></th>
                                         <th><b>Kelas</b></th>
+                                        <th><b>Thn.Akademik</b></th>
                                         <th><b>Gender</b></th>
                                         <th><b>Tgl.Daftar</b></th>
                                         <th><b>Status</b></th>
@@ -62,7 +63,7 @@
                                 </thead>
                                 <tbody id="TabelSiswa">
                                     <tr>
-                                        <td class="text-center" colspan="9">
+                                        <td class="text-center" colspan="10">
                                             <small>Tidak ada data siswa yang ditampilkan</small>
                                         </td>
                                     </tr>

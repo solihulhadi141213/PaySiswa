@@ -159,11 +159,6 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
-                                <i class="bi bi-list"></i> Komponen Biaya
-                            </a>
-                        </li>
-                        <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="'.$id_organization_class .'">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
@@ -171,6 +166,11 @@
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="'.$id_organization_class .'">
                                 <i class="bi bi-x"></i> Hapus
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
+                                <i class="bi bi-list"></i> Biaya Pendidikan
                             </a>
                         </li>
                     </ul>

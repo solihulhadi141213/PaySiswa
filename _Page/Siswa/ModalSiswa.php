@@ -166,35 +166,6 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-4">
-                            <label for="id_organization_class">
-                                <small>Kelas</small>
-                            </label>
-                        </div>
-                        <div class="col-8">
-                            <select name="id_organization_class" id="id_organization_class" class="form-control">
-                                <option value="">Pilih</option>
-                                <?php
-                                    //Tampilkan Level
-                                    $query_level = mysqli_query($Conn, "SELECT DISTINCT class_level FROM organization_class  ORDER BY class_level ASC");
-                                    while ($data_level = mysqli_fetch_array($query_level)) {
-                                        $class_level = $data_level['class_level'];
-                                        echo '<optgroup label="'.$class_level.'">';
-
-                                        //Tampilkan Kelas
-                                        $query_kelas = mysqli_query($Conn, "SELECT id_organization_class, class_name FROM organization_class WHERE class_level='$class_level' ORDER BY class_name ASC");
-                                        while ($data_kelas = mysqli_fetch_array($query_kelas)) {
-                                            $id_organization_class = $data_kelas['id_organization_class'];
-                                            $class_name = $data_kelas['class_name'];
-                                            echo '<option value="'.$id_organization_class.'">'.$class_level.'-'.$class_name.'</option>';
-                                        }
-                                        echo '</optgroup>';
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-4">
                             <label for="place_of_birth">
                                 <small>Tempat Lahir</small>
                             </label>
@@ -458,7 +429,7 @@
             <form action="javascript:void(0);" id="ProsesUpdateKelas">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark">
-                        <i class="bi bi-building"></i> Update Update Kelas
+                        <i class="bi bi-building"></i> Update Kelas Siswa
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
