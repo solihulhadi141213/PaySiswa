@@ -4,7 +4,7 @@
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
     date_default_timezone_set("Asia/Jakarta");
-    if(empty($SessionIdAkses)){
+    if(empty($SessionIdAccess)){
         echo '<div class="row">';
         echo '  <div class="col-md-12 text-center text-danger">';
         echo '      Sesi Akses Sudah Berakhir. Silahkan Login Ulang Terlebih Dulu';

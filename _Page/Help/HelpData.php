@@ -5,19 +5,6 @@
         include "_Page/Error/NoAccess.php";
     }else{
 ?>
-    <div class="pagetitle">
-        <h1>
-            <a href="">
-                <i class="bi bi-question-circle"></i> Dokumentasi</a>
-            </a>
-        </h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                <li class="breadcrumb-item active">Dokumentasi</li>
-            </ol>
-        </nav>
-    </div>
     <section class="section dashboard">
         <div class="row">
             <div class="col-md-12">
@@ -49,7 +36,7 @@
                                     <i class="bi bi-tag"></i>
                                 </a>
                                 <a href="javascript:void(0);" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambahBantuan">
-                                    <i class="bi bi-save"></i>
+                                    <i class="bi bi-plus"></i>
                                 </a>
                             </div>
                         </div>

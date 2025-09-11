@@ -6,7 +6,7 @@
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
     $now=date('Y-m-d H:i:s');
-    if(empty($SessionIdAkses)){
+    if(empty($SessionIdAccess)){
         echo '<small class="credit text-danger">Sesi Akses Sudah Berakhir, Silahkan Login Ulang</small>';
     }else{
         if(empty($_POST['id_help'])){
@@ -26,7 +26,7 @@
                     //Apabila Berhasil, Simpan Log
                     $kategori_log="Bantuan";
                     $deskripsi_log="Hapus Konten Bantuan";
-                    $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                    $InputLog=addLog($Conn,$SessionIdAccess,$now,$kategori_log,$deskripsi_log);
                     if($InputLog=="Success"){
                         echo '<small class="credit text-success" id="NotifikasiHapusBerhasil">Success</small>';
                     }else{

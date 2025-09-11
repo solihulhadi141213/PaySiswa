@@ -5,7 +5,7 @@
     include "../../_Config/Session.php";
     date_default_timezone_set('Asia/Jakarta');
     //Validasi Akses Login
-    if(empty($SessionIdAkses)){
+    if(empty($SessionIdAccess)){
         echo '<span class="text-danger">Sesi Akses Sudah Berakhir, Silahkkan Login Ulang</span>';
     }else{
         $now=date('Y-m-d H:i:s');
@@ -37,7 +37,7 @@
                             $status=validateAndSanitizeInput($status);
                             $deskripsi=validateAndSanitizeInput($deskripsi);
                             $id_help=validateAndSanitizeInput($id_help);
-                            $author=GetDetailData($Conn,'akses','id_akses',$SessionIdAkses,'nama_akses');
+                            $author=GetDetailData($Conn,'akses','id_akses',$SessionIdAccess,'nama_akses');
                             $datetime_creat=date('Y-m-d H:i:s');
                             $datetime_update=date('Y-m-d H:i:s');
                             //Simpan data
@@ -52,7 +52,7 @@
                                 //Apabila Berhasil, Simpan Log
                                 $kategori_log="Bantuan";
                                 $deskripsi_log="Edit Konten Bantuan";
-                                $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                $InputLog=addLog($Conn,$SessionIdAccess,$now,$kategori_log,$deskripsi_log);
                                 if($InputLog=="Success"){
                                     $_SESSION ["NotifikasiSwal"]="Simpan Help Berhasil";
                                     echo '<small class="text-success" id="NotifikasiEditHelpBerhasil">Success</small>';

@@ -5,7 +5,7 @@
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
-    if(empty($SessionIdAkses)){
+    if(empty($SessionIdAccess)){
         echo '<div class="row">';
         echo '  <div class="col-md-12 mb-3 text-center text-danger">';
         echo '      Sesi Akses Sudah Berakhir, Silahkan Login Ulang';

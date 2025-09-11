@@ -1,10 +1,11 @@
 <?php
     //Cek Aksesibilitas ke halaman ini
-    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAkses,'QbQ4qF57AzCEp5qG0KG');
+    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'Dnd2UZLzazCqJ9WfuzQKlIOpYueb2fXxNHXA');
     if($IjinAksesSaya!=="Ada"){
         include "_Page/Error/NoAccess.php";
     }else{
 ?>
+    
     <section class="section dashboard">
         <div class="row">
             <div class="col-md-12">

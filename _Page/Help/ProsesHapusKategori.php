@@ -10,7 +10,7 @@
     ];
 
     //Validasi Akses Login
-    if(empty($SessionIdAkses)){
+    if(empty($SessionIdAccess)){
         $response['message'] = 'Sesi Akses Sudah Berakhir, Silahkkan Login Ulang';
         echo json_encode($response);
         exit;
@@ -39,7 +39,7 @@
                     //Apabila Berhasil, Simpan Log
                     $kategori_log="Bantuan";
                     $deskripsi_log="Hapus Kategori Bantuan";
-                    $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                    $InputLog=addLog($Conn,$SessionIdAccess,$now,$kategori_log,$deskripsi_log);
                     if($InputLog=="Success"){
                         $response['success'] = true;
                         $response['message'] = 'Kategori berhasil Dihapus.';
