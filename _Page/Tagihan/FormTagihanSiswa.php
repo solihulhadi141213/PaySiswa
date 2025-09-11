@@ -204,7 +204,10 @@
                             <thead>
                                 <tr>
                                     <th><b>No</b></th>
-                                    <th><b>Keterangan</b></th>
+                                    <th><b>Biaya Pendidikan</b></th>
+                                    <th><b>Kategori</b></th>
+                                    <th><b>Bulan</b></th>
+                                    <th><b>Tahun</b></th>
                                     <th><b>Tagihan</b></th>
                                     <th><b>Diskon</b></th>
                                     <th><b>Bayar</b></th>
@@ -219,7 +222,7 @@
                                 if(empty($JumlahKomponen)){
                                     echo '
                                         <tr>
-                                            <td colspan="6" class="text-center">
+                                            <td colspan="10" class="text-center">
                                                 <small>Tidak Ada Data Komponen Tagihan</small>
                                             </td>
                                         </tr>
@@ -242,23 +245,28 @@
                                         //Buka Detail Komponen
                                         $component_name=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
                                         $component_category=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
+                                        $periode_month=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
+                                        $periode_year=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
+
+                                        //Nama Bulan
+                                        $nama_bulan=getNamaBulan($periode_month);
 
                                         //Format Rupiah
-                                        $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
-                                        $fee_discount_format="Rp " . number_format($fee_discount,0,',','.');
+                                        $fee_nominal_format="" . number_format($fee_nominal,0,',','.');
+                                        $fee_discount_format="" . number_format($fee_discount,0,',','.');
 
                                         //Hitung Pembayaran Yang Sudah Masuk
                                         $JumlahPembayaranMasuk = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS jumlah FROM payment WHERE id_student='$id_student' AND id_fee_component='$id_fee_component'"));
                                         $JumlahPembayaranMasuk = $JumlahPembayaranMasuk['jumlah'];
 
                                         //Format Rupiah
-                                        $JumlahPembayaranMasukFormat="Rp " . number_format($JumlahPembayaranMasuk,0,',','.');
+                                        $JumlahPembayaranMasukFormat="" . number_format($JumlahPembayaranMasuk,0,',','.');
 
                                         //Hitung sisa pembayaran
                                         $sisa_pembayaran=$jumlah_tagihan-$JumlahPembayaranMasuk;
 
                                         //Format Rupiah
-                                        $sisa_pembayaran_format="Rp " . number_format($sisa_pembayaran,0,',','.');
+                                        $sisa_pembayaran_format="" . number_format($sisa_pembayaran,0,',','.');
 
                                         //Routing Tombol Berdasarkan Sisa Pembayaran
                                         if($sisa_pembayaran>0){
@@ -275,7 +283,10 @@
                                         echo '
                                             <tr>
                                                 <td><small>'.$no.'</small></td>
-                                                <td><small>'.$component_name.' | '.$component_category.'</small></td>
+                                                <td><small>'.$component_name.'</small></td>
+                                                <td><small>'.$component_category.'</small></td>
+                                                <td><small>'.$nama_bulan.'</small></td>
+                                                <td><small>'.$periode_year.'</small></td>
                                                 <td><small>'.$fee_nominal_format.'</small></td>
                                                 <td><small>'.$fee_discount_format.'</small></td>
                                                 <td><small>'.$JumlahPembayaranMasukFormat.'</small></td>
@@ -309,18 +320,21 @@
                                         ';
                                         $no++;
                                     }
-                                    $jumlah_fee_nominal="Rp " . number_format($jumlah_fee_nominal,0,',','.');
-                                    $jumlah_fee_discount="Rp " . number_format($jumlah_fee_discount,0,',','.');
-                                    $jumlah_pembayaran_masuk="Rp " . number_format($jumlah_pembayaran_masuk,0,',','.');
-                                    $jumlah_sisa_pembayaran="Rp " . number_format($jumlah_sisa_pembayaran,0,',','.');
+                                    $jumlah_fee_nominal="" . number_format($jumlah_fee_nominal,0,',','.');
+                                    $jumlah_fee_discount="" . number_format($jumlah_fee_discount,0,',','.');
+                                    $jumlah_pembayaran_masuk="" . number_format($jumlah_pembayaran_masuk,0,',','.');
+                                    $jumlah_sisa_pembayaran="" . number_format($jumlah_sisa_pembayaran,0,',','.');
                                     echo '
                                         <tr>
                                             <td></td>
                                             <td><b>Jumlah</b></td>
-                                            <td><b>'.$jumlah_fee_nominal.'</b></td>
-                                            <td><b>'.$jumlah_fee_discount.'</b></td>
-                                            <td><b>'.$jumlah_pembayaran_masuk.'</b></td>
-                                            <td><b>'.$jumlah_sisa_pembayaran.'</b></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><b><small>'.$jumlah_fee_nominal.'</small></b></td>
+                                            <td><b><small>'.$jumlah_fee_discount.'</small></b></td>
+                                            <td><b><small>'.$jumlah_pembayaran_masuk.'</small></b></td>
+                                            <td><b><small>'.$jumlah_sisa_pembayaran.'</small></b></td>
                                             <td></td>
                                         </tr>
                                     ';

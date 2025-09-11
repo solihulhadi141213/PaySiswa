@@ -120,15 +120,15 @@ $(document).ready(function() {
         FilterTagihan();
     });
 
-    //Jika keyword_by diubah
-     $('#keyword_by').change(function(){
-        var keyword_by = $('#keyword_by').val();
+    //Jika IdPeriodeAkademik diubah
+     $('#IdPeriodeAkademik').change(function(){
+        var id_academic_period = $('#IdPeriodeAkademik').val();
         $.ajax({
             type 	    : 'POST',
-            url 	    : '_Page/Tagihan/form_filter.php',
-            data        : {keyword_by: keyword_by},
+            url 	    : '_Page/Tagihan/SelectOrganizationClass.php',
+            data        : {id_academic_period: id_academic_period},
             success     : function(data){
-                $('#form_filter').html(data);
+                $('#SelectOrganizationClass').html(data);
             }
         });
     });

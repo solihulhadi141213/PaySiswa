@@ -28,9 +28,33 @@
             <div class="card">
                 <div class="card-header">
                     <form action="javascript:void(0);" id="ProsesFilterTagihan">
-                        <input type="hidden" name="page" id="page" value="1">
-                        <input type="hidden" name="batas" id="batas" value="10">
                         <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="IdPeriodeAkademik">
+                                    <small>Periode Akademik</small>
+                                </label>
+                                <select name="id_academic_period" id="IdPeriodeAkademik" class="form-control">
+                                    <option value="">Pilih</option>
+                                    <?php
+                                        //Menampilkan periode akademik
+                                        $query = mysqli_query($Conn, "SELECT id_academic_period, academic_period, academic_period_start FROM academic_period ORDER BY academic_period_start ASC");
+                                        while ($data = mysqli_fetch_array($query)) {
+                                            $id_academic_period = $data['id_academic_period'];
+                                            $academic_period= $data['academic_period'];
+                                            $academic_period_start= $data['academic_period_start'];
+                                            echo '<option value="'.$id_academic_period.'">'.$academic_period.'</option>';
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="SelectOrganizationClass">
+                                    <small>Kelas</small>
+                                </label>
+                                <select name="id_organization_class" id="SelectOrganizationClass" class="form-control">
+                                    <option value="">Pilih</option>
+                                </select>
+                            </div>
                             <div class="col-md-3 mb-3">
                                 <label for="kelompok_status_siswa">
                                     <small>Status Siswa</small>
@@ -41,26 +65,6 @@
                                     <option value="Lulus">Lulus</option>
                                     <option value="Keluar">Keluar</option>
                                 </select>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="keyword_by">
-                                    <small>Dasar Pencarian</small>
-                                </label>
-                                <select name="keyword_by" id="keyword_by" class="form-control">
-                                    <option value="">Pilih</option>
-                                    <option value="id_organization_class">Kelas</option>
-                                    <option value="student_nis">NIS</option>
-                                    <option value="student_name">Nama Siswa</option>
-                                    
-                                </select>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="keyword">
-                                    <small>Pencarian</small>
-                                </label>
-                                <div id="form_filter">
-                                    <input type="text" class="form-control" name="keyword" id="keyword">
-                                </div>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <br>
@@ -77,8 +81,8 @@
                             <thead>
                                 <tr>
                                     <th><b>No</b></th>
-                                    <th><b>NIS</b></th>
                                     <th><b>Siswa</b></th>
+                                    <th><b>NIS</b></th>
                                     <th><b>Kelas</b></th>
                                     <th><b>Tagihan (Rp)</b></th>
                                     <th><b>Pembayaran (Rp)</b></th>
@@ -98,18 +102,10 @@
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
                             <small id="page_info">
-                                Page 1 Of 100
+                                Jumlah Siswa : -
                             </small>
-                        </div>
-                        <div class="col-6 text-end">
-                            <button type="button" class="btn btn-sm btn-outline-info btn-floating" id="prev_button">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-info btn-floating" id="next_button">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
