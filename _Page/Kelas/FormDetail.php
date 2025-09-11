@@ -62,9 +62,7 @@
 
         //Tampilkan Data
         echo '
-            <input type="hidden" name="Page" value="Kelas">
-            <input type="hidden" name="Sub" value="Detail">
-            <input type="hidden" name="id" value="'.$id_organization_class.'">
+            <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
             <div class="row mb-2">
                 <div class="col-4"><small>ID</small></div>
                 <div class="col-1"><small>:</small></div>

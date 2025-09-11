@@ -103,9 +103,9 @@
             $jumlah_tagihan = $SumTagihan['total_tagihan'];
             $jumlah_tagihan_format = "Rp " . number_format($jumlah_tagihan,0,',','.');
             if(empty($jumlah_tagihan)){
-                $label_jumlah_tagihan='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTagihan" data-id="'.$id_organization_class .'"><small class="text-grayish">'.$jumlah_tagihan_format.'</small></a>';
+                $label_jumlah_tagihan='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalMatrixTagihan" data-id="'.$id_organization_class .'"><small class="text-grayish text-decoration-underline">'.$jumlah_tagihan_format.'</small></a>';
             }else{
-                $label_jumlah_tagihan='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTagihan" data-id="'.$id_organization_class .'"><small>'.$jumlah_tagihan_format.'</small></a>';
+                $label_jumlah_tagihan='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalMatrixTagihan" data-id="'.$id_organization_class .'"><small class="text text-decoration-underline">'.$jumlah_tagihan_format.'</small></a>';
             }
 
             //Hitung Jumlah Pembayaran
@@ -146,7 +146,7 @@
                 <td>'.$label_jumlah_pembayaran.'</td>
                 <td>'.$sisa_tagihan_format.'</td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-outline-secondary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-sm btn-outline-primary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
@@ -155,22 +155,27 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_organization_class .'">
-                                <i class="bi bi-info-circle"></i> Detail
+                                <i class="bi bi-info-circle"></i> Detail Kelas
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="'.$id_organization_class .'">
-                                <i class="bi bi-pencil"></i> Edit
+                                <i class="bi bi-pencil"></i> Edit Kelas
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="'.$id_organization_class .'">
-                                <i class="bi bi-x"></i> Hapus
+                                <i class="bi bi-x"></i> Hapus Kelas
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
-                                <i class="bi bi-list"></i> Biaya Pendidikan
+                                <i class="bi bi-list"></i> Komponen Biaya
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalMatrixTagihan" data-id="'.$id_organization_class .'">
+                                <i class="bi bi-table"></i> Biaya Pendidikan
                             </a>
                         </li>
                     </ul>

@@ -12,9 +12,10 @@ function filterAndLoadTable() {
 }
 
 //Fungsi Menampilkan Komponen Biaya
-function ShowKomponenBiaya(id_organization_class) {
+function ShowKomponenBiaya(id_organization_class,id_academic_period) {
     //Tempelkan id_organization_class
     $('#put_id_organization_class').val(id_organization_class);
+    $('#put_id_academic_period').val(id_academic_period);
 
     //Tangkap Data Dari Form
     var ProsesFilterKomponenBiaya = $('#ProsesFilterKomponenBiaya').serialize();
@@ -41,7 +42,10 @@ function AddKomponenBiaya(id_fee_component, id_organization_class) {
         success: function(response) {
             if (response.status === 'success') {
                 filterAndLoadTable();
-                ShowKomponenBiaya(id_organization_class);
+
+                //TANGKAP id_academic_period
+                var id_academic_period=$('#id_academic_period').val();
+                ShowKomponenBiaya(id_organization_class,id_academic_period);
             } else {
                 // kalau gagal, tampilkan pesan error
                 alert(response.message || 'Terjadi kesalahan!');
@@ -67,7 +71,8 @@ function HapusKomponenBiaya(id_fee_component, id_organization_class) {
         success: function(response) {
             if (response.status === 'success') {
                 filterAndLoadTable();
-                ShowKomponenBiaya(id_organization_class);
+                var id_academic_period=$('#id_academic_period').val();
+                ShowKomponenBiaya(id_organization_class,id_academic_period);
             } else {
                 // kalau gagal, tampilkan pesan error
                 alert(response.message || 'Terjadi kesalahan!');
@@ -90,6 +95,57 @@ function ShowListLevel() {
         }
     });
 }
+
+//Fungsi Menampilkan Matrix Tagihan
+function ShowMatrixTagihan(id_organization_class) {
+    $('#TableMatrixTagihan').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kelas/TableMatrixTagihan.php',
+        data        : {id_organization_class: id_organization_class},
+        success     : function(data){
+            $('#TableMatrixTagihan').html(data);
+        }
+    });
+}
+
+// Fungsi untuk memproses input pada elemen dengan class form-money
+function processInput(event) {
+    let input = event.target;
+    let originalValue = input.value;
+
+    // Hilangkan titik dari nilai asli untuk penghitungan
+    let rawValue = originalValue.replace(/\./g, "");
+
+    // Format nilai input
+    let formattedValue = formatMoney(rawValue);
+
+    // Update nilai input dengan nilai yang telah diformat
+    input.value = formattedValue;
+}
+
+// Fungsi untuk memformat angka menjadi format ribuan
+function formatMoney(value) {
+    if (!value) return ""; // Jika kosong, kembalikan string kosong
+    // Hilangkan karakter selain angka
+    value = value.toString().replace(/[^0-9]/g, "");
+    // Tambahkan pemisah ribuan (titik)
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Fungsi untuk menginisialisasi elemen form-money
+function initializeMoneyInputs() {
+    const moneyInputs = document.querySelectorAll(".form-money");
+    moneyInputs.forEach(function (input) {
+        // Format nilai awal jika sudah ada
+        input.value = formatMoney(input.value);
+
+        // Pastikan input diformat dengan benar
+        input.removeEventListener("input", processInput); // Menghapus event listener sebelumnya
+        input.addEventListener("input", processInput);
+    });
+}
+
 
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
@@ -308,7 +364,8 @@ $(document).ready(function() {
     //Modal Komponen Biaya
     $('#ModalKomponenBiaya').on('show.bs.modal', function (e) {
         var id_organization_class = $(e.relatedTarget).data('id');
-        ShowKomponenBiaya(id_organization_class);
+        var id_academic_period=$('#id_academic_period').val();
+        ShowKomponenBiaya(id_organization_class,id_academic_period);
     });
 
     //Ketika keyword_by_komponen Diubah
@@ -403,6 +460,244 @@ $(document).ready(function() {
                 $('#TabelSiswa').html(data);
             }
         });
+    });
+
+    //Modal Menampilkan Matrix Tagihan
+    $('#ModalMatrixTagihan').on('show.bs.modal', function (e) {
+        var id_organization_class = $(e.relatedTarget).data('id');
+        ShowMatrixTagihan(id_organization_class);
+    });
+
+    //Modal Tambah Tagihan
+    $('#ModalTambahTagihan').on('show.bs.modal', function (e) {
+        var id_organization_class   = $(e.relatedTarget).data('id1');
+        var id_student              = $(e.relatedTarget).data('id2');
+        var id_fee_component        = $(e.relatedTarget).data('id3');
+
+        // simpan ke data modal
+        $(this).data('org-class', id_organization_class);
+
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/FormTambahTagihan.php',
+            data        : {
+                id_organization_class: id_organization_class, 
+                id_student: id_student, 
+                id_fee_component: id_fee_component
+            },
+            success     : function(data){
+                $('#FormTambahTagihan').html(data);
+                $('#NotifikasiTambahTagihan').html('');
+
+                //Format uang
+                initializeMoneyInputs();
+            }
+        });
+    });
+
+    //Proses Tambah Tagihan
+    $('#ProsesTambahTagihan').submit(function(){
+        //Tangkap get_id_organization_class_for_back
+        var get_id_organization_class_for_back = $('#ModalTambahTagihan').data('org-class');
+
+        //Jika tidak ada get_id_organization_class_for_back
+        if(get_id_organization_class_for_back==""){
+            $('#NotifikasiTambahTagihan').html('');
+        }else{
+
+            //Loading notifikasi
+            $('#NotifikasiTambahTagihan').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+
+            //Ambil data dari form
+            var form = $('#ProsesTambahTagihan')[0];
+            var data = new FormData(form);
+
+            //Proses Dengan AJAX
+            $.ajax({
+                type 	    : 'POST',
+                url 	    : '_Page/Kelas/ProsesTambahTagihan.php',
+                data 	    :  data,
+                cache       : false,
+                processData : false,
+                contentType : false,
+                enctype     : 'multipart/form-data',
+                success     : function(data){
+                    $('#NotifikasiTambahTagihan').html(data);
+
+                    //Tangkap Variabel
+                    var NotifikasiTambahTagihanBerhasil=$('#NotifikasiTambahTagihanBerhasil').html();
+
+                    //Jika Berhasil
+                    if(NotifikasiTambahTagihanBerhasil=="Success"){
+                        $('#NotifikasiTambahTagihan').html('');
+
+                        //Tutup Modal
+                        $('#ModalTambahTagihan').modal('hide');
+
+                        //Menampilkan Data
+                        $('#ModalMatrixTagihan').modal('show');
+
+                        ShowMatrixTagihan(get_id_organization_class_for_back);
+
+                        filterAndLoadTable();
+                    }
+                }
+            });
+        }
+    });
+
+    //Modal Hapus Tagihan
+    $('#ModalHapusTagihan').on('show.bs.modal', function (e) {
+        var id_organization_class   = $(e.relatedTarget).data('id1');
+        var id_student              = $(e.relatedTarget).data('id2');
+        var id_fee_component        = $(e.relatedTarget).data('id3');
+
+        // simpan ke data modal
+        $(this).data('org-class', id_organization_class);
+
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/FormHapusTagihan.php',
+            data        : {
+                id_organization_class: id_organization_class, 
+                id_student: id_student, 
+                id_fee_component: id_fee_component
+            },
+            success     : function(data){
+                $('#FormHapusTagihan').html(data);
+                $('#NotifikasiHapusTagihan').html('');
+
+            }
+        });
+    });
+
+    //Proses Hapus Tagihan
+    $('#ProsesHapusTagihan').submit(function(){
+        //Tangkap get_id_organization_class_for_back
+        var get_id_organization_class_for_back2 = $('#ModalHapusTagihan').data('org-class');
+
+        //Jika tidak ada get_id_organization_class_for_back
+        if(get_id_organization_class_for_back2==""){
+            $('#NotifiikasiHapusTagihan').html('');
+        }else{
+
+            //Loading notifikasi
+            $('#NotifiikasiHapusTagihan').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+
+            //Ambil data dari form
+            var form = $('#ProsesHapusTagihan')[0];
+            var data = new FormData(form);
+
+            //Proses Dengan AJAX
+            $.ajax({
+                type 	    : 'POST',
+                url 	    : '_Page/Kelas/ProsesHapusTagihan.php',
+                data 	    :  data,
+                cache       : false,
+                processData : false,
+                contentType : false,
+                enctype     : 'multipart/form-data',
+                success     : function(data){
+                    $('#NotifiikasiHapusTagihan').html(data);
+
+                    //Tangkap Variabel
+                    var NotifiikasiHapusTagihanBerhasil=$('#NotifiikasiHapusTagihanBerhasil').html();
+
+                    //Jika Berhasil
+                    if(NotifiikasiHapusTagihanBerhasil=="Success"){
+                        $('#NotifiikasiHapusTagihan').html('');
+
+                        //Tutup Modal
+                        $('#ModalHapusTagihan').modal('hide');
+
+                        //Menampilkan Data
+                        $('#ModalMatrixTagihan').modal('show');
+
+                        ShowMatrixTagihan(get_id_organization_class_for_back2);
+
+                        filterAndLoadTable();
+                    }
+                }
+            });
+        }
+    });
+
+    //Modal Tambah Tagihan Multi
+    $('#ModalTambahTagihanMulti').on('show.bs.modal', function (e) {
+        var id_academic_period      = $(e.relatedTarget).data('id1');
+        var id_organization_class   = $(e.relatedTarget).data('id2');
+        var id_fee_component        = $(e.relatedTarget).data('id3');
+
+        // simpan ke data modal
+        $(this).data('org-class', id_organization_class);
+
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/FormTambahTagihanMulti.php',
+            data        : {
+                id_academic_period: id_academic_period, 
+                id_organization_class: id_organization_class, 
+                id_fee_component: id_fee_component
+            },
+            success     : function(data){
+                $('#FormTambahTagihanMulti').html(data);
+                $('#NotifikasiTambahTagihanMulti').html('');
+
+                //Format uang
+                initializeMoneyInputs();
+            }
+        });
+    });
+
+    //Proses Tambah Tagihan Multi
+    $('#ProsesTambahTagihanMulti').submit(function(){
+        //Tangkap get_id_organization_class_for_back
+        var get_id_organization_class_for_back = $('#ModalTambahTagihanMulti').data('org-class');
+
+        //Jika tidak ada get_id_organization_class_for_back
+        if(get_id_organization_class_for_back==""){
+            $('#NotifikasiTambahTagihanMulti').html('');
+        }else{
+
+            //Loading notifikasi
+            $('#NotifikasiTambahTagihanMulti').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+
+            //Ambil data dari form
+            var form = $('#ProsesTambahTagihanMulti')[0];
+            var data = new FormData(form);
+
+            //Proses Dengan AJAX
+            $.ajax({
+                type 	    : 'POST',
+                url 	    : '_Page/Kelas/ProsesTambahTagihanMulti.php',
+                data 	    :  data,
+                cache       : false,
+                processData : false,
+                contentType : false,
+                enctype     : 'multipart/form-data',
+                success     : function(data){
+                    $('#NotifikasiTambahTagihanMulti').html(data);
+
+                    //Tangkap Variabel
+                    var NotifikasiTambahTagihanMultiBerhasil=$('#NotifikasiTambahTagihanMultiBerhasil').html();
+
+                    //Jika Berhasil
+                    if(NotifikasiTambahTagihanMultiBerhasil=="Success"){
+                        $('#NotifikasiTambahTagihanMulti').html('');
+
+                        //Tutup Modal
+                        $('#ModalTambahTagihanMulti').modal('hide');
+
+                        //Menampilkan Data
+                        $('#ModalMatrixTagihan').modal('show');
+
+                        ShowMatrixTagihan(get_id_organization_class_for_back);
+
+                        filterAndLoadTable();
+                    }
+                }
+            });
+        }
     });
 
 });

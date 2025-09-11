@@ -4,7 +4,7 @@
     }else{
         $Sub=$_GET['Sub'];
         if($Sub=="Detail"){
-            include "_Page/Kelas/DetailKelas.php";
+            include "_Page/Kelas/KelasDetail.php";
         }
     }
 ?>

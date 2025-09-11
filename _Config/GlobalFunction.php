@@ -605,6 +605,26 @@
         // Mengembalikan nama bulan berdasarkan angka
         return $namaBulan[$angkaBulan] ?? 'Bulan tidak valid';
     }
+    function getNamaBulanSingkat($angkaBulan) {
+        // Array dengan nama-nama bulan
+        $namaBulan = [
+            '1' => 'Jan',
+            '2' => 'Feb',
+            '3' => 'Mar',
+            '4' => 'Apr',
+            '5' => 'Mei',
+            '6' => 'Jun',
+            '7' => 'Jul',
+            '8' => 'Agu',
+            '9' => 'Sept',
+            '10' => 'Okt',
+            '11' => 'Nov',
+            '12' => 'Des'
+        ];
+    
+        // Mengembalikan nama bulan berdasarkan angka
+        return $namaBulan[$angkaBulan] ?? 'Bulan tidak valid';
+    }
     function pembulatan_nilai($nilai){
         $nilai = (float) $nilai;
         $nilai = ($nilai == floor($nilai)) ? (int)$nilai : $nilai;
@@ -1630,5 +1650,72 @@
         $stmt->close();
         
         return $success ? "Success" : "Gagal menyimpan jurnal: $error";
+    }
+
+    // Mendapatkan Detail fee_by_student
+    function ShowFeeByStudent($id_student, $id_fee_component, $id_organization_class, $collom) {
+        global $Conn; // pakai koneksi mysqli dari luar fungsi
+
+        // siapkan query
+        $Qry = $Conn->prepare("
+            SELECT $collom 
+            FROM fee_by_student 
+            WHERE id_student = ? 
+            AND id_fee_component = ? 
+            AND id_organization_class = ?
+        ");
+
+        if (!$Qry) {
+            return "Prepare failed: " . $Conn->error;
+        }
+
+        // bind parameter
+        $Qry->bind_param("iii", $id_student, $id_fee_component, $id_organization_class);
+
+        // eksekusi
+        if (!$Qry->execute()) {
+            $response = "Execute failed: " . $Qry->error;
+        } else {
+            $Result = $Qry->get_result();
+            if ($Result && $Data = $Result->fetch_assoc()) {
+                $response = $Data[$collom] ?? null;
+            } else {
+                $response = null;
+            }
+        }
+
+        $Qry->close();
+        return $response;
+    }
+
+    // Cari id_fee_by_student berdasarkan id_organization_class, id_student, id_fee_component 
+    function CariFeeByStudent($id_organization_class,$id_student,$id_fee_component) {
+        // pakai koneksi mysqli dari luar fungsi
+        global $Conn;
+
+        // siapkan query
+        $Qry = $Conn->prepare("SELECT id_fee_by_student FROM fee_by_student WHERE id_student = ? AND id_fee_component = ? AND id_organization_class = ?");
+
+        if (!$Qry) {
+            return "Prepare failed: " . $Conn->error;
+        }
+
+        // bind parameter
+        $Qry->bind_param("iii", $id_student, $id_fee_component, $id_organization_class);
+
+        // eksekusi
+        if (!$Qry->execute()) {
+            $response = null;
+        } else {
+            $Result = $Qry->get_result();
+            if ($Result && $Data = $Result->fetch_assoc()) {
+                $response = $Data['id_fee_by_student'] ?? null;
+            } else {
+                $response = null;
+            }
+        }
+
+        $Qry->close();
+        return $response;
     }
 ?>

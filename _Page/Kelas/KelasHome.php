@@ -66,11 +66,11 @@
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
-                                        <th><b>Level</b></th>
-                                        <th><b>Kelas</b></th>
-                                        <th><b>Siswa</b></th>
-                                        <th><b>BP</b></th>
-                                        <th><b>Tagihan</b></th>
+                                        <th><b>Kelas/Level</b></th>
+                                        <th><b>Sub Kelas</b></th>
+                                        <th><b>Jumlah Siswa</b></th>
+                                        <th><b>Komponen Biaya</b></th>
+                                        <th><b>Biaya Pendidikan</b></th>
                                         <th><b>Pembayaran</b></th>
                                         <th><b>Sisa/Tunggakan</b></th>
                                         <th><b>Opsi</b></th>

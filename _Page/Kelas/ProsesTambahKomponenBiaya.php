@@ -82,35 +82,6 @@
             exit;
         }
 
-        // Looping Student Berdasarkan id_organization_class
-        $query = $Conn->prepare("SELECT id_student FROM student WHERE id_organization_class=?");
-        $query->bind_param("i", $id_organization_class);
-        $query->execute();
-        $result = $query->get_result();
-
-        while ($data = $result->fetch_assoc()) {
-            $id_student = $data['id_student'];
-
-            // ===== Cek apakah sudah ada di fee_by_student =====
-            $cekStudent = $Conn->prepare("SELECT COUNT(*) FROM fee_by_student WHERE id_organization_class=? AND id_student=? AND id_fee_component=?");
-            $cekStudent->bind_param("iii", $id_organization_class, $id_student, $id_fee_component);
-            $cekStudent->execute();
-            $cekStudent->bind_result($countStudent);
-            $cekStudent->fetch();
-            $cekStudent->close();
-
-            if ($countStudent == 0) {
-                // Insert Data fee_by_student
-                $stmt2 = $Conn->prepare("
-                    INSERT INTO fee_by_student (id_organization_class, id_student, id_fee_component, fee_nominal, fee_discount) 
-                    VALUES (?, ?, ?, ?, ?)
-                ");
-                $stmt2->bind_param("iiiid", $id_organization_class, $id_student, $id_fee_component, $fee_nominal, $fee_discount);
-                $stmt2->execute();
-                $stmt2->close();
-            }
-        }
-
         echo json_encode([
             "status" => "success",
             "message" => "Komponen biaya berhasil ditambahkan tanpa duplikasi!"

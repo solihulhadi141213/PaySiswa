@@ -52,13 +52,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Kelas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Kelas">
-                <i class="bi bi-building"></i> <span>Manajemen Kelas</span>
+            <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
+                <i class="bi bi-tags"></i> <span>Biaya Pendidikan</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
-                <i class="bi bi-tags"></i> <span>Biaya Pendidikan</span>
+            <a class="nav-link <?php if($PageMenu=="Kelas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Kelas">
+                <i class="bi bi-building"></i> <span>Manajemen Kelas</span>
             </a>
         </li>
         <li class="nav-heading">Master</li>
