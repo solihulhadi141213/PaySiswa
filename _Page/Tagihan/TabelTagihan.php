@@ -10,7 +10,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -20,7 +20,7 @@
     if(empty($_POST['id_academic_period'])){
          echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Silahkan pilih <b>Periode Tahun Akademik</b> terlebih dulu untuk menampilkan data tagihan siswa</small>
                 </td>
             </tr>
@@ -30,7 +30,7 @@
     if(empty($_POST['id_organization_class'])){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Silahkan pilih <b>group kelas</b> terlebih dulu untuk menampilkan data tagihan siswa</small>
                 </td>
             </tr>
@@ -58,7 +58,7 @@
     if(empty($jml_data)){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
                 </td>
             </tr>
@@ -96,10 +96,15 @@
             //Buka Kelas
             if(empty($data['id_organization_class'])){
                 $label_kelas='-';
+                $id_academic_period="";
+                $academic_period="-";
             }else{
+                $id_academic_period=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
                 $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
                 $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
                 $label_kelas="$level-$kelas";
+
+                $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
             }
             
 
@@ -132,7 +137,7 @@
             }
             
             //Format Uang Tagihan
-            $jumlah_tagihan_format="Rp " . number_format($jumlah_tagihan,0,',','.');
+            $jumlah_tagihan_format="" . number_format($jumlah_tagihan,0,',','.');
 
             //Buka Data Pembayaran Siswa
             $jumlah_payment=0;
@@ -150,11 +155,11 @@
             }
             
             //Format Uang Tagihan
-            $jumlah_payment_format="Rp " . number_format($jumlah_payment,0,',','.');
+            $jumlah_payment_format="" . number_format($jumlah_payment,0,',','.');
 
             //Menghitung Sisa Pembayaran
             $sisa=$jumlah_tagihan-$jumlah_payment;
-            $sisa_format="Rp " . number_format($sisa,0,',','.');
+            $sisa_format="" . number_format($sisa,0,',','.');
 
             //Tampilkan Data
             echo '
@@ -167,6 +172,9 @@
                     </td>
                     <td><small>'.$student_nis.'</small></td>
                     <td><small>'.$label_kelas.'</small></td>
+                    <td><small>'.$academic_period.'</small></td>
+                    <td><small>'.$tanggal_daftar.'</small></td>
+                    <td><small>'.$label_status.'</small></td>
                     <td><small>'.$jumlah_tagihan_format.'</small></td>
                     <td><small>'.$jumlah_payment_format.'</small></td>
                     <td><small>'.$sisa_format.'</small></td>

@@ -99,7 +99,7 @@
     </div>
 </div>
 <div class="modal fade" id="ModalSiswa" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-dak"><i class="bi bi-people"></i> Pilih Siswa</h5>
@@ -131,7 +131,7 @@
                                 <option value="">Cari Dari</option>
                                 <option value="student_name">Nama</option>
                                 <option value="student_nis">NIS</option>
-                                <option value="id_organization_class">Kelas</option>
+                                <!-- <option value="id_organization_class">Kelas</option> -->
                             </select>
                         </div>
                         <div class="col-md-5 mb-2">
@@ -144,7 +144,7 @@
                             <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="semua_siswa" name="semua_siswa" value="true">
                                 <label class="form-check-label" for="semua_siswa">
-                                    <small>Tampilkan siswa yang sudah lulus/keluar</small>
+                                    <small>Tampilkan juga siswa yang sudah lulus/keluar</small>
                                 </label>
                             </div>
                         </div>
@@ -163,9 +163,11 @@
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
+                                        <th><b>Nama Siswa</b></th>
                                         <th><b>NIS</b></th>
-                                        <th><b>Nama</b></th>
-                                        <th><b>Kelas</b></th>
+                                        <th><b>Group/Kelas</b></th>
+                                        <th><b>Thn.Akademik</b></th>
+                                        <th><b>Status</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>
@@ -206,7 +208,7 @@
 </div>
 
 <div class="modal fade" id="ModalKomponenBiaya" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-dark">

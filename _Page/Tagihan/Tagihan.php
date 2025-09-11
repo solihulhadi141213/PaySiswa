@@ -81,18 +81,21 @@
                             <thead>
                                 <tr>
                                     <th><b>No</b></th>
-                                    <th><b>Siswa</b></th>
+                                    <th><b>Nama Siswa</b></th>
                                     <th><b>NIS</b></th>
                                     <th><b>Kelas</b></th>
-                                    <th><b>Tagihan (Rp)</b></th>
-                                    <th><b>Pembayaran (Rp)</b></th>
-                                    <th><b>Sisa (Rp)</b></th>
+                                    <th><b>Thn.Akademik</b></th>
+                                    <th><b>Tgl.Daftar</b></th>
+                                    <th><b>Status</b></th>
+                                    <th><b>Biaya Pendidikan</b></th>
+                                    <th><b>Pembayaran</b></th>
+                                    <th><b>Sisa/Tunggakan</b></th>
                                     <th><b>Opsi</b></th>
                                 </tr>
                             </thead>
                             <tbody id="TabelTagihan">
                                 <tr>
-                                    <td colspan="8" class="text-center">Belum Ada Data Yang Ditampilkan</td>
+                                    <td colspan="11" class="text-center">Belum Ada Data Yang Ditampilkan</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -122,6 +122,7 @@
 
     //Tampilkan Form
     echo '
+        <input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student .'">
         <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
         <input type="hidden" name="id_fee_component" value="'.$id_fee_component.'">
         <input type="hidden" name="id_student" value="'.$id_student.'">

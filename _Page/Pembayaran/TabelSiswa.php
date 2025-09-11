@@ -149,10 +149,14 @@
                 //Buka Kelas
                 if(empty($data['id_organization_class'])){
                     $label_kelas='-';
+                    $id_academic_period='';
+                    $academic_period='';
                 }else{
+                    $id_academic_period=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
                     $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
                     $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
                     $label_kelas="$level-$kelas";
+                    $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
                 }
                 
 
@@ -165,12 +169,24 @@
                 }else{
                     $label_status='text-grayish';
                 }
+
+                if($student_status=="Terdaftar"){
+                    $label_status2='<span class="badge badge-success">Terdaftar</span>';
+                }else{
+                    if($student_status=="Lulus"){
+                        $label_status2='<span class="badge badge-warning">Lulus</span>';
+                    }else{
+                        $label_status2='<span class="badge badge-danger">Keluar</span>';
+                    }
+                }
                 echo '
                     <tr>
                         <td><small class="'.$label_status.'">'.$no.'</small></td>
-                        <td><small class="'.$label_status.'">'.$student_nis.'</small></td>
                         <td><small class="'.$label_status.'">'.$student_name.'</small></td>
+                        <td><small class="'.$label_status.'">'.$student_nis.'</small></td>
                         <td><small class="'.$label_status.'">'.$label_kelas.'</small></td>
+                        <td><small class="'.$label_status.'">'.$academic_period.'</small></td>
+                        <td><small class="'.$label_status.'">'.$label_status2.'</small></td>
                         <td>
                             <button type="button" class="btn btn-sm btn-primary btn-floating"  data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_student .'">
                                 <i class="bi bi-check"></i>
