@@ -20,6 +20,7 @@
             "SettingGeneral"    => "_Page/SettingGeneral/SettingGeneral.js",
             "PaymentGateway"    => "_Page/SettingPayment/SettingPayment.js",
             "SettingEmail"      => "_Page/SettingEmail/SettingEmail.js",
+            "Aktivitas"         => "_Page/Aktivitas/Aktivitas.js",
             "Help"              => "_Page/Help/Help.js"
         ];
 

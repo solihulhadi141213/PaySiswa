@@ -18,6 +18,7 @@
             "SettingGeneral"    =>  "_Page/SettingGeneral/SettingGeneral.php",
             "PaymentGateway"    =>  "_Page/SettingPayment/SettingPayment.php",
             "SettingEmail"      =>  "_Page/SettingEmail/SettingEmail.php",
+            "Aktivitas"         =>  "_Page/Aktivitas/Aktivitas.php",
             "Help"              =>  "_Page/Help/Help.php",
         ];
 

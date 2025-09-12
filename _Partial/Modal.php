@@ -17,6 +17,7 @@
             "Pembayaran"            => "_Page/Pembayaran/ModalPembayaran.php",
             "PaymentGateway"        => "_Page/SettingPayment/ModalSettingPayment.php",
             "SettingEmail"          => "_Page/SettingEmail/ModalSettingEmail.php",
+            "Aktivitas"             => "_Page/Aktivitas/ModalAktivitas.php",
             "Help"                  => "_Page/Help/ModalHelp.php"
         ];
 

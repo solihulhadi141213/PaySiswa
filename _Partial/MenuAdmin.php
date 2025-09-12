@@ -79,7 +79,7 @@
         </li>
         <li class="nav-heading">Fitur Lainnya</li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu!=="Aktivitas"){echo "collapsed";} ?>" href="index.php?Page=Aktivitas&Sub=AktivitasUmum">
+            <a class="nav-link <?php if($PageMenu!=="Aktivitas"){echo "collapsed";} ?>" href="index.php?Page=Aktivitas">
                 <i class="bi bi-circle"></i>
                 <span>Log Aktivitas</span>
             </a>
