@@ -1382,7 +1382,7 @@ body .title_page_app {
 #card_jam_menarik {
   padding: 15px;
   border-radius: 12px;
-  background: url('../../assets/img/calendar/calendar.jpg') no-repeat center center;
+  background: url('../../assets/img/calendar/0b91f2f4370cf26f23e44efe7136195c.jpg') no-repeat center center;
   background-size: cover;
   position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -1426,6 +1426,17 @@ body .title_page_app {
   padding: 10px 20px;
   border-radius: 6px;
   display: inline-block;
+}
+
+#image_menarik {
+  position: relative;
+  z-index: 3; /* di atas overlay */
+}
+
+#image_menarik img {
+  position: relative;
+  z-index: 3; /* pastikan lebih tinggi dari overlay */
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); /* efek timbul */
 }
 
 

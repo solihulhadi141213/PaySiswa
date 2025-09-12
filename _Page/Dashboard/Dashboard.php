@@ -20,22 +20,45 @@
         <div class="col-md-12">
             <div class="card" id="card_jam_menarik">
                 <div class="card-body">
-                    <div id="tanggal_menarik">Hari, 01 Januari 1900</div><br>
-                    <div id="jam_menarik">00:00:00</div>
+                    <div class="row">
+                        <div class="col-md-3 mb-2 text-center" id="image_menarik">
+                            <img src="assets/img/<?php echo $app_logo; ?>" width="150px" class="image_menarik">
+                        </div>
+                        <div class="col-md-9 mb-2 text-end">
+                            <h1 class="text text-white"><?php echo $company_name; ?></h1>
+                            <div id="tanggal_menarik">Hari, 01 Januari 1900</div><br>
+                            <div id="jam_menarik">00:00:00</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3 col-12">
-            <div class="card info-card revenue-card">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="ps-3">
+                            <b id="put_pengguna">20.000</b><br>
+                            <small>Akses/User</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-12">
+            <div class="card info-card customers-card">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                             <i class="bi bi-people"></i>
                         </div>
                         <div class="ps-3">
-                            <h3>20.000</h3>
+                            <b id="put_siswa_aktif">20.000</b><br>
                             <small>Siswa Aktif</small>
                         </div>
                     </div>
@@ -47,11 +70,11 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-wallet"></i>
+                            <i class="bi bi-calendar"></i>
                         </div>
                         <div class="ps-3">
-                            <h3>5</h3>
-                            <small>Komponen Biaya</small>
+                            <b id="put_periode_akademik">5</b><br>
+                            <small>Periode Akademik</small>
                         </div>
                     </div>
                 </div>
@@ -65,23 +88,8 @@
                             <i class="bi bi-coin"></i>
                         </div>
                         <div class="ps-3">
-                            <h3>Rp 15.000.000</h3>
+                            <b id="put_pembayaran">Rp 15.000.000</b><br>
                             <small>Pembayaran Masuk</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-12">
-            <div class="card info-card customers-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <i class="bi bi-cash-coin"></i>
-                        </div>
-                        <div class="ps-3">
-                            <h3>Rp 23.500.000</h3>
-                            <small>Tunggakan Siswa</small>
                         </div>
                     </div>
                 </div>
@@ -94,17 +102,10 @@
         <div class="col-lg-12">
             
             <div class="row">
-                <!-- Reports -->
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <b class="card-title">
-                                Grafik Pendapatan Thn <?php echo date ('Y'); ?>
-                            </b>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title" id="NamaTitleData"></h5>
-                            <div id="chart"></div>
+                        <div class="card-body" id="chart">
+                           <!-- Menampilkan Grafik Disini -->
                         </div>
                     </div>
                 </div>
@@ -114,23 +115,29 @@
                     <div class="card">
                         <div class="card-header">
                             <b class="card-title">
-                                Siswa / <small class="text text-muted">Pendaftar Baru</small>
+                                Biaya Pendidikan /  <small class="text text-muted">Periode Akademik</small>
                             </b>
                         </div>
                         <div class="card-body">
-                            <div class="activity" id="ShowAnggotaTerbaru">
-                                <!-- Menampilkan "ShowAnggotaTerbaru" -->
+                            <div class="activity">
+                                <div class="table table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Periode Akademik</th>
+                                                <th class="text-end">Biaya Pendidikan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ShowRiwayatTagihan">
+                                            <tr>
+                                                <td colspan="2" class="text-center">
+                                                    <small class="text-danger">Belum Ada Data Yang Ditampilkan</small>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer text-end">
-                            <a href="index.php?Page=Anggota" 
-                                class="btn btn-secondary btn-sm btn-floating" 
-                                data-bs-toggle="tooltip" 
-                                data-bs-placement="top" 
-                                data-bs-custom-class="custom-tooltip" 
-                                data-bs-title="Lihat Selengkapnya Di Halaman Anggota" >
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -138,23 +145,29 @@
                     <div class="card">
                         <div class="card-header">
                             <b class="card-title">
-                                Pembayaran / <small class="text text-muted">5 Record Terbaru</small>
+                                Pembayaran /  <small class="text text-muted">Periode Akademik</small>
                             </b>
                         </div>
                         <div class="card-body">
-                            <div class="activity" id="ShowSimpananTerbaru">
-                                <!-- Menampilkan "ShowSimpananTerbaru"  -->
+                            <div class="activity" id="">
+                                <div class="table table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Periode Akademik</th>
+                                                <th class="text-end">Pembayaran</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ShowRiwayatPembayaran">
+                                            <tr>
+                                                <td colspan="2" class="text-center">
+                                                    <small class="text-danger">Belum Ada Data Yang Ditampilkan</small>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer text-end">
-                            <a href="index.php?Page=Tabungan" 
-                                class="btn btn-secondary btn-sm btn-floating" 
-                                data-bs-toggle="tooltip" 
-                                data-bs-placement="top" 
-                                data-bs-custom-class="custom-tooltip" 
-                                data-bs-title="Lihat Selengkapnya Di Halaman Simpanan" >
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
                         </div>
                     </div>
                 </div>

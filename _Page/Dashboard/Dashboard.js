@@ -1,47 +1,52 @@
 // Fungsi Untuk Menampilkan Grafik
 function ShowGrafik() {
-    // Fungsi untuk mengambil data dari file JSON
-    $.getJSON("_Page/Dashboard/GrafikTransaksi.json", function (data) {
-        // Mengolah data untuk ApexCharts
+    $.getJSON("_Page/Dashboard/GrafikTransaksi.php", function (data) {
         const categories = data.map(item => item.x);
-        const simpananSeries = data.map(item => parseFloat(item.ySimpanan));
-        const pinjamanSeries = data.map(item => parseFloat(item.yPinjaman));
+        const seriesData = data.map(item => parseFloat(item.y));
 
-        // Konfigurasi grafik
         var options = {
             chart: {
                 type: 'area',
                 height: 400
             },
-            series: [
-                {
-                    name: 'Simpanan',
-                    data: simpananSeries
-                }
-            ],
+            series: [{
+                name: 'Pembayaran',
+                data: seriesData
+            }],
             xaxis: {
                 categories: categories
             },
             yaxis: {
                 labels: {
                     formatter: function (value) {
-                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
+                        return new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            maximumFractionDigits: 0
+                        }).format(value);
                     }
                 }
             },
             tooltip: {
                 y: {
                     formatter: function (value) {
-                        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
+                        return new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            maximumFractionDigits: 0
+                        }).format(value);
                     }
                 }
             },
             dataLabels: {
-                enabled: false // Menonaktifkan label nilai pada bar
+                enabled: false
+            },
+            title: {
+                text: 'Grafik Pembayaran Bulanan ' + new Date().getFullYear(),
+                align: 'center'
             }
         };
 
-        // Inisialisasi grafik
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
     });
@@ -66,9 +71,62 @@ function tampilkanTanggal() {
     $('#tanggal_menarik').text(tanggal);
 }
 
+// Fungsi untuk menampilkan dashboard
+function ShowDashboard() {
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Dashboard/CountDashboard.php',
+        dataType: 'json',
+        success: function(data) {
+            $('#put_pengguna').hide().html(data.user).fadeIn('slow');
+            $('#put_siswa_aktif').hide().html(data.siswa).fadeIn('slow');
+            $('#put_periode_akademik').hide().html(data.periode).fadeIn('slow');
+            $('#put_pembayaran').hide().html(data.pembayaran).fadeIn('slow');
+        },
+        error: function(xhr, status, error) {
+            console.error("Gagal mengambil data dashboard:", error);
+        }
+    });
+}
+
+// Fungsi untuk Menampilkan Biaya Pendidikan
+function ShowRiwayatTagihan() {
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Dashboard/TableTagihan.php',
+        success: function(data) {
+            $('#ShowRiwayatTagihan').hide().html(data).fadeIn('slow');
+        },
+        error: function(xhr, status, error) {
+            console.error("Gagal mengambil data dashboard:", error);
+        }
+    });
+}
+
+// Fungsi untuk Menampilkan Pembayaran
+function ShowRiwayatPembayaran() {
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Dashboard/TabelPembayaran.php',
+        success: function(data) {
+            $('#ShowRiwayatPembayaran').hide().html(data).fadeIn('slow');
+        },
+        error: function(xhr, status, error) {
+            console.error("Gagal mengambil data dashboard:", error);
+        }
+    });
+}
+
 $(document).ready(function () {
     //Menampilkan Data Pertama Kali
     ShowGrafik();
+    ShowDashboard();
+    ShowRiwayatTagihan();
+    ShowRiwayatPembayaran();
+
+    ShowDashboard();
+    // Update setiap 10 detik
+    setInterval(ShowDashboard, 10000);
     
     //Jam Menarik
     tampilkanTanggal(); // Tampilkan tanggal saat halaman dimuat
