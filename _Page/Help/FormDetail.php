@@ -41,71 +41,27 @@
                 //Format Waktu
                 $strtotime1=strtotime($datetime_creat);
                 $strtotime2=strtotime($datetime_update);
-                $TanggalCreatFormat=date('d/m/Y H:i:s T',$strtotime1);
+                $TanggalCreatFormat=date('d F Y H:i T',$strtotime1);
                 $TanggalUpdateFormat=date('d/m/Y H:i:s T',$strtotime2);
-?>
-    <div class="row mb-3">
-        <div class="col col-md-4">Author</div>
-        <div class="col col-md-8">
-            <small class="credit text-grayish">
-                <?php echo "$author"; ?>
-            </small>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-4">Judul</div>
-        <div class="col col-md-8">
-            <small class="credit text-grayish">
-                <?php echo "$judul"; ?>
-            </small>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-4">Kategori</div>
-        <div class="col col-md-8">
-            <small class="credit text-grayish">
-                <?php echo "$kategori"; ?>
-            </small>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-4">Tanggal Post</div>
-        <div class="col col-md-8">
-            <small class="credit text-grayish">
-                <?php echo "$TanggalCreatFormat"; ?>
-            </small>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-4">Tanggal Update</div>
-        <div class="col col-md-8">
-            <small class="credit text-grayish">
-                <?php echo "$TanggalUpdateFormat"; ?>
-            </small>
-        </div>
-    </div>
-    <div class="row mb-3 border-1 border-bottom">
-        <div class="col col-md-4 mb-3">Status</div>
-        <div class="col col-md-8 mb-3">
-            <?php 
-                if($status=="Publish"){
-                    echo '<badge class="badge badge-success">'; 
-                    echo '  Publish';
-                    echo '</badge>'; 
-                }else{
-                    echo '<badge class="badge badge-warning">'; 
-                    echo '  Draft';
-                    echo '</badge>'; 
-                }
-            ?>
-        </div>
-    </div>
-    <div class="row mb-3 mt-5">
-        <div class="col col-md-12 scroll_div_200">
-            <?php echo html_entity_decode($deskripsi); ?>
-        </div>
-    </div>
-<?php 
+
+                //Decode
+                $deskripsi = html_entity_decode($deskripsi);
+                echo '
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>'.$judul.'</h2>
+                            <small>Kategori : <i class="text text-grayish">'.$kategori.'</i></small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <small>'.$TanggalCreatFormat.' | '.$author.'</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">'.$deskripsi.'</div>
+                    </div>
+                ';
             }
         }
     } 

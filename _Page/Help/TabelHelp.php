@@ -6,11 +6,9 @@
     date_default_timezone_set("Asia/Jakarta");
     if (empty($SessionIdAccess)) {
         echo '
-            <div class="alert alert-danger">
-                <small>
-                    Sesi akses sudah berakhir. Silahkan <b>login</b> ulang!
-                </small>
-            </div>
+           <td colspan="7" class="text-center">
+                <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang.</small>
+            </td>
         ';
         exit;
     }
@@ -82,152 +80,87 @@
     //Mengatur Halaman
     $JmlHalaman = ceil($jml_data/$batas); 
     if(empty($jml_data)){
-        echo '<div class="row mb-3 border-1 border-bottom">';
-        echo '  <div class="col-md-12 text-center text-danger">';
-        echo '      Tidak Ada Data Bantuan Yang Dapat Ditampilkan';
-        echo '  </div>';
-        echo '</div>';
-    }else{
-        $no = 1+$posisi;
-        //KONDISI PENGATURAN MASING FILTER
-        if(empty($keyword_by)){
-            if(empty($keyword)){
-                $query = mysqli_query($Conn, "SELECT*FROM help ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-            }else{
-                $query = mysqli_query($Conn, "SELECT*FROM help WHERE $whereClause  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-            }
+        echo '
+           <td colspan="7" class="text-center">
+                <small class="text-danger">Tidak Ada Data Dokumentasi Yang Ditampilkan!</small>
+            </td>
+        ';
+        exit;
+    }
+    $no = 1+$posisi;
+    //KONDISI PENGATURAN MASING FILTER
+    if(empty($keyword_by)){
+        if(empty($keyword)){
+            $query = mysqli_query($Conn, "SELECT*FROM help ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
         }else{
-            if(empty($keyword)){
-                $query = mysqli_query($Conn, "SELECT*FROM help  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-            }else{
-                $query = mysqli_query($Conn, "SELECT*FROM help WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-            }
+            $query = mysqli_query($Conn, "SELECT*FROM help WHERE $whereClause  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
         }
-        while ($data = mysqli_fetch_array($query)) {
-            $id_help= $data['id_help'];
-            $author= $data['author'];
-            $judul= $data['judul'];
-            $kategori= $data['kategori'];
-            $deskripsi= $data['deskripsi'];
-            $datetime_creat= $data['datetime_creat'];
-            $datetime_update= $data['datetime_update'];
-            $status= $data['status'];
-            //Format Tangga
-            $strtotime1=strtotime($datetime_creat);
-            $strtotime2=strtotime($datetime_update);
-            $TanggalCreatFormat=date('d/m/Y H:i T',$strtotime1);
-            $TanggalUpdateFormat=date('d/m/Y H:i T',$strtotime2);
-    ?>
-                <div class="row mb-3 border-1 border-bottom">
-                    <div class="col-md-12 mb-2">
-                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="<?php echo "$id_help"; ?>">
-                            <small>
-                                <?php echo "$no. $judul"; ?>
-                            </small>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col col-md-4">
-                                <small class="mobile-text">Kategori</small>
-                            </div>
-                            <div class="col col-md-8">
-                                <small class="mobile-text">
-                                    <code class="text-grayish">
-                                        <?php echo $kategori; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-md-4">
-                                <small class="mobile-text">Author</small>
-                            </div>
-                            <div class="col col-md-8">
-                                <small class="mobile-text">
-                                    <code class="text-grayish">
-                                        <?php echo $author; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col col-md-4">
-                                <small class="mobile-text">Dibuat Pada</small>
-                            </div>
-                            <div class="col col-md-8">
-                                <small class="mobile-text">
-                                    <code class="text-grayish">
-                                        <?php echo $TanggalCreatFormat; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-md-4">
-                                <small class="mobile-text">Update</small>
-                            </div>
-                            <div class="col col-md-8">
-                                <small class="mobile-text">
-                                    <code class="text-grayish">
-                                        <?php echo $TanggalUpdateFormat; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="row">
-                            <div class="col col-md-4">
-                                <small class="mobile-text">Status</small>
-                            </div>
-                            <div class="col col-md-8">
-                                <small class="mobile-text">
-                                    <?php 
-                                        if($status=="Publish"){
-                                            echo '<badge class="badge badge-success">'; 
-                                            echo '  Publish';
-                                            echo '</badge>'; 
-                                        }else{
-                                            echo '<badge class="badge badge-warning">'; 
-                                            echo '  Draft';
-                                            echo '</badge>'; 
-                                        }
-                                    ?>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1 mb-3">
-                        <a class="btn btn-sm btn-grayish btn-rounded btn-block" href="javascript:void(0);" data-bs-toggle="dropdown">
-                            <small><i class="bi bi-three-dots"></i></small>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="<?php echo "$id_help"; ?>">
-                                    <i class="bi bi-info-circle"></i> Detail
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo "$id_help"; ?>">
-                                    <i class="bi bi-pencil-square"></i> Ubah/Edit
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="<?php echo "$id_help"; ?>">
-                                    <i class="bi bi-x"></i> Hapus
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-    <?php 
-                $no++;
-            }
+    }else{
+        if(empty($keyword)){
+            $query = mysqli_query($Conn, "SELECT*FROM help  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+        }else{
+            $query = mysqli_query($Conn, "SELECT*FROM help WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
         }
-    ?> 
+    }
+    while ($data = mysqli_fetch_array($query)) {
+        $id_help= $data['id_help'];
+        $author= $data['author'];
+        $judul= $data['judul'];
+        $kategori= $data['kategori'];
+        $deskripsi= $data['deskripsi'];
+        $datetime_creat= $data['datetime_creat'];
+        $datetime_update= $data['datetime_update'];
+        $status= $data['status'];
+        //Format Tangga
+        $strtotime1=strtotime($datetime_creat);
+        $strtotime2=strtotime($datetime_update);
+        $TanggalCreatFormat=date('d/m/Y H:i T',$strtotime1);
+        $TanggalUpdateFormat=date('d/m/Y H:i T',$strtotime2);
+
+        if($status=="Publish"){
+            $label_status='<badge class="badge badge-success">Publish</badge>';
+        }else{
+            $label_status='<badge class="badge badge-warning">Draft</badge>';
+        }
+        echo '
+            <tr>
+                <td><small>'.$no.'</small></td>
+                <td>
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_help.'">
+                        <small class="text text-decoration-underline">'.$judul.'</small>
+                    </a>
+                </td>
+                <td><small>'.$kategori.'</small></td>
+                <td><small>'.$author.'</small></td>
+                <td><small>'.$TanggalCreatFormat.'</small></td>
+                <td class="text-center"><small>'.$label_status.'</small></td>
+                <td class="text-center">
+                    <a class="btn btn-sm btn-outline-dark btn-floating" href="javascript:void(0);" data-bs-toggle="dropdown">
+                        <small><i class="bi bi-three-dots"></i></small>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_help.'">
+                                <i class="bi bi-info-circle"></i> Detail
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="'.$id_help.'">
+                                <i class="bi bi-pencil-square"></i> Ubah/Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="'.$id_help.'">
+                                <i class="bi bi-x"></i> Hapus
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        ';
+        $no++;
+    }
+?> 
     <script>
         //Creat Javascript Variabel
         var page_count=<?php echo $JmlHalaman; ?>;

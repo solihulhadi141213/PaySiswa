@@ -32,7 +32,7 @@
                         $kategori=validateAndSanitizeInput($kategori);
                         $status=validateAndSanitizeInput($status);
                         $deskripsi=validateAndSanitizeInput($deskripsi);
-                        $author=GetDetailData($Conn,'akses','id_akses',$SessionIdAccess,'nama_akses');
+                        $author=GetDetailData($Conn,'access ','id_access',$SessionIdAccess,'access_name');
                         $datetime_creat=date('Y-m-d H:i:s');
                         $datetime_update=date('Y-m-d H:i:s');
                         //Simpan data

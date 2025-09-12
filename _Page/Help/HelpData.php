@@ -11,7 +11,7 @@
                 <?php
                     echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
                     echo '  <small class="mobile-text">';
-                    echo '      Berikut ini adalah halaman untuk mengelola bantuan pengguna.';
+                    echo '      Berikut ini adalah halaman untuk mengelola informasi dokumentasi aplikasi.';
                     echo '      Halaman ini membantu pengembang dalam menyampaikan petunjuk penggunaan dan berbagai kendala yang mungkin saja terjadi.';
                     echo '      Buat berbagai dokumentasi yang berkaitan dengan cara penggunaan aplikasi sehingga membantu pengguna dalam memahami aplikasi lebih cepat.';
                     echo '      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
@@ -41,8 +41,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" id="MenampilkanTabelHelp">
-                        
+                    <div class="card-body">
+                        <div class="table table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><b>No</b></th>
+                                        <th><b>Judul Bantuan</b></th>
+                                        <th><b>Kategori</b></th>
+                                        <th><b>Author</b></th>
+                                        <th><b>Tanggal</b></th>
+                                        <th><b>status</b></th>
+                                        <th><b>Opsi</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="MenampilkanTabelHelp">
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <small class="text-danger">Belum ada dokumentasi yang ditampilkan</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
