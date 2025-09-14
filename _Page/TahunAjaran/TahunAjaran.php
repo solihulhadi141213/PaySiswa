@@ -55,8 +55,8 @@
                                     <tr>
                                         <th><b>No</b></th>
                                         <th><b>Tahun Akademik</b></th>
-                                        <th><b>Periode Awal</b></th>
-                                        <th><b>Periode Akhir</b></th>
+                                        <th><b>Mulai</b></th>
+                                        <th><b>Berakhir</b></th>
                                         <th><b>Kelas</b></th>
                                         <th><b title="Biaya Pendidikan">BP</b></th>
                                         <th><b>Tagihan</b></th>

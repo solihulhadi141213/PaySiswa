@@ -4,8 +4,11 @@
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
     date_default_timezone_set("Asia/Jakarta");
+
+    //Inisiasi Variabel pertama kali
     $JmlHalaman=0;
     $page=0;
+
     //Validasi Akses
     if(empty($SessionIdAccess)){
         echo '
@@ -107,7 +110,40 @@
                     $label_status='<span class="badge badge-danger"><i class="bi bi-lock"></i> Locked</span>';
                     $tombol_lanjutan='<a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKunci" data-id="'.$id_academic_period .'"><i class="bi bi-check-circle"></i> Aktifkan</a>';
                 }
-                
+
+                //Menghitung Jumlah Kelas
+                $jumlah_kelas=mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_academic_period='$id_academic_period'"));
+
+                //Menghiutng Biaya Pendidikan
+                $jumlah_fee_component=mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component FROM fee_component WHERE id_academic_period='$id_academic_period'"));
+
+                //Menghitung Jumlah Tagihan
+                //1. Looping Data Kelas Berdasarkan Periode
+                $total_tagihan=0;
+                $total_pembayaran=0;
+                $QryKelas = mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_academic_period='$id_academic_period'");
+                while ($DataKelas = mysqli_fetch_array($QryKelas)) {
+                    $id_organization_class = $DataKelas['id_organization_class'];
+                    
+                    //2. Hitung Jumlah Tagihan Berdasarkan id_organization_class
+                    $SumTagihan = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(fee_nominal-fee_discount) AS total_tagihan FROM fee_by_student WHERE id_organization_class='$id_organization_class'"));
+                    $jumlah_tagihan = $SumTagihan['total_tagihan'];
+                    $total_tagihan=$total_tagihan+$jumlah_tagihan;
+
+                    //2. Hitung Jumlah Pembayaran
+                    $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS total_pembayaran FROM payment WHERE id_organization_class='$id_organization_class'"));
+                    $jumlah_pembayaran = $SumPembayaran['total_pembayaran'];
+                    $total_pembayaran=$total_pembayaran+$jumlah_pembayaran;
+                }
+
+                //Ubah total_tagihan Dalam Format Rupiah
+                $total_tagihan=round($total_tagihan);
+                $total_tagihan_format="Rp " . number_format($total_tagihan,0,',','.');
+
+                //Ubah total_pembayaran Dalam Format Rupiah
+                $total_pembayaran=round($total_pembayaran);
+                $total_pembayaran_format="Rp " . number_format($total_pembayaran,0,',','.');
+
                 //Tampilkan Data
                 echo '
                     <tr>
@@ -115,10 +151,10 @@
                         <td><small>'.$academic_period.'</small></td>
                         <td><small>'.date('d/m/Y', strtotime($academic_period_start)).'</small></td>
                         <td><small>'.date('d/m/Y', strtotime($academic_period_end)).'</small></td>
-                        <td><small></small></td>
-                        <td><small></small></td>
-                        <td><small></small></td>
-                        <td><small></small></td>
+                        <td><small title="'.$jumlah_kelas.' Rombongan Belajar">'.$jumlah_kelas.' Rmbl</small></td>
+                        <td><small>'.$jumlah_fee_component.'</small></td>
+                        <td><small>'.$total_tagihan_format.'</small></td>
+                        <td><small>'.$total_pembayaran_format.'</small></td>
                         <td><small>'.$label_status.'</small></td>
                         <td>
                             <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
