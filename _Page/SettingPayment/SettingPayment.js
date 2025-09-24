@@ -1,3 +1,24 @@
+function ShowConnectionSetting() {
+    $('#ConnectionSetting').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/SettingPayment/ConnectionSetting.php',
+        success     : function(data){
+            $('#ConnectionSetting').html(data);
+        }
+    });
+}
+
+function ShowProfileSetting() {
+    $('#TabelProfileSetting').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/SettingPayment/TabelProfileSetting.php',
+        success     : function(data){
+            $('#TabelProfileSetting').html(data);
+        }
+    });
+}
 function generateUUID() {
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
@@ -24,6 +45,272 @@ function generateCustomCode() {
 
     return uniqueCode;
 }
+
+$(document).ready(function() {
+    //Menampilkan Setting Koneksi
+    ShowConnectionSetting();
+
+    //Menampilkan Tabel Profil Setting
+    ShowProfileSetting();
+
+    //Modal Setting Koneksi
+    $('#ModalSettingKoneksi').on('show.bs.modal', function (e) {
+        $('#FormSettingKoneksi').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormSettingKoneksi.php',
+            success     : function(data){
+                $('#FormSettingKoneksi').html(data);
+
+                //Kosongkan Notifikasi
+                $('#NotifikasiSettingKoneksi').html('');
+
+            }
+        });
+    });
+
+    //Simpan Setting Koneksi
+    $('#ProsesSettingKoneksi').on('submit', function(e) {
+        // Mencegah form dari submit secara default
+        e.preventDefault(); 
+
+        // Mengambil data dari form
+        var formData = new FormData(this);
+
+        // Loading
+        $('#NotifikasiSettingKoneksi').html('Loading...');
+
+        // Mengirimkan data melalui AJAX
+        $.ajax({
+            url         : '_Page/SettingPayment/ProsesSettingKoneksi.php',
+            method      : 'POST',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            success: function(response) {
+                $('#NotifikasiSettingKoneksi').html(response);
+                var NotifikasiSettingKoneksiBerhasil=$('#NotifikasiSettingKoneksiBerhasil').html();
+                if(NotifikasiSettingKoneksiBerhasil=="Success"){
+
+                    //Jika berhasil tutup modal
+                    $('#ModalSettingKoneksi').modal('hide');
+
+                    //Tampilkan Swal
+                    Swal.fire(
+                        'Success!',
+                        'Pengaturan Koneksi Payment Gateway Berhasil Disimpan!',
+                        'success'
+                    );
+
+                    //Tampilkan ulang status koneksi
+                    ShowConnectionSetting();
+                }
+            }
+        });
+    });
+
+    //Modal Test Koneksi
+    $('#ModalTestKoneksi').on('show.bs.modal', function (e) {
+        $('#FormTestKoneksi').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormTestKoneksi.php',
+            success     : function(data){
+                $('#FormTestKoneksi').html(data);
+            }
+        });
+    });
+
+    //Modal Tambah Profil Pengaturan
+    $('#ModalTambahProfilPaymentGateway').on('show.bs.modal', function (e) {
+        $('#FormTambahProfilPaymentGateway').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormTambahProfilPaymentGateway.php',
+            success     : function(data){
+                $('#FormTambahProfilPaymentGateway').html(data);
+
+                //Kosongkan Notifikasi
+                $('#NotifikasiTambahProfilPaymentGateway').html('');
+
+            }
+        });
+    });
+
+    //Proses Tambah Profil Payment Gateway
+    $('#ProsesTambahProfilPaymentGateway').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Mengambil data dari form
+        var formData = new FormData(this);
+        
+        // Tombol diubah menjadi "Loading..." saat proses
+        $('#NotifikasiTambahProfilPaymentGateway').html('Loading...');
+        
+        // Mengirimkan data melalui AJAX
+        $.ajax({
+            url         : '_Page/SettingPayment/ProsesTambahProfilPaymentGateway.php',
+            method      : 'POST',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            success: function(response) {
+                $('#NotifikasiTambahProfilPaymentGateway').html(response);
+                var NotifikasiTambahProfilPaymentGatewayBerhasil=$('#NotifikasiTambahProfilPaymentGatewayBerhasil').html();
+                if (NotifikasiTambahProfilPaymentGatewayBerhasil=='Success') {
+                    //Jika Berhasil Tutup Modal
+                    $('#ModalTambahProfilPaymentGateway').modal('hide');
+
+                    //Tampilkan Swal
+                    Swal.fire(
+                        'Success!',
+                        'Profil Pengaturan Berhasil Ditambahkan!',
+                        'success'
+                    );
+
+                    //Tampilkan ulang status koneksi
+                    ShowProfileSetting();
+                }
+            }
+        });
+    });
+
+    //Modal Detail Profil Payment Gateway
+    $('#ModalDetailProfilPaymentGateway').on('show.bs.modal', function (e) {
+        var id_setting_payment = $(e.relatedTarget).data('id');
+        $('#FormDetailProfil').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormDetailProfil.php',
+            data        : {id_setting_payment: id_setting_payment},
+            success     : function(data){
+                $('#FormDetailProfil').html(data);
+            }
+        });
+    });
+
+    //Modal Edit Profil Payment Gateway
+    $('#ModalEditProfilPaymentGateway').on('show.bs.modal', function (e) {
+        var id_setting_payment = $(e.relatedTarget).data('id');
+
+        //Loading Form
+        $('#FormEditProfilPaymentGateway').html("Loading...");
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiEditProfilPaymentGateway').html('');
+
+        //Tampilkan Form Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormEditProfilPaymentGateway.php',
+            data        : {id_setting_payment: id_setting_payment},
+            success     : function(data){
+                $('#FormEditProfilPaymentGateway').html(data);
+            }
+        });
+    });
+
+    //Proses Edit Profil Payment Gateway
+    $('#ProsesEditProfilPaymentGateway').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Mengambil data dari form
+        var formData = new FormData(this);
+        
+        // Tombol diubah menjadi "Loading..." saat proses
+        $('#NotifikasiEditProfilPaymentGateway').html('Loading...');
+        
+        // Mengirimkan data melalui AJAX
+        $.ajax({
+            url         : '_Page/SettingPayment/ProsesEditProfilPaymentGateway.php',
+            method      : 'POST',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            success: function(response) {
+                $('#NotifikasiEditProfilPaymentGateway').html(response);
+                var NotifikasiEditProfilPaymentGatewayBerhasil=$('#NotifikasiEditProfilPaymentGatewayBerhasil').html();
+                if (NotifikasiEditProfilPaymentGatewayBerhasil=='Success') {
+                    //Jika Berhasil Tutup Modal
+                    $('#ModalEditProfilPaymentGateway').modal('hide');
+
+                    //Tampilkan Swal
+                    Swal.fire(
+                        'Success!',
+                        'Profil Pengaturan Berhasil Disimpan!',
+                        'success'
+                    );
+
+                    //Tampilkan ulang status koneksi
+                    ShowProfileSetting();
+                }
+            }
+        });
+    });
+
+    //Modal Hapus Profil Payment Gateway
+    $('#ModalHapusProfilPaymentGateway').on('show.bs.modal', function (e) {
+        var id_setting_payment = $(e.relatedTarget).data('id');
+
+        //Loading Form
+        $('#FormHapusProfilPaymentGateway').html("Loading...");
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiHapusProfilPaymentGateway').html('');
+
+        //Tampilkan Form Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormHapusProfilPaymentGateway.php',
+            data        : {id_setting_payment: id_setting_payment},
+            success     : function(data){
+                $('#FormHapusProfilPaymentGateway').html(data);
+            }
+        });
+    });
+
+    //Proses Hapus Profil Payment Gateway
+    $('#ProsesHapusProfilPaymentGateway').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Mengambil data dari form
+        var formData = new FormData(this);
+        
+        // Tombol diubah menjadi "Loading..." saat proses
+        $('#NotifikasiHapusProfilPaymentGateway').html('Loading...');
+        
+        // Mengirimkan data melalui AJAX
+        $.ajax({
+            url         : '_Page/SettingPayment/ProsesHapusProfilPaymentGateway.php',
+            method      : 'POST',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            success: function(response) {
+                $('#NotifikasiHapusProfilPaymentGateway').html(response);
+                var NotifikasiHapusProfilPaymentGatewayBerhasil=$('#NotifikasiHapusProfilPaymentGatewayBerhasil').html();
+                if (NotifikasiHapusProfilPaymentGatewayBerhasil=='Success') {
+                    //Jika Berhasil Tutup Modal
+                    $('#ModalHapusProfilPaymentGateway').modal('hide');
+
+                    //Tampilkan Swal
+                    Swal.fire(
+                        'Success!',
+                        'Profil Pengaturan Berhasil Dihapus!',
+                        'success'
+                    );
+
+                    //Tampilkan ulang status koneksi
+                    ShowProfileSetting();
+                }
+            }
+        });
+    });
+    
+
+});
+
+
 //Proses Simpan Setting Payment
 $('#ProsesSettingPayment').on('submit', function(e) {
     e.preventDefault(); // Mencegah form dari submit secara default

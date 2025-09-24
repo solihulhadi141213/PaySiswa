@@ -29,21 +29,29 @@
                 </li> 
             </ul>
         </li>
-        <li class="nav-heading">Akses</li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="AksesFitur"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=AksesFitur">
-                <i class="bi bi-app"></i> <span>Fitur Aplikasi</span>
+            <a class="nav-link <?php if($PageMenu=="AksesFitur"||$PageMenu=="AksesEntitas"||$PageMenu=="Akses"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components2-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-key"></i>
+                    <span>Aksesibilitas</span><i class="bi bi-chevron-down ms-auto">
+                </i>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="AksesEntitas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=AksesEntitas">
-                <i class="bi bi-layers"></i> <span>Group/Entitas</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Akses"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Akses">
-                <i class="bi bi-person-circle"></i> <span>Akses Pengguna</span>
-            </a>
+            <ul id="components2-nav" class="nav-content collapse <?php if($PageMenu=="AksesFitur"||$PageMenu=="AksesEntitas"||$PageMenu=="Akses"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=AksesFitur" class="<?php if($PageMenu=="AksesFitur"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Fitur Aplikasi</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=AksesEntitas" class="<?php if($PageMenu=="AksesEntitas"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Group/Entitas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=Akses" class="<?php if($PageMenu=="Akses"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Akses Pengguna</span>
+                    </a>
+                </li> 
+            </ul>
         </li>
         <li class="nav-heading">Referensi</li>
         <li class="nav-item">

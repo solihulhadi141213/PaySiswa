@@ -1,3 +1,190 @@
+<div class="modal fade" id="ModalSettingKoneksi" tabindex="-1" role="dialog" aria-labelledby="ModalSettingKoneksi" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesSettingKoneksi">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dak">
+                        <i class="bi bi-gear"></i> Setting Koneksi
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" id="FormSettingKoneksi">
+                            <!-- Form Setting Koneksi -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="NotifikasiSettingKoneksi">
+                            <!-- Notifikasi Setting Koneksi -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalTestKoneksi" tabindex="-1" role="dialog" aria-labelledby="ModalTestKoneksi" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dak">
+                    <i class="bi bi-chevron-contract"></i> Test Koneksi
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12" id="FormTestKoneksi">
+                        <!-- Form Test Koneksi -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalTambahProfilPaymentGateway" tabindex="-1" role="dialog" aria-labelledby="ModalTambahProfilPaymentGateway" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahProfilPaymentGateway">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dak">
+                        <i class="bi bi-plus"></i> Tambah Profil Pengaturan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" id="FormTambahProfilPaymentGateway">
+                            <!-- Form Tambah Profil Payment Gateway -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="NotifikasiTambahProfilPaymentGateway">
+                            <!-- Notifikasi Tambah Profil Payment Gateway -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalDetailProfilPaymentGateway" tabindex="-1" role="dialog" aria-labelledby="ModalDetailProfilPaymentGateway" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+           <div class="modal-header">
+                <h5 class="modal-title text-dak">
+                    <i class="bi bi-info-circle"></i> Detail Profil Setting
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12" id="FormDetailProfil">
+                        <!-- Form Detail Profil -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditProfilPaymentGateway" tabindex="-1" role="dialog" aria-labelledby="ModalEditProfilPaymentGateway" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+           <form action="javascript:void(0);" id="ProsesEditProfilPaymentGateway">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dak">
+                        <i class="bi bi-pencil"></i> Edit Profil Setting
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-12" id="FormEditProfilPaymentGateway">
+                            <!-- Form Edit Profil Payment Gateway -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12" id="NotifikasiEditProfilPaymentGateway">
+                            <!-- Notifikasi Edit Profil Payment Gateway -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+           </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalHapusProfilPaymentGateway" tabindex="-1" role="dialog" aria-labelledby="ModalHapusProfilPaymentGateway" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+           <form action="javascript:void(0);" id="ProsesHapusProfilPaymentGateway">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dak">
+                        <i class="bi bi-pencil"></i> Hapus Profil Setting
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-12" id="FormHapusProfilPaymentGateway">
+                            <!-- Form Hapus Profil Payment Gateway -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12" id="NotifikasiHapusProfilPaymentGateway">
+                            <!-- Notifikasi Hapus Profil Payment Gateway -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-check-circle"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+           </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="ModalSnapButton" tabindex="-1" role="dialog" aria-labelledby="ModalSnapButton" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
@@ -15,6 +202,7 @@
         </div>
     </div>
 </div>
+
 <!-- Filter Data -->
 <div class="modal fade" id="ModalFilter" tabindex="-1">
     <div class="modal-dialog modal-md">

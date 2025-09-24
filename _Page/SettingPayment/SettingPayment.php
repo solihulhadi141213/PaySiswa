@@ -4,31 +4,34 @@
     if($IjinAksesSaya!=="Ada"){
         include "_Page/Error/NoAccess.php";
     }else{
-        $api_payment_url=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','api_payment_url');
-        $urll_call_back=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','urll_call_back');
-        $url_status=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','url_status');
-        $api_key=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','api_key');
-        $id_marchant=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','id_marchant');
-        $client_key=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','client_key');
-        $server_key=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','server_key');
-        $snap_url=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','snap_url');
-        $production=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','production');
-        $aktif_payment_gateway=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','aktif_payment_gateway');
+       
 ?>
+    <div class="pagetitle">
+        <h1>
+            <a href="">
+                <i class="bi bi-plug"></i> Setting Payment Gateway</a>
+            </a>
+        </h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+                <li class="breadcrumb-item active"> Payment Gateway</li>
+            </ol>
+        </nav>
+    </div>
     <section class="section dashboard">
         <div class="row">
             <div class="col-md-12">
-                <?php
-                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
-                    echo '  <small class="mobile-text">';
-                    echo '          Berikut ini adalah halaman pengaturan payment gateway menggunakan provider <b>Midtrans</b>.';
-                    echo '          Pada halaman ini anda bisa mengatur parameter payment gateway yang dibutuhkan.';
-                    echo '          Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik.';
-                    echo '          Baca panduan integrasi pada <a href="https://docs.midtrans.com/docs/snap-snap-integration-guide">Link Berikut</a> ini.';
-                    echo '          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                    echo '  </small>';
-                    echo '</div>';
-                ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small class="mobile-text">
+                        Berikut ini adalah halaman pengaturan payment gateway menggunakan provider <a href="https://midtrans.com/"><b>Midtrans.com</b></a>. 
+                        Pada halaman ini anda bisa mengatur parameter payment gateway yang dibutuhkan. 
+                        Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik. 
+                         Baca panduan integrasi dengan provider pada <a href="https://docs.midtrans.com/docs/snap-snap-integration-guide"><b>Link Berikut</b></a> ini. 
+                         Koneksi dengan midtrans sepenuhnya menggunakan <a href="https://github.com/solihulhadi141213/SnapProxy">SnapProxy</a>
+                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </small>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -37,233 +40,59 @@
                     <div class="card-body">
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <b>A. Pengaturan Payment Gateway</b>
+                                <h2 class="accordion-header" id="headingProxyConnection">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProxyConnection" aria-expanded="true" aria-controls="collapseProxyConnection">
+                                        <b>A. Koneksi Payment Proxy</b>
                                     </button>
                                 </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                                    <div class="accordion-body mb-4">
-                                        <form action="javascript:void(0);" id="ProsesSettingPayment">
-                                            <div class="row mb-3 mt-4">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="aktif_payment_gateway">Status Pengaturan</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <select name="aktif_payment_gateway" id="aktif_payment_gateway" class="form-control">
-                                                        <option <?php if($aktif_payment_gateway==""){echo "selected";} ?> value="">-Pilih-</option>
-                                                        <option <?php if($aktif_payment_gateway=="Ya"){echo "selected";} ?> value="Ya">Aktif</option>
-                                                        <option <?php if($aktif_payment_gateway=="Tidak"){echo "selected";} ?> value="Tidak">Tidak Aktif</option>
-                                                    </select>
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Apabila anda mengaktifkan pengaturan ini maka semua transaksi akan menggunakan metode pembayaran yang disediakan provider payment gateway.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="api_payment_url">URL API's Payment</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="api_payment_url" id="api_payment_url" class="form-control" required value="<?php echo "$api_payment_url"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Arahkan ke URL dimana API Service Payment Gateway disimpan.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="urll_call_back">URL Call Back</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="urll_call_back" id="urll_call_back" class="form-control" value="<?php echo "$urll_call_back"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            URL yang digunakan untuk memproses pembaharuan status transaksi. (Apabila tidak digunakan, silahkan kosongkan)
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="url_status">URL Status</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="url_status" id="url_status" class="form-control" value="<?php echo "$url_status"; ?>" placeholder="https://">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            URL yang digunakan untuk meminta status transaksi berdasarkan Order ID
-                                                            <ul>
-                                                                <li>Sanbox : https://api.sandbox.midtrans.com</li>
-                                                                <li>Production : https://api.midtrans.com</li>
-                                                            </ul>
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="api_key">API Key</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="api_key" id="api_key" class="form-control" required value="<?php echo "$api_key"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Kode akses yang digunakan untuk validasi penggunaan service payment gateway.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="id_marchant">ID Merchant</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="id_marchant" id="id_marchant" class="form-control" required value="<?php echo "$id_marchant"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Diisi dengan <b>ID Merchant</b> yang sesuai pada <i>Access Key</i> yang disediakan provider.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="client_key">Client Key</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="client_key" id="client_key" class="form-control" required value="<?php echo "$client_key"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Diisi dengan <b>Client Key</b> yang sesuai pada <i>Access Key</i> yang disediakan provider.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="server_key">Server Key</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="server_key" id="server_key" class="form-control" required value="<?php echo "$server_key"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Diisi dengan <b>Server Key</b> yang sesuai pada <i>Access Key</i> yang disediakan provider.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="snap_url">Snap URL</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <input type="text" name="snap_url" id="snap_url" class="form-control" required value="<?php echo "$snap_url"; ?>">
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Diisi dengan <b>Snap URL</b> yang sesuai pada dokumentasi yang disediakan provider.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label class="form-label" for="production">Environment Status</label>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <select name="production" id="production"  class="form-control">
-                                                        <option <?php if($production=="false"){echo "selected";} ?> value="false">Sanbox</option>
-                                                        <option <?php if($production=="true"){echo "selected";} ?> value="true">Production</option>
-                                                    </select>
-                                                    <small>
-                                                        <code class="text text-grayish">
-                                                            Diisi dengan <b>Snap URL</b> yang sesuai pada dokumentasi yang disediakan provider.
-                                                        </code>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12" id="NotificationError">
-
-                                                </div>
-                                            </div>
-                                            <div class="row mt-4 mb-3">
-                                                <div class="col-md-12 text-center">
-                                                    <button type="submit" class="btn btn-md btn-primary btn-rounded" id="NotifikasiSimpanSettingPayment">
-                                                        <i class="bi bi-save"></i> Simpan Pengaturan
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                <div id="collapseProxyConnection" class="accordion-collapse collapse show" aria-labelledby="headingProxyConnection" data-bs-parent="#accordionExample" style="">
+                                    <div class="accordion-body mb-4 mt-3" id="ConnectionSetting">
+                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        <b>B. Status Koneksi Server </b>
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        <b>B. Profil Pengaturan</b>
                                     </button>
                                 </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <?php
-                                            $curl = curl_init();
-                                            curl_setopt_array($curl, array(
-                                                CURLOPT_URL => ''.$api_payment_url.'/InfoSetting.php',
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => '',
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => true,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => 'POST',
-                                                CURLOPT_POSTFIELDS =>'{
-                                                    "api_key":"'.$api_key.'"
-                                                }',
-                                                CURLOPT_HTTPHEADER => array(
-                                                    'Content-Type: application/json'
-                                                ),
-                                                CURLOPT_SSL_VERIFYPEER => false,
-                                                CURLOPT_SSL_VERIFYHOST => 0,
-                                            ));
-                                            $response = curl_exec($curl);
-                                            curl_close($curl);
-                                            $arry_response=json_decode($response, true);
-                                            if($arry_response['status']!=="Success"){
-                                                echo '<div class="row mt-4 mb-3">';
-                                                echo '  <div class="col col-md-12">';
-                                                echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                                                echo '          Tidak ada status koneksi dari server!';
-                                                echo '      </div>';
-                                                echo '  </div>';
-                                                echo '</div>';
-                                            }else{
-                                                if(empty($arry_response['setting']['urll_call_back'])){
-                                                    $urll_call_back="Tidak Ada";
-                                                }else{
-                                                    $urll_call_back=$arry_response['setting']['urll_call_back'];
-                                                }
-                                                echo '<div class="row mt-4 mb-3">';
-                                                echo '  <div class="col col-md-12">';
-                                                echo '      Koneksi Ke Server Berhasil.<br>';
-                                                echo '      Berikut ini adalah informasi parameter koneksi dari server.<br>';
-                                                echo '      <ol>';
-                                                echo '          <li>URL Payment Gateway : <small class="text text-grayish">'.$api_payment_url.'</small></li>';
-                                                echo '          <li>URL Call Back : <small class="text text-grayish">'.$urll_call_back.'</small></li>';
-                                                echo '          <li>ID Marchant : <small class="text text-grayish">'.$arry_response['setting']['id_marchant'].'</small></li>';
-                                                echo '          <li>Client Key : <small class="text text-grayish">'.$arry_response['setting']['client_key'].'</small></li>';
-                                                echo '          <li>Server Key : <small class="text text-grayish">'.$arry_response['setting']['server_key'].'</small></li>';
-                                                echo '          <li>Snap URL : <small class="text text-grayish">'.$arry_response['setting']['snap_url'].'</small></li>';
-                                                echo '          <li>Production : <small class="text text-grayish">'.$arry_response['setting']['production'].'</small></li>';
-                                                echo '      </ol>';
-                                                echo '  </div>';
-                                                echo '</div>';
-                                            }
-                                        ?>
+                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                                    <div class="accordion-body mb-4">
+                                        <div class="row mb-3 mt-3">
+                                            <div class="col-12 text-end">
+                                                <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambahProfilPaymentGateway">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3 mt-3">
+                                            <div class="col-12">
+                                                <div class="table table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><b>No</b></th>
+                                                                <th><b>Nama Profil</b></th>
+                                                                <th><b>ID Marchant</b></th>
+                                                                <th><b>Client Key</b></th>
+                                                                <th><b>Server Key</b></th>
+                                                                <th><b>Environment</b></th>
+                                                                <th><b>Status</b></th>
+                                                                <th><b>Option</b></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="TabelProfileSetting">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <small>Tidak Ada Profile Pengaturan</small>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -405,6 +234,71 @@
                                                 </div>
                                             </div>
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <b>D. Transaksi </b>
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <?php
+                                            $curl = curl_init();
+                                            curl_setopt_array($curl, array(
+                                                CURLOPT_URL => ''.$api_payment_url.'/InfoSetting.php',
+                                                CURLOPT_RETURNTRANSFER => true,
+                                                CURLOPT_ENCODING => '',
+                                                CURLOPT_MAXREDIRS => 10,
+                                                CURLOPT_TIMEOUT => 0,
+                                                CURLOPT_FOLLOWLOCATION => true,
+                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                CURLOPT_CUSTOMREQUEST => 'POST',
+                                                CURLOPT_POSTFIELDS =>'{
+                                                    "api_key":"'.$api_key.'"
+                                                }',
+                                                CURLOPT_HTTPHEADER => array(
+                                                    'Content-Type: application/json'
+                                                ),
+                                                CURLOPT_SSL_VERIFYPEER => false,
+                                                CURLOPT_SSL_VERIFYHOST => 0,
+                                            ));
+                                            $response = curl_exec($curl);
+                                            curl_close($curl);
+                                            $arry_response=json_decode($response, true);
+                                            if($arry_response['status']!=="Success"){
+                                                echo '<div class="row mt-4 mb-3">';
+                                                echo '  <div class="col col-md-12">';
+                                                echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                                echo '          Tidak ada status koneksi dari server!';
+                                                echo '      </div>';
+                                                echo '  </div>';
+                                                echo '</div>';
+                                            }else{
+                                                if(empty($arry_response['setting']['urll_call_back'])){
+                                                    $urll_call_back="Tidak Ada";
+                                                }else{
+                                                    $urll_call_back=$arry_response['setting']['urll_call_back'];
+                                                }
+                                                echo '<div class="row mt-4 mb-3">';
+                                                echo '  <div class="col col-md-12">';
+                                                echo '      Koneksi Ke Server Berhasil.<br>';
+                                                echo '      Berikut ini adalah informasi parameter koneksi dari server.<br>';
+                                                echo '      <ol>';
+                                                echo '          <li>URL Payment Gateway : <small class="text text-grayish">'.$api_payment_url.'</small></li>';
+                                                echo '          <li>URL Call Back : <small class="text text-grayish">'.$urll_call_back.'</small></li>';
+                                                echo '          <li>ID Marchant : <small class="text text-grayish">'.$arry_response['setting']['id_marchant'].'</small></li>';
+                                                echo '          <li>Client Key : <small class="text text-grayish">'.$arry_response['setting']['client_key'].'</small></li>';
+                                                echo '          <li>Server Key : <small class="text text-grayish">'.$arry_response['setting']['server_key'].'</small></li>';
+                                                echo '          <li>Snap URL : <small class="text text-grayish">'.$arry_response['setting']['snap_url'].'</small></li>';
+                                                echo '          <li>Production : <small class="text text-grayish">'.$arry_response['setting']['production'].'</small></li>';
+                                                echo '      </ol>';
+                                                echo '  </div>';
+                                                echo '</div>';
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </div>

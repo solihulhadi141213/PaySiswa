@@ -1718,4 +1718,57 @@
         $Qry->close();
         return $response;
     }
+
+    //CURL POST
+    function CurlPost($postData,$url) {
+       // Mulai CURL untuk Get Token
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_CUSTOMREQUEST  => 'POST',
+            CURLOPT_POSTFIELDS     => $postData,
+            CURLOPT_HTTPHEADER     => array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($postData)
+            ),
+            CURLOPT_SSL_VERIFYHOST => 0,  // ⚠️ Disable SSL check (testing only)
+            CURLOPT_SSL_VERIFYPEER => 0   // ⚠️ Disable SSL check (testing only)
+        ));
+        
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curlErrNo = curl_errno($curl);
+        $curlErr   = curl_error($curl);
+        curl_close($curl);
+        if ($curlErrNo) {
+            $response= htmlspecialchars($curlErr);
+        }else{  
+            return $response;
+        }
+    }
+
+    //Curl GET header
+    function list_setting($x_token,$url) {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => ''.$url.'/_API/list_setting.php',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'x-token: '.$x_token.''
+            ),
+            CURLOPT_SSL_VERIFYHOST => 0,  // ⚠️ Disable SSL check (testing only)
+            CURLOPT_SSL_VERIFYPEER => 0   // ⚠️ Disable SSL check (testing only)
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
 ?>
