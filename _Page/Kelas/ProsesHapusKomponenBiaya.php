@@ -67,6 +67,21 @@
             exit;
         }
 
+        // ===== Hapus dari  fee_by_student  =====
+        $stmt2 = $Conn->prepare("DELETE FROM fee_by_student WHERE id_organization_class=? AND id_fee_component=?");
+        $stmt2->bind_param("ii", $id_organization_class, $id_fee_component);
+        $HapusStudent = $stmt2->execute();
+        $stmt2->close();
+
+        //Jika Berhasil
+        if(!$HapusStudent){
+            echo json_encode([
+                "status" => "error",
+                "message" => "Gagal menghapus data dari fee_by_student!"
+            ]);
+            exit;
+        }
+
         echo json_encode([
             "status" => "success",
             "message" => "Komponen biaya berhasil dihapus dari kelas dan siswa terkait!"

@@ -167,18 +167,15 @@
     //Looping periode akademik
     echo '<div class="accordion accordion-flush" id="accordionFlushExample">';
         $no_tahun_akademik=1;
-        $query_periode_akademik = mysqli_query($Conn, "SELECT DISTINCT id_organization_class FROM fee_by_student ORDER BY id_organization_class ASC");
+        $query_periode_akademik = mysqli_query($Conn, "SELECT * FROM academic_period ORDER BY id_academic_period ASC");
         while ($data_periode_akademik = mysqli_fetch_array($query_periode_akademik)) {
-            $id_organization_class = $data_periode_akademik['id_organization_class'];
-            //Buka Periode Akademik
-            $id_academic_period=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
-            $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
-
+            $id_academic_period = $data_periode_akademik['id_academic_period'];
+            $academic_period = $data_periode_akademik['academic_period'];
 ?>
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-heading<?php echo $no_tahun_akademik;?>">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo $no_tahun_akademik;?>" aria-expanded="false" aria-controls="flush-collapse<?php echo $no_tahun_akademik;?>">
-                        <small><?php echo "$no_tahun_akademik. Tahun Akademik $academic_period";?></small>
+                        <small><?php echo "$no_tahun_akademik. Tahun Akademik ($academic_period)";?></small>
                     </button>
                 </h2>
                 <div id="flush-collapse<?php echo $no_tahun_akademik;?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?php echo $no_tahun_akademik;?>" data-bs-parent="#accordionFlushExample">

@@ -50,7 +50,7 @@
 
     //Buka Nominal dan diskon
     $fee_nominal    =GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'fee_nominal');
-    $fee_discount   =GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'fee_discount');
+   
 
     echo '
         <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
@@ -107,7 +107,7 @@
             </div>
             <div class="col-1"><small>:</small></div>
             <div class="col-7">
-                <input type="text" name="fee_discount" id="fee_discount" class="form-control form-money" value="'.$fee_discount.'">
+                <input type="text" name="fee_discount" id="fee_discount" class="form-control form-money" value="0">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="UpdateYangSudahAda" id="UpdateYangSudahAda" value="1">
                     <label class="form-check-label" for="UpdateYangSudahAda">

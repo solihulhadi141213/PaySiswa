@@ -46,6 +46,22 @@ function generateCustomCode() {
     return uniqueCode;
 }
 
+// Fungsi untuk memformat angka dengan tanda titik setiap ribuan
+function formatRupiah(angka) {
+    var number_string = angka.replace(/[^,\d]/g, '').toString(), // Hapus karakter selain angka dan koma
+        split = number_string.split(','), 
+        sisa = split[0].length % 3, 
+        rupiah = split[0].substr(0, sisa), 
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+    
+    // Tambahkan titik jika ada ribuan
+    if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+    return rupiah;
+}
+
 $(document).ready(function() {
     //Menampilkan Setting Koneksi
     ShowConnectionSetting();
@@ -306,6 +322,57 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Modal Creat Snap Token
+    $('#ModalCreatSnapToken').on('show.bs.modal', function (e) {
+        //Loading Form
+        $('#FormCreatSnapToken').html("Loading...");
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiCreatSnapToken').html('');
+
+        //Tampilkan Form Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormCreatSnapToken.php',
+            success     : function(data){
+                $('#FormCreatSnapToken').html(data);
+            }
+        });
+    });
+
+    // Tombol Generate Kode Transaksi dengan Event Delegation
+    $(document).on('click', '#GenerateKodeTransaksi', function() {
+        var kode_transaksi = generateCustomCode(); 
+        $('#kode_transaksi').val(kode_transaksi);
+    });
+
+    // Tombol Generate Order ID dengan Event Delegation
+    $(document).on('click', '#GenerateOrderId', function() {
+        var uniqueCode = generateUUID();
+        $('#order_id').val(uniqueCode);
+    });
+
+    // Gross Amount -> hanya angka & auto format rupiah dengan Event Delegation
+    $(document).on('input', '#gross_amount', function() {
+        var input = $(this).val();
+        $(this).val(formatRupiah(input));
+    });
+
+    $(document).on('keypress', '#gross_amount', function(e) {
+        var charCode = (e.which) ? e.which : e.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            e.preventDefault();
+        }
+    });
+
+    // Phone -> hanya angka
+    $(document).on('keypress', '#phone', function(e) {
+        var charCode = (e.which) ? e.which : e.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            e.preventDefault();
+        }
+    });
     
 
 });
@@ -358,51 +425,7 @@ $('#ProsesSettingPayment').on('submit', function(e) {
         }
     });
 });
-// Ketika tombol GenerateKodeTransaksi di klik
-$('#GenerateKodeTransaksi').on('click', function() {
-    var kode_transaksi = generateCustomCode(); // Generate kode dengan format 'PRCB-[unik 31 karakter]'
-    $('#kode_transaksi').val(kode_transaksi); // Mengisi input dengan kode yang dihasilkan
-});
-// Ketika tombol GenerateOrderId di klik
-$('#GenerateOrderId').on('click', function() {
-    var uniqueCode = generateUUID(); // Generate kode unik 36 karakter
-    $('#order_id').val(uniqueCode); // Mengisi input order_id dengan kode unik
-});
-// Fungsi untuk memformat angka dengan tanda titik setiap ribuan
-function formatRupiah(angka) {
-    var number_string = angka.replace(/[^,\d]/g, '').toString(), // Hapus karakter selain angka dan koma
-        split = number_string.split(','), 
-        sisa = split[0].length % 3, 
-        rupiah = split[0].substr(0, sisa), 
-        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-    
-    // Tambahkan titik jika ada ribuan
-    if (ribuan) {
-        separator = sisa ? '.' : '';
-        rupiah += separator + ribuan.join('.');
-    }
-    return rupiah;
-}
-// Event untuk mencegah karakter selain angka
-$('#gross_amount').on('input', function(e) {
-    var input = $(this).val();
-    $(this).val(formatRupiah(input)); // Format nilai input menjadi format rupiah
-});
 
-// Mencegah karakter selain angka yang diinput
-$('#gross_amount').on('keypress', function(e) {
-    var charCode = (e.which) ? e.which : e.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) { // Hanya izinkan angka (0-9)
-        e.preventDefault();
-    }
-});
-// Mencegah karakter selain angka yang diinput
-$('#phone').on('keypress', function(e) {
-    var charCode = (e.which) ? e.which : e.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) { // Hanya izinkan angka (0-9)
-        e.preventDefault();
-    }
-});
 //Proses Generate Snap Token
 $('#GenerateSnapToken').on('click', function(e) {
     e.preventDefault();

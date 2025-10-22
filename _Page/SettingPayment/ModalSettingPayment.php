@@ -185,6 +185,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="ModalCreatSnapToken" tabindex="-1" role="dialog" aria-labelledby="ModalCreatSnapToken" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+           <form action="javascript:void(0);" id="ProsesCreatSnapToken">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dak">
+                        <i class="bi bi-plus"></i> Creat Snap Token
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" id="FormCreatSnapToken">
+                            <!-- Form Creat Snap Token -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12" id="NotifikasiCreatSnapToken">
+                            <!-- Notifikasi Creat Snap Token -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        Lanjutkan <i class="bi bi-arrow-right-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+           </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="ModalSnapButton" tabindex="-1" role="dialog" aria-labelledby="ModalSnapButton" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">

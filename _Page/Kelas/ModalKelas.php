@@ -55,6 +55,40 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalCopy" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesCopy">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-copy"></i> Copy Dari Periode Lain
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12" id="FormCopy">
+                            <!-- Form Copy -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12" id="NotifikasiCopy">
+                            <!-- Notifikasi Copy -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="ModalDetail" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -414,6 +448,201 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalTagihanSiswa" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="btn btn-md btn-info btn-floating" id="show_filter_form_tagihan_siswa" title="Filter Tagihan Siswa">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="p-3 border-bottom" id="filter_form_tagihan_siswa" style="display:none;">
+                <form action="javascript:void(0);" id="ProsesPencarianTagihanSiswa">
+                    <input type="hidden" name="page" id="put_page_for_tagihan_siswa" value="1">
+                    <input type="hidden" name="id_organization_class" id="put_id_organization_class_for_tagihan_siswa">
+                    <div class="row">
+                        <div class="col-md-2 mb-2">
+                            <label for="limit_tagihan_siswa"><small>Limit/Batas</small></label>
+                            <select name="batas" id="limit_tagihan_siswa" class="form-control">
+                                <option value="5">5</option>
+                                <option selected value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label for="list_fee_component">
+                                <small>Komponen Biaya</small>
+                            </label>
+                            <select name="id_fee_component" id="list_fee_component" class="form-control">
+                                <option value="">Pilih</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label for="list_siswa">
+                                <small>Nama Siswa</small>
+                            </label>
+                            <select name="id_student" id="list_siswa" class="form-control">
+                                <option value="">Pilih</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <br>
+                            <button type="submit" class="btn btn-md btn-primary btn-block">
+                                <i class="bi bi-filter"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="p-3">
+                <div class="row">
+                    <div class="col-12 text-center mb-3" id="title_tagihan_siswa"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <form action="javascript:void(0);" id="ProsesTabelTagihanSiswa">
+                            <div class="table table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="check_all" class="form-check-input" value="check_all"></th>
+                                            <th><b>No</b></th>
+                                            <th><b>Siswa</b></th>
+                                            <th><b>Komponen</b></th>
+                                            <th><b>Nominal</b></th>
+                                            <th><b>Potongan</b></th>
+                                            <th><b>Jumlah</b></th>
+                                            <th><b>Pembayaran</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="TabelTagihanSiswa">
+                                        <tr>
+                                            <td colspan="8" class="text-center">
+                                                <small>No Data</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 border-top" id="konfirmasi_proses_multiple" style="display:none;">
+            </div>
+            <div class="p-3">
+                <div class="row">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-md btn-outline-primary btn-rounded"  data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i> Option
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                            <li class="dropdown-header text-start">
+                                <h6>Option</h6>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditTagihanSiswaMultiple">
+                                    <i class="bi bi-pencil"></i> Ubah Tagihan
+                                </a>
+                                 <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihanSiswaMultiple">
+                                    <i class="bi bi-x-circle"></i> Hapus Tagihan
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-9 text-end">
+                        <button type="button" class="btn btn-md btn-primary btn-floating" id="prev_button_tagihan_siswa">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button type="button" disabled class="btn btn-md btn-primary btn-rounded" id="page_info_tagihan_siswa">
+                            0 / 0
+                        </button>
+                        <button type="button" class="btn btn-md btn-primary btn-floating" id="next_button_tagihan_siswa">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-primary">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditTagihanSiswaMultiple" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditTagihanSiswaMultiple">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-pencil"></i> Edit Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditTagihanSiswaMultiple">
+                            <!-- Form Hapus Tagihan -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiEditTagihanSiswaMultiple">
+                            <!-- Notifikasi Hapus Tagihan Multi -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" disabled class="btn btn-danger btn-rounded" id="konfirmasi_edit_tagihan_siswa_multiple">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded Kembali_ke_tagihan_multi">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusTagihanSiswaMultiple" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-tarsh"></i> Hapus Tagihan Siswa
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormHapusTagihanSiswaMultiple">
+                        <!-- Form Hapus Tagihan -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" id="NotifikasiHapusTagihanSiswaMultiple">
+                        <!-- Notifikasi Hapus Tagihan Multi -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" disabled class="btn btn-danger btn-rounded" id="konfirmasi_hapus_tagihan_siswa_multiple">
+                    <i class="bi bi-trash"></i> Hapus
+                </button>
+                <button type="button" class="btn btn-secondary btn-rounded Kembali_ke_tagihan_multi">
+                    <i class="bi bi-chevron-left"></i> Kembali
+                </button>
+            </div>
         </div>
     </div>
 </div>

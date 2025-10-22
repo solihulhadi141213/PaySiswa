@@ -146,6 +146,20 @@ function initializeMoneyInputs() {
     });
 }
 
+//Fungsi Menampilkan Data Tagihan Siswa
+function ShowTagihanSiswa() {
+    var ProsesPencarianTagihanSiswa=$('#ProsesPencarianTagihanSiswa').serialize();
+    $('#TabelTagihanSiswa').html('<tr><td colspan="7" class="text-center"><small>Loading...</small></td></tr>');
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Kelas/TabelTagihanSiswa.php',
+        data    : ProsesPencarianTagihanSiswa,
+        success: function(data) {
+            $('#TabelTagihanSiswa').html(data);
+        }
+    });
+}
+
 
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
@@ -186,6 +200,47 @@ $(document).ready(function() {
             data        : {KeywordBy: KeywordBy},
             success     : function(data){
                 $('#FormFilter').html(data);
+            }
+        });
+    });
+
+    //Modal Copy
+    $('#ModalCopy').on('show.bs.modal', function (e) {
+
+        //Tangkap id_academic_period
+        var id_academic_period = $('#id_academic_period').val();
+
+        //Remove Notifikasi
+        $('#NotifikasiCopy').html('');
+
+        //Loading
+        $('#FormCopy').html('Loading...');
+
+        //Buka Form Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/FormCopy.php',
+            data 	    :  {id_academic_period: id_academic_period},
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#FormCopy').html(data);
+            }
+        });
+
+    });
+
+    //Proses Copy Periode Pendidikan
+    $('#ProsesCopy').submit(function(){
+        $('#NotifikasiCopy').html('Loading...');
+        var ProsesCopy = $('#ProsesCopy').serialize();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/ProsesCopy.php',
+            data 	    :  ProsesCopy,
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#NotifikasiCopy').html(data);
+                filterAndLoadTable();
             }
         });
     });
@@ -699,5 +754,220 @@ $(document).ready(function() {
             });
         }
     });
+
+    //Modal Tagihan Siswa
+    $(document).on('click', '.show_modal_tagihan_siswa', function(){
+        //tampilkan modal
+        $('#ModalTagihanSiswa').modal('show');
+
+        //Tangkap id_organization_class
+        var id_organization_class   = $(this).data('id');
+
+        //Loading
+        $('#put_id_organization_class_for_tagihan_siswa').val(id_organization_class);
+
+        //Tampilkan ke form id_fee_component_tagihan_siswa Dengan ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/list_fee_component.php',
+            data        : {id_organization_class: id_organization_class},
+            success     : function(data){
+                $('#list_fee_component').html(data);
+            }
+        });
+
+
+        //Tampilkan ke form list_siswa Dengan ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Kelas/list_siswa.php',
+            data        : {id_organization_class: id_organization_class},
+            success     : function(data){
+                $('#list_siswa').html(data);
+            }
+        });
+
+        //Tampilkan Data
+        ShowTagihanSiswa();
+    });
+
+    // Awal: sembunyikan form filter
+    $('#filter_form_tagihan_siswa').hide();
+
+    // Event klik tombol
+    $('#show_filter_form_tagihan_siswa').on('click', function() {
+        var filterForm = $('#filter_form_tagihan_siswa');
+        var icon = $(this).find('i');
+
+        // Toggle tampil/sembunyi dengan animasi
+        filterForm.slideToggle(300);
+
+        // Ganti ikon panah
+        if (icon.hasClass('bi-chevron-down')) {
+            icon.removeClass('bi-chevron-down').addClass('bi-chevron-up');
+        } else {
+            icon.removeClass('bi-chevron-up').addClass('bi-chevron-down');
+        }
+    });
+
+    //Submit ProsesPencarianTagihanSiswa
+    $('#ProsesPencarianTagihanSiswa').submit(function(){
+        $('#put_page_for_tagihan_siswa').val("1");
+        ShowTagihanSiswa();
+    });
+
+    // Check/uncheck semua tagihan siswa
+    $('input[name="check_all"]').on('change', function() {
+        let isChecked = $(this).is(':checked');
+        $('#TabelTagihanSiswa input[name="id_fee_by_student[]"]').prop('checked', isChecked);
+    });
+
+    //Pagging tagihan siswa
+    $(document).on('click', '#next_button_tagihan_siswa', function() {
+        var page_now = parseInt($('#put_page_for_tagihan_siswa').val(), 10); // Pastikan nilai diambil sebagai angka
+        var next_page = page_now + 1;
+        $('#put_page_for_tagihan_siswa').val(next_page);
+        ShowTagihanSiswa(0);
+    });
+    $(document).on('click', '#prev_button_tagihan_siswa', function() {
+        var page_now = parseInt($('#put_page_for_tagihan_siswa').val(), 10); // Pastikan nilai diambil sebagai angka
+        var next_page = page_now - 1;
+        $('#put_page_for_tagihan_siswa').val(next_page);
+        ShowTagihanSiswa(0);
+    });
+
+    //Modal 'ModalEditTagihanSiswaMultiple'
+    $('#ModalEditTagihanSiswaMultiple').on('show.bs.modal', function (e) {
+        //Tangkap data dari form
+        var ProsesTabelTagihanSiswa=$('#ProsesTabelTagihanSiswa').serialize();
+
+        //Loading
+        $('#FormEditTagihanSiswaMultiple').html('Loading..');
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiEditTagihanSiswaMultiple').html('');
+
+        //Tampilkan Dengan Ajax
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Kelas/FormEditTagihanSiswaMultiple.php',
+            data    : ProsesTabelTagihanSiswa,
+            success: function(data) {
+                $('#FormEditTagihanSiswaMultiple').html(data);
+            }
+        });
+    });
+
+    // ketika  'konfirmasi_edit_tagihan_siswa_multiple' di click
+    $(document).on('click', '#konfirmasi_edit_tagihan_siswa_multiple', function() {
+        
+        //Tangkap data dari form
+        var ProsesEditTagihanSiswaMultiple=$('#ProsesEditTagihanSiswaMultiple').serialize();
+
+        //Loading
+        $('#NotifikasiEditTagihanSiswaMultiple').html('Loading...');
+
+        //Tampilkan Dengan Ajax
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Kelas/ProsesEditTagihanSiswaMultiple.php',
+            data    : ProsesEditTagihanSiswaMultiple,
+            success: function(data) {
+                $('#NotifikasiEditTagihanSiswaMultiple').html(data);
+
+                //Tangkap hasil Proses
+                var NotifikasiEditTagihanSiswaMultipleBerhasil=$('#NotifikasiEditTagihanSiswaMultipleBerhasil').html();
+
+                //Jika Berhasil
+                if(NotifikasiEditTagihanSiswaMultipleBerhasil=="Berhasil"){
+                    $('#NotifikasiEditTagihanSiswaMultiple').html('');
+
+                    //Tutup Modal 'ModalHapusTagihanSiswaMultiple'
+                    $('#ModalEditTagihanSiswaMultiple').modal('hide');
+
+                    //Tampilkan Kembali modal 'ModalTagihanSiswa'
+                    $('#ModalTagihanSiswa').modal('show');
+
+                    //Reload Data
+                    ShowTagihanSiswa();
+
+                    //reload data kelas
+                    filterAndLoadTable();
+                }
+            }
+        });
+    });
+
+    //Ketika click 'HapusTagihanMultiple'
+    $('#ModalHapusTagihanSiswaMultiple').on('show.bs.modal', function (e) {
+        //Tangkap data dari form
+        var ProsesTabelTagihanSiswa=$('#ProsesTabelTagihanSiswa').serialize();
+
+        //Loading
+        $('#FormHapusTagihanSiswaMultiple').html('Loading..');
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiHapusTagihanSiswaMultiple').html('');
+
+        //Tampilkan Dengan Ajax
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Kelas/KonfirmasiHapusMultiple.php',
+            data    : ProsesTabelTagihanSiswa,
+            success: function(data) {
+                $('#FormHapusTagihanSiswaMultiple').html(data);
+            }
+        });
+    });
+
+    // ketika  'konfirmasi_hapus_tagihan_siswa_multiple' di click
+    $(document).on('click', '#konfirmasi_hapus_tagihan_siswa_multiple', function() {
+        
+        //Tangkap data dari form
+        var ProsesTabelTagihanSiswa=$('#ProsesTabelTagihanSiswa').serialize();
+
+        //Loading
+        $('#NotifikasiHapusTagihanSiswaMultiple').html('Loading...');
+
+        //Tampilkan Dengan Ajax
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Kelas/ProsesHapusTagihanMulti.php',
+            data    : ProsesTabelTagihanSiswa,
+            success: function(data) {
+                $('#NotifikasiHapusTagihanSiswaMultiple').html(data);
+
+                //Tangkap hasil Proses
+                var NotifikasiHapusTagihanSiswaMultipleBerhasil=$('#NotifikasiHapusTagihanSiswaMultipleBerhasil').html();
+
+                //Jika Berhasil
+                if(NotifikasiHapusTagihanSiswaMultipleBerhasil=="Berhasil"){
+                    $('#NotifikasiTambahTagihanMulti').html('');
+
+                    //Tutup Modal 'ModalHapusTagihanSiswaMultiple'
+                    $('#ModalHapusTagihanSiswaMultiple').modal('hide');
+
+                    //Tampilkan Kembali modal 'ModalTagihanSiswa'
+                    $('#ModalTagihanSiswa').modal('show');
+
+                    //Reload Data
+                    ShowTagihanSiswa();
+
+                    //reload data kelas
+                    filterAndLoadTable();
+                }
+            }
+        });
+    });
+
+    //Tombol Kembali
+    $(document).on('click', '.Kembali_ke_tagihan_multi', function() {
+        $('#ModalEditTagihanSiswaMultiple').modal('hide');
+        $('#ModalHapusTagihanSiswaMultiple').modal('hide');
+        $('#ModalTagihanSiswa').modal('show');
+    });
+
+    
+
 
 });

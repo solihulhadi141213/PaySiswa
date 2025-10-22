@@ -39,3 +39,6 @@ Dikembangkan khusus untuk sekolah swasta agar administrasi keuangan lebih transp
 1. Clone repository ini:
    ```bash
    git clone https://github.com/solihulhadi141213/PaySiswa.git
+
+# Referensi
+https://drawsql.app/teams/rsu-el-syifa/diagrams/school-system

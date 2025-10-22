@@ -33,13 +33,13 @@
     $fee_discount = !empty($_POST['fee_discount']) ? str_replace('.', '', $_POST['fee_discount']) : 0;
 
     //Hitung Jumlah Data Siswa
-    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_student FROM student WHERE id_organization_class='$id_organization_class'"));
+    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_student FROM student WHERE id_organization_class='$id_organization_class' AND student_status='Terdaftar'"));
 
     //Mulai transaksi
     $Conn->autocommit(false);
     $all_success = true;
 
-    $query = mysqli_query($Conn, "SELECT * FROM student WHERE id_organization_class='$id_organization_class'");
+    $query = mysqli_query($Conn, "SELECT * FROM student WHERE id_organization_class='$id_organization_class' AND student_status='Terdaftar'");
     while ($data = mysqli_fetch_array($query)) {
         $id_student = $data['id_student'];
         $id_organization_class= $data['id_organization_class'];

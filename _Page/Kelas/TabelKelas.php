@@ -178,6 +178,11 @@
                                 <i class="bi bi-table"></i> Biaya Pendidikan
                             </a>
                         </li>
+                         <li>
+                            <a class="dropdown-item show_modal_tagihan_siswa" href="javascript:void(0)" data-id="'.$id_organization_class .'">
+                                <i class="bi bi-coin"></i> Tagihan Siswa
+                            </a>
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -195,5 +200,7 @@
     
     //Put Into Pagging Element
     $('#put_jumlah_data').html(' '+jumlah_level+' / '+jml_data+'');
+
+    
     
 </script>

@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-9 col-sx-9 col-9">
+                            <div class="col-xl-3 col-lg-4 col-md-8 col-sx-8 col-8">
                                 <label for="id_academic_period">
                                     <small>Pilih Periode Akademik</small>
                                 </label>
@@ -52,8 +52,11 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-3 col-sx-3 col-3 text-end">
+                            <div class="col-xl-9 col-lg-8 col-md-4 col-sx-4 col-4 text-end">
                                 <br>
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalCopy" title="Copy dari periode lain">
+                                    <i class="bi bi-copy"></i>
+                                </button>
                                 <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambah" title="Tambah Data">
                                     <i class="bi bi-plus"></i>
                                 </button>
