@@ -17,15 +17,22 @@ Dikembangkan khusus untuk sekolah swasta agar administrasi keuangan lebih transp
 - 🔐 **Multi-User Role**  
   Hak akses berbeda untuk admin, tata usaha, dan pihak sekolah.  
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 - **Bahasa Pemrograman**:  
   - PHP 8.0.30  
-  - JavaScript (JQuery, AJAX)  
-  - HTML5, CSS3  
+  - JavaScript
+  - HTML5
+  - CSS3  
 - **Database**: MySQL 9.1.0  
 - **Framework & Library**:  
-  - Bootstrap 5 (UI/UX)  
-  - JQuery  
+  - Bootstrap 5 (UI/UX)
+  - mdb-ui-kit 8.2.0  
+  - JQuery  3.7.1
+  - sweetalert2
+  - jspdf 3.0.0
+  - phpqrcode 1.1.4
+  - phpoffice/phpspreadsheet 
+  - mpdf/mpdf
 - **Arsitektur**: Web-based application (Client–Server)  
 
 ## 📂 Struktur Modul Aplikasi
@@ -40,5 +47,6 @@ Dikembangkan khusus untuk sekolah swasta agar administrasi keuangan lebih transp
    ```bash
    git clone https://github.com/solihulhadi141213/PaySiswa.git
 
-# Referensi
-https://drawsql.app/teams/rsu-el-syifa/diagrams/school-system
+## Referensi
+- Web Admin Template : https://bootstrapmade.com/bootstrap-admin-templates/
+- Relation Database Design : https://drawsql.app/teams/rsu-el-syifa/diagrams/school-system

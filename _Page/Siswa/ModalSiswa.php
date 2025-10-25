@@ -540,3 +540,48 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalExportTagihanSiswa" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="_Page/Siswa/ProsesExportTagihanSiswa.php" target="_blank" method="GET">
+                <input type="hidden" name="id" id="put_id_siswa_export_tagihan">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-download"></i> Export Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            Pilih Format Data :
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipe_file" id="tipe_file_pdf" value="PDF" checked>
+                                <label class="form-check-label" for="tipe_file_pdf">
+                                    <small>PDF</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipe_file" id="tipe_file_html" value="HTML">
+                                <label class="form-check-label" for="tipe_file_html">
+                                    <small>HTML</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

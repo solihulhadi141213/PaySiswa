@@ -422,4 +422,21 @@ $(document).ready(function() {
         });
     });
 
+    //Modal Export Tagihan
+    $('#ModalExportTagihan').on('show.bs.modal', function (e) {
+
+        //Tangkap Data Dari Form Tagihan
+        var ProsesFilterTagihan = $('#ProsesFilterTagihan').serialize();
+
+        // Kirim Ke Form Export Dengan AJAX
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Tagihan/FormExportTagihan.php',
+            data    : ProsesFilterTagihan,
+            success : function(data) {
+                $('#FormExportTagihan').html(data);
+            }
+        });
+    });
+
 });

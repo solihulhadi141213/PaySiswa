@@ -30,24 +30,29 @@
 <div class="modal fade" id="ModalTagihanSiswa" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
-                    <i class="bi bi-info-circle"></i> Daftar Tagihan Siswa
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12" id="FormTagihanSiswa">
-                        <!-- Form Tagihan Siswa -->
+            <form action="_Page/Siswa/ProsesExportTagihanSiswa.php" method="GET" target="_blank">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-info-circle"></i> Daftar Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormTagihanSiswa">
+                            <!-- Form Tagihan Siswa -->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -283,6 +288,36 @@
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded kembali_ke_modal_tagihan" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="">
                         <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalExportTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="_Page/Tagihan/ProsesExportTagihan.php" method="POST" target="_blank">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-download"></i> Export Tagihan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormExportTagihan">
+                            <!-- Form Export Tagihan -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" disabled class="btn btn-primary btn-rounded" id="ButtonExportTagihan">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
             </form>

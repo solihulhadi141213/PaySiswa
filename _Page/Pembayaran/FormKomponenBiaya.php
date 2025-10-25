@@ -150,7 +150,7 @@
     ';
 
     //Hitung Periode Pendidikan
-    $jml_data_periode_akademik = mysqli_num_rows(mysqli_query($Conn, "SELECT id_academic_period  FROM academic_period"));
+    $jml_data_periode_akademik = mysqli_num_rows(mysqli_query($Conn, "SELECT DISTINCT id_organization_class FROM fee_by_student WHERE id_student='$id_student'"));
 
     //Jika Tidak ada Periode akademik
     if(empty($jml_data_periode_akademik)){
@@ -167,10 +167,15 @@
     //Looping periode akademik
     echo '<div class="accordion accordion-flush" id="accordionFlushExample">';
         $no_tahun_akademik=1;
-        $query_periode_akademik = mysqli_query($Conn, "SELECT * FROM academic_period ORDER BY id_academic_period ASC");
-        while ($data_periode_akademik = mysqli_fetch_array($query_periode_akademik)) {
-            $id_academic_period = $data_periode_akademik['id_academic_period'];
-            $academic_period = $data_periode_akademik['academic_period'];
+        $query_fee_by_student = mysqli_query($Conn, "SELECT DISTINCT id_organization_class FROM fee_by_student WHERE id_student='$id_student' ORDER BY id_organization_class ASC");
+        while ($data_fee_by_student = mysqli_fetch_array($query_fee_by_student)) {
+            $id_organization_class = $data_fee_by_student['id_organization_class'];
+
+            //Buka id_academic_period dari tabel organization_class 
+            $id_academic_period = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
+
+            //Buka academic_period dari tabel academic_period melalui id_academic_period
+            $academic_period = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
 ?>
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-heading<?php echo $no_tahun_akademik;?>">

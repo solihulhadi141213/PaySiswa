@@ -137,6 +137,11 @@
             $label_kelas="$level-$kelas";
         }
 
+        //Form Hide
+        echo '
+            <input type="hidden" name="id" value="'.$id_student.'">
+            <input type="hidden" name="tipe_file" value="PDF">
+        ';
         //Tampilkan Data
         echo '
             <div class="row mb-2">
@@ -341,7 +346,7 @@
                                 }
         echo '';
         echo '              </tbody>';
-        echo '          </div>';
+        echo '          </table>';
         echo '      </div>';
         echo '  </div>';
         echo '</div>';

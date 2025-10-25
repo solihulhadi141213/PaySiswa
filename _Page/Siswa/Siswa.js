@@ -21,6 +21,25 @@ function filterAndLoadTable() {
     });
 }
 
+function ShowTagihanSiswa() {
+    var FormFilterTagihanSiswa = $('#FormFilterTagihanSiswa').serialize();
+
+    // Efek transisi: fadeOut dulu
+    $('#TabelTagihanSiswa').fadeOut(200, function () {
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Siswa/TabelTagihanSiswa.php',
+            data    : FormFilterTagihanSiswa,
+            success : function(data) {
+                $('#TabelTagihanSiswa').html(data);
+
+                // Setelah ganti konten → fadeIn lagi
+                $('#TabelTagihanSiswa').fadeIn(200);
+            }
+        });
+    });
+}
+
 
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
@@ -351,6 +370,20 @@ $(document).ready(function() {
                 $('#NotifikasiImport').html(data);
             }
         });
+    });
+
+    //DETAIL SISWA
+    // Cek apakah form dengan ID 'FormFilterTagihanSiswa' ada di halaman
+    if ($("#FormFilterTagihanSiswa").length) {
+        
+        // Jika ada, panggil fungsi
+        ShowTagihanSiswa();
+    }
+
+    //Modal Export Data Tagihan Siswa
+    $('#ModalExportTagihanSiswa').on('show.bs.modal', function (e) {
+        var id_student = $(e.relatedTarget).data('id');
+        $('#put_id_siswa_export_tagihan').val(id_student);
     });
     
 });
