@@ -36,24 +36,17 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-8 col-sx-8 col-8">
-                                <label for="id_academic_period">
-                                    <small>Pilih Periode Akademik</small>
-                                </label>
-                                <select name="id_academic_period" id="id_academic_period" class="form-control">
-                                    <option value="">Pilih</option>
-                                    <?php
-                                        //Menampilkan Tahun Akademik
-                                        $query = mysqli_query($Conn, "SELECT id_academic_period, academic_period FROM academic_period  ORDER BY academic_period_start DESC");
-                                        while ($data = mysqli_fetch_array($query)) {
-                                            $id_academic_period = $data['id_academic_period'];
-                                            $academic_period= $data['academic_period'];
-                                            echo '<option value="'.$id_academic_period.'">'.$academic_period.'</option>';
-                                        }
-                                    ?>
-                                </select>
+                                <small>
+                                    <b>P.A :</b> 
+                                </small>
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPilihPeriodeAkademik">
+                                    <span class="badge badge-info">
+                                        <span id="id_academic_period_terpilih">None</span> <i class="bi bi-arrow-up-right"></i>
+                                    </span>
+                                </a>
+                                <input type="hidden" id="id_academic_period">
                             </div>
                             <div class="col-xl-9 col-lg-8 col-md-4 col-sx-4 col-4 text-end">
-                                <br>
                                 <button type="button" class="btn btn-md btn-outline-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalCopy" title="Copy dari periode lain">
                                     <i class="bi bi-copy"></i>
                                 </button>

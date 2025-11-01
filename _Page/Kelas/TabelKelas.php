@@ -15,6 +15,7 @@
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
+            <script>$("#id_academic_period_terpilih").html("None"); $("#id_academic_period").val("");</script>
         ';
         exit;
     }
@@ -25,12 +26,17 @@
                     <small class="text-danger">Pilih Tahun Akademik Terlebih Dulu</small>
                 </td>
             </tr>
+            <script>$("#id_academic_period_terpilih").html("None"); $("#id_academic_period").val("");</script>
         ';
         exit;
     }
 
     //Buat Variabel
     $id_academic_period=$_POST['id_academic_period'];
+
+    //Buka Nama Periode
+    $academic_period        = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
+
     //Hitung Jumlah Data
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_academic_period='$id_academic_period'"));
 
@@ -42,6 +48,7 @@
                     <small class="text-danger">Tidak ada data <b>Kelas</b> pada periode akademik tersebut</small>
                 </td>
             </tr>
+            <script>$("#id_academic_period_terpilih").html("None"); $("#id_academic_period").val("");</script>
         ';
         exit;
     }
@@ -153,6 +160,7 @@
                         <li class="dropdown-header text-start">
                             <h6>Option</h6>
                         </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_organization_class .'">
                                 <i class="bi bi-info-circle"></i> Detail Kelas
@@ -168,6 +176,7 @@
                                 <i class="bi bi-x"></i> Hapus Kelas
                             </a>
                         </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
                                 <i class="bi bi-list"></i> Komponen Biaya
@@ -191,6 +200,7 @@
 
         $no_level++;
     }
+    echo '<script>$("#id_academic_period_terpilih").html("'.$academic_period.'"); $("#id_academic_period").val("'.$academic_period.'");</script>';
 ?>
 
 <script>

@@ -7,6 +7,12 @@ function filterAndLoadTable() {
         data    : ProsesFilter,
         success: function(data) {
             $('#TabelTahunAjaran').html(data);
+
+            // Re-inisialisasi Tooltip Bootstrap 5
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
         }
     });
 }
@@ -22,8 +28,11 @@ function ShowDataListKategori() {
     });
 }
 
+
+
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+
     filterAndLoadTable();
 
     //Pagging
@@ -101,6 +110,114 @@ $(document).ready(function() {
             data        : {id_academic_period: id_academic_period},
             success     : function(data){
                 $('#FormDetail').html(data);
+            }
+        });
+    });
+
+    //Modal Daftar Kelas
+    $('#ModalDaftarKelas').on('show.bs.modal', function (e) {
+        var id_academic_period = $(e.relatedTarget).data('id');
+        $('#TabelDaftarKelas').html('<tr><td colspan="11" class="text-center"><small class="text-danger">Loading...</small></td></tr>');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelDaftarKelas.php',
+            data        : {id_academic_period: id_academic_period},
+            success     : function(data){
+                $('#TabelDaftarKelas').html(data);
+            }
+        });
+    });
+
+    //Modal Daftar Siswa Per Kelas
+    $('#ModalSiswaPerKelas').on('show.bs.modal', function (e) {
+        var id_academic_period = $(e.relatedTarget).data('id');
+        $('#TabelSiswaPerKelas').html('<tr><td colspan="6" class="text-center">Loadiing...</td></tr>');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelSiswaPerKelas.php',
+            data        : {id_academic_period: id_academic_period},
+            success     : function(data){
+                $('#TabelSiswaPerKelas').html(data);
+            }
+        });
+    });
+
+    //Modal Daftar Siswa
+    $('#ModalDaftarSiswa').on('show.bs.modal', function (e) {
+
+        //Tangkap id_academic_period
+        var id_academic_period = $(e.relatedTarget).data('id1');
+        var id_organization_class = $(e.relatedTarget).data('id2');
+
+        //Loading
+        $('#TabelDaftarSiswa').html('<tr><td colspan="6" class="text-center"><small>Loading...</small></td></tr>');
+
+        //Tampiilkan Data Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelDaftarSiswa.php',
+            data 	    :  {id_academic_period: id_academic_period, id_organization_class: id_organization_class},
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#TabelDaftarSiswa').html(data);
+            }
+        });
+        $('#button_kembali').attr('data-id', id_academic_period);
+    });
+
+    //Modal Komponen Biaya 
+    $('#ModalKomponenBiaya').on('show.bs.modal', function (e) {
+        var id_academic_period = $(e.relatedTarget).data('id');
+        $('#TabelKomponenBiaya').html('<tr><td colspan="6" class="text-center">Loadiing...</td></tr>');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelKomponenBiaya.php',
+            data        : {id_academic_period: id_academic_period},
+            success     : function(data){
+                $('#TabelKomponenBiaya').html(data);
+            }
+        });
+    });
+
+    //Modal Tagihan Siswa
+    $('#ModalTagihanSiswa').on('show.bs.modal', function (e) {
+        var id_academic_period = $(e.relatedTarget).data('id');
+        $('#TabelTagihanSiswa').html('<tr><td colspan="5" class="text-center">Loadiing...</td></tr>');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelTagihanSiswa.php',
+            data        : {id_academic_period: id_academic_period},
+            success     : function(data){
+                $('#TabelTagihanSiswa').html(data);
+            }
+        });
+    });
+
+    //Modal Rincian Tagihan Siswa
+    $('#ModalRincianTagihanSiswa').on('show.bs.modal', function (e) {
+        var id_academic_period      = $(e.relatedTarget).data('id1');
+        var id_organization_class   = $(e.relatedTarget).data('id2');
+        $('#TabelRincianTagihanSiswa').html('Loadiing...');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelRincianTagihanSiswa.php',
+            data        : {id_academic_period: id_academic_period, id_organization_class: id_organization_class},
+            success     : function(data){
+                $('#TabelRincianTagihanSiswa').html(data);
+            }
+        });
+    });
+
+    //Modal Riwayat Pembayaran
+    $('#ModalRiwayatPembayaran').on('show.bs.modal', function (e) {
+        var id_academic_period = $(e.relatedTarget).data('id');
+        $('#TabelRiwayatPembayaran').html('<tr><td colspan="8" class="text-center">Loadiing...</td></tr>');
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelRiwayatPembayaran.php',
+            data        : {id_academic_period: id_academic_period},
+            success     : function(data){
+                $('#TabelRiwayatPembayaran').html(data);
             }
         });
     });

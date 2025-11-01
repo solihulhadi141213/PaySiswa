@@ -1,3 +1,44 @@
+<div class="modal fade" id="ModalPilihPeriodeAkademik" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Periode Akademik</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <small>Pilih Periode Akademik Berikut Ini :</small>
+                        <?php
+                            //Menampilkan Tahun Akademik
+                            $query = mysqli_query($Conn, "SELECT id_academic_period, academic_period FROM academic_period  ORDER BY academic_period_start ASC");
+                            while ($data = mysqli_fetch_array($query)) {
+                                $id_academic_period = $data['id_academic_period'];
+                                $academic_period= $data['academic_period'];
+                                echo '
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="id_academic_period" id="id_academic_period'.$id_academic_period.'" value="'.$id_academic_period.'" checked="">
+                                        <label class="form-check-label" for="id_academic_period'.$id_academic_period.'">
+                                            <small>Periode '.$academic_period.'</small>
+                                        </label>
+                                    </div>
+                                ';
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-rounded" id="TombolTampilkan">
+                    <i class="bi bi-check"></i> Tampilkan
+                </button>
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="ModalTambah" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">

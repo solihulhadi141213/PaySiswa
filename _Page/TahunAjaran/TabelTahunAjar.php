@@ -13,7 +13,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="10" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -76,8 +76,8 @@
         if(empty($jml_data)){
             echo '
                 <tr>
-                    <td colspan="10" class="text-center">
-                        <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
+                    <td colspan="11" class="text-center">
+                        <small class="text-danger">Tidak Ada Data Yang Ditampilkan!</small>
                     </td>
                 </tr>
             ';
@@ -113,6 +113,19 @@
 
                 //Menghitung Jumlah Kelas
                 $jumlah_kelas=mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_academic_period='$id_academic_period'"));
+                if(empty($jumlah_kelas)){
+                    $label_jumlah_kelas = '
+                        <a href="javascript:void(0);" class="badge badge-secondary" data-bs-toggle="modal" data-bs-target="#ModalDaftarKelas" data-id="'.$id_academic_period .'">
+                            '.$jumlah_kelas.' Kelas
+                        </a>
+                    ';
+                }else{
+                    $label_jumlah_kelas = '
+                        <a href="javascript:void(0);" class="badge badge-info" data-bs-toggle="modal" data-bs-target="#ModalDaftarKelas" data-id="'.$id_academic_period .'">
+                            '.$jumlah_kelas.' Kelas
+                        </a>
+                    ';
+                }
 
                 //Menghiutng Biaya Pendidikan
                 $jumlah_fee_component=mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component FROM fee_component WHERE id_academic_period='$id_academic_period'"));
@@ -121,6 +134,7 @@
                 //1. Looping Data Kelas Berdasarkan Periode
                 $total_tagihan=0;
                 $total_pembayaran=0;
+                $total_siswa=0;
                 $QryKelas = mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_academic_period='$id_academic_period'");
                 while ($DataKelas = mysqli_fetch_array($QryKelas)) {
                     $id_organization_class = $DataKelas['id_organization_class'];
@@ -134,6 +148,23 @@
                     $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS total_pembayaran FROM payment WHERE id_organization_class='$id_organization_class'"));
                     $jumlah_pembayaran = $SumPembayaran['total_pembayaran'];
                     $total_pembayaran=$total_pembayaran+$jumlah_pembayaran;
+
+                    //Hitung jumlah siswa yang terdaftar pada periode tersebut melalui tabel  fee_by_student  
+                    $jumlah_siswa = mysqli_num_rows(mysqli_query($Conn, "SELECT DISTINCT id_student FROM fee_by_student WHERE id_organization_class='$id_organization_class'"));
+                    $total_siswa = $total_siswa + $jumlah_siswa;
+                }
+                if(empty($total_siswa)){
+                    $label_total_siswa = '
+                        <a href="javascript:void(0);" class="badge badge-secondary" data-bs-toggle="modal" data-bs-target="#ModalSiswaPerKelas" data-id="'.$id_academic_period .'">
+                           '.$total_siswa.' Orang
+                        </a>
+                    ';
+                }else{
+                    $label_total_siswa = '
+                        <a href="javascript:void(0);" class="badge badge-info" data-bs-toggle="modal" data-bs-target="#ModalSiswaPerKelas" data-id="'.$id_academic_period .'">
+                           '.$total_siswa.' Orang
+                        </a>
+                    ';
                 }
 
                 //Ubah total_tagihan Dalam Format Rupiah
@@ -144,17 +175,35 @@
                 $total_pembayaran=round($total_pembayaran);
                 $total_pembayaran_format="Rp " . number_format($total_pembayaran,0,',','.');
 
+                
                 //Tampilkan Data
                 echo '
                     <tr>
                         <td><small>'.$no.'</small></td>
-                        <td><small>'.$academic_period.'</small></td>
+                        <td>
+                            <a href="javascript:void(0);" class="text text-primary text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_academic_period .'">
+                                <small>'.$academic_period.'</small>
+                            </a>
+                        </td>
                         <td><small>'.date('d/m/Y', strtotime($academic_period_start)).'</small></td>
                         <td><small>'.date('d/m/Y', strtotime($academic_period_end)).'</small></td>
-                        <td><small title="'.$jumlah_kelas.' Rombongan Belajar">'.$jumlah_kelas.' Rmbl</small></td>
-                        <td><small>'.$jumlah_fee_component.'</small></td>
-                        <td><small>'.$total_tagihan_format.'</small></td>
-                        <td><small>'.$total_pembayaran_format.'</small></td>
+                        <td>'.$label_jumlah_kelas.'</td>
+                        <td>'.$label_total_siswa.'</td>
+                        <td>
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_academic_period .'">
+                                <span class="badge badge-info">'.$jumlah_fee_component.'</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_academic_period .'"> 
+                                <small>'.$total_tagihan_format.'</small>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id="'.$id_academic_period .'"> 
+                                <small>'.$total_pembayaran_format.'</small>
+                            </a>
+                        </td>
                         <td><small>'.$label_status.'</small></td>
                         <td>
                             <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
@@ -164,6 +213,7 @@
                                 <li class="dropdown-header text-start">
                                     <h6>Option</h6>
                                 </li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_academic_period .'">
                                         <i class="bi bi-info-circle"></i> Detail
@@ -181,6 +231,32 @@
                                 </li>
                                 <li>
                                     '. $tombol_lanjutan.'
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDaftarKelas" data-id="'.$id_academic_period .'">
+                                        <i class="bi bi-building"></i> Kelas / Rombel
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDaftarSiswa" data-id="'.$id_academic_period .'">
+                                        <i class="bi bi-people"></i> Daftar Siswa
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_academic_period .'">
+                                        <i class="bi bi-list-nested"></i> Komponen Biaya
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_academic_period .'">
+                                        <i class="bi bi-cash-stack"></i> Tagihan Siswa
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id="'.$id_academic_period .'">
+                                        <i class="bi bi-clock-history"></i> Riwayat Pembayaran
+                                    </a>
                                 </li>
                             </ul>
                         </td>

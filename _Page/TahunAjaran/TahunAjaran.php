@@ -37,7 +37,7 @@
                     <div class="card-header">
                         <form action="javascript:void(0);" id="ProsesBatas">
                             <div class="row">
-                                <div class="col-12 mb-3 text-end">
+                                <div class="col-12 text-end">
                                     <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter">
                                         <i class="bi bi-filter"></i>
                                     </button>
@@ -57,8 +57,13 @@
                                         <th><b>Tahun Akademik</b></th>
                                         <th><b>Mulai</b></th>
                                         <th><b>Berakhir</b></th>
-                                        <th><b>Kelas</b></th>
-                                        <th><b title="Biaya Pendidikan">BP</b></th>
+                                        <th><b>Rombel</b></th>
+                                        <th><b>Siswa</b></th>
+                                        <th>
+                                            <b>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Komponen Biaya Pendidikan">KBP</a>
+                                            </b>
+                                        </th>
                                         <th><b>Tagihan</b></th>
                                         <th><b>Pembayaran</b></th>
                                         <th><b>Status</b></th>
@@ -68,7 +73,7 @@
                                 <tbody id="TabelTahunAjaran">
                                     <!-- Menampilkan Tabel Tahun Akademik -->
                                     <tr>
-                                        <td colspan="10" class="text-center">
+                                        <td colspan="11" class="text-center">
                                             <small class="text-danger">Tidak Ada Data Yang Ditampilkan!</small>
                                         </td>
                                     </tr>

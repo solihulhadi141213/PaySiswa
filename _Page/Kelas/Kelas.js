@@ -1,6 +1,6 @@
 //Fungsi Menampilkan Data
 function filterAndLoadTable() {
-    var id_academic_period=$('#id_academic_period').val();
+    var id_academic_period = $('[name="id_academic_period"]:checked').val();
     $.ajax({
         type    : 'POST',
         url     : '_Page/Kelas/TabelKelas.php',
@@ -164,6 +164,16 @@ function ShowTagihanSiswa() {
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     filterAndLoadTable();
+
+    //Ketika 'TombolTampilkan' Di Click
+    $('#TombolTampilkan').click(function(){
+        //Panggil Fungsi
+        filterAndLoadTable();
+
+        //Tutup Modal
+        $('#ModalPilihPeriodeAkademik').modal('hide');
+
+    });
 
     //Ketika id_academic_period Diubah
     $('#id_academic_period').change(function(){
