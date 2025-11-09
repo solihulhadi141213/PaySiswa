@@ -28,3 +28,8 @@
 <link href="node_modules/mdb-ui-kit/css/mdb.min.css" rel="stylesheet">
 <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="node_modules/marked/marked.min.js"></script>
+
+<!-- Select2 -->
+<link href="assets/select2/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+

@@ -1,25 +1,42 @@
 //Fungsi Menampilkan Data
 function filterAndLoadTable() {
     var ProsesFilter = $('#ProsesFilter').serialize();
+    var $tabel = $('#TabelSiswa');
 
-    // Efek transisi: fadeOut dulu
-    $('#TabelSiswa').fadeOut(200, function () {
-        $.ajax({
-            type    : 'POST',
-            url     : '_Page/Siswa/TabelSiswa.php',
-            data    : ProsesFilter,
-            success : function(data) {
-                $('#TabelSiswa').html(data);
+    // Tambahkan efek visual loading (opacity menurun)
+    $tabel.css({
+        'opacity': '0.5',
+        'pointer-events': 'none',
+        'transition': 'opacity 0.3s ease'
+    });
 
-                //Uncheck checkbox utama
-                $('input[name="check_all"]').prop('checked', false);
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Siswa/TabelSiswa.php',
+        data: ProsesFilter,
+        success: function(data) {
+            // Ganti isi tabel tanpa mengganti elemen induk
+            $tabel.html(data);
 
-                // Setelah ganti konten → fadeIn lagi
-                $('#TabelSiswa').fadeIn(200);
-            }
-        });
+            // Reset checkbox utama
+            $('input[name="check_all"]').prop('checked', false);
+
+            // Kembalikan efek normal
+            $tabel.css({
+                'opacity': '1',
+                'pointer-events': 'auto'
+            });
+        },
+        error: function() {
+            $tabel.html('<div class="alert alert-danger m-2">Gagal memuat data. Silakan coba lagi.</div>');
+            $tabel.css({
+                'opacity': '1',
+                'pointer-events': 'auto'
+            });
+        }
     });
 }
+
 
 function ShowTagihanSiswa() {
     var FormFilterTagihanSiswa = $('#FormFilterTagihanSiswa').serialize();

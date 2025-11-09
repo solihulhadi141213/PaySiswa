@@ -119,8 +119,13 @@
             $label_gender_male="selected";
             $label_gender_female="";
         }else{
-            $label_gender_male="";
-            $label_gender_female="selected";
+            if($student_gender=="Female"){
+                $label_gender_male="";
+                $label_gender_female="selected";
+            }else{
+                $label_gender_male="";
+                $label_gender_female="";
+            }
         }
 
         //Routing Status

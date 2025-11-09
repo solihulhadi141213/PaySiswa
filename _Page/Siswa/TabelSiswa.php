@@ -151,7 +151,11 @@
                 if($student_gender=="Male"){
                     $gender_label='<span class="badge badge-success"><i class="bi bi-gender-male"></i> Male</span>';
                 }else{
-                    $gender_label='<span class="badge badge-danger"><i class="bi bi-gender-female"></i> Female</span>';
+                    if($student_gender=="Female"){
+                        $gender_label='<span class="badge badge-danger"><i class="bi bi-gender-female"></i> Female</span>';
+                    }else{
+                        $gender_label='<span class="badge badge-dark"><i class="bi bi-x-circle"></i> NONE</span>';
+                    }
                 }
 
                 //Buka Kelas

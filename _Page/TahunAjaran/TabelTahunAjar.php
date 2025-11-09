@@ -239,7 +239,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDaftarSiswa" data-id="'.$id_academic_period .'">
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalSiswaPerKelas" data-id="'.$id_academic_period .'">
                                         <i class="bi bi-people"></i> Daftar Siswa
                                     </a>
                                 </li>

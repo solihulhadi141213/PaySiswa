@@ -5,3 +5,9 @@ Password        :   Arunaparasilvanursari141213*#
 ## Notifiikasi Yang Perlu Ada
   - Data tagiihan siswa yang belum lunas sedangkan siswa sudah naik kelas/lulus
   - 
+## Melengkapi Fitur
+  - Lengkapi Log Aktivitas
+  - Perbaiki script SQL (Query SQL) agar lebi efisien
+  - Tambahkan timer pada captcha pada saat login
+  - Fitur lupa password (Reset Password)
+  - Memblokir Semua transaksi saat periode akademik ditutup

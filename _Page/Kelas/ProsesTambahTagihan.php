@@ -42,8 +42,27 @@
         $fee_discount   = str_replace('.', '', $fee_discount);
     }
 
+    //Cek Apakah Data Sudah Ada
+    $QryCek = $Conn->prepare("SELECT id_fee_by_student FROM  fee_by_student WHERE id_organization_class = ? AND id_student = ? AND id_fee_component = ?");
+    $QryCek->bind_param("iii", $id_organization_class, $id_student, $id_fee_component);
+    if (!$QryCek->execute()) {
+        $error=$Conn->error;
+        echo '
+            <div class="alert alert-danger">
+                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
+            </div>
+        ';
+        exit;
+    }
+    $ResultCek = $QryCek->get_result();
+    $DataCek = $ResultCek->fetch_assoc();
+    $QryCek->close();
+
+    //Buat Variabel
+    $id_fee_by_student  =$DataCek['id_fee_by_student'];
+
     //Proses Insert OR Update
-    if(empty($_POST['id_fee_by_student'])){
+    if(empty($id_fee_by_student)){
         //Insert data
         $stmt = $Conn->prepare("INSERT INTO fee_by_student (id_organization_class, id_student, id_fee_component, fee_nominal, fee_discount) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("iiiss",$id_organization_class, $id_student, $id_fee_component, $fee_nominal, $fee_discount);

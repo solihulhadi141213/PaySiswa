@@ -35,3 +35,6 @@
 
 <!-- Scan QR -->
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+<!-- select2 -->
+<script src="assets/select2/dist/js/select2.min.js"></script>

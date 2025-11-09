@@ -14,10 +14,11 @@
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
+            <script>$("#id_academic_period_terpilih").html("None"); $("#id_academic_period").val("");</script>
         ';
         exit;
     }
-    //id_academic_period
+    //Data 'id_academic_period' tidak boleh kosong
     if(empty($_POST['id_academic_period'])){
         echo '
             <tr>
@@ -25,10 +26,18 @@
                     <small class="text-danger">Silahkan pilih <b>Periode Akademik</b> terlebih dulu untuk mulai menampilkan biaya pendidikan</small>
                 </td>
             </tr>
+            <script>$("#id_academic_period_terpilih").html("None"); $("#id_academic_period").val("");</script>
         ';
         exit;
     }
+
+    //Buat Variabel 'id_academic_period'
     $id_academic_period=$_POST['id_academic_period'];
+
+    //Buka Nama Periode
+    $academic_period        = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
+
+    //Hitung Jumlah Data
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component FROM fee_component WHERE id_academic_period='$id_academic_period'"));
 
     //Jika Tidak Ada Data
@@ -39,6 +48,7 @@
                     <small class="text-danger">Belum ada data <b>Biaya Pendidikan</b> untuk <b>Periode Akademik</b> ini</small>
                 </td>
             </tr>
+            <script>$("#id_academic_period_terpilih").html("None"); $("#id_academic_period").val("");</script>
         ';
         exit;
     }
@@ -88,7 +98,7 @@
                 </td>
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-three-dots"></i>
+                        <i class="bi bi-three-dots-vertical"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
                         <li class="dropdown-header text-start">
@@ -115,6 +125,7 @@
         ';
         $no++;
     }
+    echo '<script>$("#id_academic_period_terpilih").html("'.$academic_period.'"); $("#id_academic_period").val("'.$academic_period.'");</script>';
 ?>
 <script>
     //Creat Javascript Variabel

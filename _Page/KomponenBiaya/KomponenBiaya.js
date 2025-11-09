@@ -1,6 +1,6 @@
 //Fungsi Menampilkan Data
 function filterAndLoadTable() {
-    var id_academic_period = $('#id_academic_period').val();
+    var id_academic_period = $('[name="id_academic_period"]:checked').val();
 
     // Efek transisi: fadeOut dulu
     $('#TabelKomponenBiaya').fadeOut(200, function () {
@@ -67,6 +67,17 @@ function initializeMoneyInputs() {
 
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+
+    //Ketika 'TombolTampilkan' Di Click
+    $('#TombolTampilkan').click(function(){
+        //Panggil Fungsi
+        filterAndLoadTable();
+
+        //Tutup Modal
+        $('#ModalPilihPeriodeAkademik').modal('hide');
+
+    });
+
 
     //Format Uang Pertama kali
     initializeMoneyInputs();

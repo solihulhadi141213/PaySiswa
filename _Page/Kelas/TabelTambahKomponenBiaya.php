@@ -11,7 +11,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -23,7 +23,7 @@
     if(empty($_POST['id_organization_class'])){
         echo '
             <tr>
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     <small class="text-danger">Belum ada data kelas yang dipilih!</small>
                 </td>
             </tr>
@@ -34,7 +34,7 @@
     if(empty($_POST['id_academic_period'])){
         echo '
             <tr>
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     <small class="text-danger">Periode Akademik Tidak Boleh Kosong! Silahkan pilih tahun akademik terlebih dulu!</small>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
         exit;
     }
     $id_organization_class  = validateAndSanitizeInput($_POST['id_organization_class']);
-    $id_academic_period  = validateAndSanitizeInput($_POST['id_academic_period']);
+    $id_academic_period     = validateAndSanitizeInput($_POST['id_academic_period']);
 
     //Buka Detail Informasi Kelas
     $class_level  = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
@@ -51,14 +51,26 @@
     //Detail Periode Akademik
     $academic_period  = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
 
-    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component  FROM fee_component WHERE id_academic_period='$id_academic_period'"));
+    //Validasi id_academic_periode
+    if(empty($academic_period)){
+        echo '
+            <tr>
+                <td colspan="7" class="text-center">
+                    <small class="text-danger">ID Periode Akademik yang Anda Pilih ('.$id_academic_period.') Tidak Valid</small>
+                </td>
+            </tr>
+        ';
+        exit;
+    }
+
+    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component FROM fee_component WHERE id_academic_period='$id_academic_period'"));
     
     //Mengatur Halaman
     if(empty($jml_data)){
         echo '
             <tr>
-                <td colspan="6" class="text-center">
-                    <small class="text-danger">Tidak Ada Data Yang Ditampilkan!</small>
+                <td colspan="7" class="text-center">
+                    <small class="text-danger">Tidak Ada Data Komponen Biiaya Pendidikan Untuk Periode <b>'.$academic_period.'</b> ini!</small>
                 </td>
             </tr>
         ';

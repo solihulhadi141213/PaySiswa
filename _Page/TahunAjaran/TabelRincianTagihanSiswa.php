@@ -135,13 +135,24 @@
                             $DataComponent      = $ResultComponent->fetch_assoc();
                             $QryComponent->close();
                             //Buat Variabel
-                            $id_fee_by_student  = $DataComponent['id_fee_by_student'];
-                            $fee_nominal        = $DataComponent['fee_nominal'];
-                            $fee_discount       = $DataComponent['fee_discount'];
-                            $fee_total          = $fee_nominal - $fee_discount;
-                            $jumlah_fee         = $jumlah_fee + $fee_total;
-                            $jumlah_total       = $jumlah_total + $fee_total;
-                            $fee_total          = "Rp " . number_format($fee_total,0,',','.');
+                            if(!empty($DataComponent['id_fee_by_student'])){
+                                $id_fee_by_student  = $DataComponent['id_fee_by_student'];
+                                $fee_nominal        = $DataComponent['fee_nominal'];
+                                $fee_discount       = $DataComponent['fee_discount'];
+                                $fee_total          = $fee_nominal - $fee_discount;
+                                $jumlah_fee         = $jumlah_fee + $fee_total;
+                                $jumlah_total       = $jumlah_total + $fee_total;
+                                $fee_total          = "Rp " . number_format($fee_total,0,',','.');
+                            }else{
+                                $id_fee_by_student  = "";
+                                $fee_nominal        = 0;
+                                $fee_discount       = 0;
+                                $fee_total          = 0;
+                                $jumlah_fee         = 0;
+                                $jumlah_total       = 0;
+                                $fee_total          = "Rp " . number_format($fee_total,0,',','.');
+                            }
+                            
                         }
 
                         //Buka Data Pembayaran dari tabel 'payment'

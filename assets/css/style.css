@@ -1463,3 +1463,10 @@ body .title_page_app {
   color: #000000;
 }
 
+.underscore_doted {
+    border-bottom: 1px dashed  #000; /* garis bawah putus-putus hitam */
+    display: inline-block;          /* agar border mengikuti panjang teks */
+    line-height: 1.2;               /* tinggi baris agar rapi */
+    padding-bottom: 1px;            /* jarak kecil antara teks dan garis */
+}
+
