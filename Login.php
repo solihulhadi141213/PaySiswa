@@ -14,35 +14,33 @@
         <main class="landing_background">
             <div class="container">
                 <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12 col-md-12 d-flex flex-column align-items-center justify-content-center">
-                                <div class="card login_card mb-3">
-                                    <?php
-                                        if(empty($_GET['Page'])){
-                                            include "_Page/Login/Login.php";
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card mb-3 p-3">
+                                <?php
+                                    if(empty($_GET['Page'])){
+                                        include "_Page/Login/Login.php";
+                                    }else{
+                                        $Page=$_GET['Page'];
+                                        if($Page=="LupaPassword"){
+                                            include "_Page/Login/FormLupaPassword.php";
                                         }else{
-                                            $Page=$_GET['Page'];
-                                            if($Page=="LupaPassword"){
-                                                include "_Page/ResetPassword/FormLupaPassword.php";
-                                            }else{
-                                                if($Page=="ResetPassword"){
-                                                    include "_Page/ResetPassword/FormResetPassword.php";
-                                                }
+                                            if($Page=="ResetPassword"){
+                                                include "_Page/Login/FormResetPassword.php";
                                             }
                                         }
-                                    ?>
-                                </div>
-                                <div class="credits text-center">
-                                    <small>
-                                        <div class="copyright text-white">
-                                            &copy; Copyright <strong><span><?php echo "$app_title"; ?></span></strong>. All Rights Reserved <?php echo "$app_year"; ?>
-                                        </div>
-                                        <div class="credits text-white">
-                                            Designed by <span class="text text-decoration-underline"><?php echo "$app_author"; ?></span>
-                                        </div>
-                                    </small>
-                                </div>
+                                    }
+                                ?>
+                            </div>
+                            <div class="credits text-center">
+                                <small>
+                                    <div class="copyright text-white">
+                                        &copy; Copyright <strong><span><?php echo "$app_title"; ?></span></strong>. All Rights Reserved <?php echo "$app_year"; ?>
+                                    </div>
+                                    <div class="credits text-white">
+                                        Designed by <span class="text text-decoration-underline"><?php echo "$app_author"; ?></span>
+                                    </div>
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -93,12 +91,72 @@
             //Kondisi saat tampilkan password
             $('.form-check-input').click(function(){
                 if($(this).is(':checked')){
-                    $('#PasswordBaru1').attr('type','text');
-                    $('#PasswordBaru2').attr('type','text');
+                    $('#password_baru1').attr('type','text');
+                    $('#password_baru2').attr('type','text');
                 }else{
-                    $('#PasswordBaru1').attr('type','password');
-                    $('#PasswordBaru2').attr('type','password');
+                    $('#password_baru1').attr('type','password');
+                    $('#password_baru2').attr('type','password');
                 }
+            });
+
+            //Proses Lupa Password
+            $('#ProsesLupaPasword').submit(function(){
+
+                //Tangkap Data Dari Form
+                var ProsesLupaPasword = $('#ProsesLupaPasword').serialize();
+                
+                //Loading Tombol
+                $('#button_lupa_password').html('<div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div>');
+                $.ajax({
+                    type 	    : 'POST',
+                    url 	    : '_Page/Login/ProsesLupaPasword.php',
+                    data 	    :  ProsesLupaPasword,
+                    dataType    : 'json',
+                    success     : function(response){
+                        $('#button_lupa_password').html('Login');
+
+                        //Kondisi Jik Berhasil
+                        if (response.status === 'success') {
+                            $('#FormLupaPasword').load('_Page/Login/NotifikasiResetPasswordBerhasil.php');
+                        } else {
+                            // Kondisi Jika gagal
+                            $('#NotifikasiLupaPasword').html('<div class="alert alert-danger"><small>' + response.message + '</small></div>');
+                        }
+
+                        //Kembalikan Kndisi Tombol
+                        $('#button_lupa_password').html('<i class="bi bi-arrow-clockwise"></i> Reset Password');
+                    }
+                });
+            });
+
+             //Proses Proses Reset Password
+            $('#ProsesResetPassword').submit(function(){
+
+                //Tangkap Data Dari Form
+                var ProsesResetPassword = $('#ProsesResetPassword').serialize();
+                
+                //Loading Tombol
+                $('#button_reset_password').html('<div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div>');
+                $.ajax({
+                    type 	    : 'POST',
+                    url 	    : '_Page/Login/ProsesResetPassword.php',
+                    data 	    :  ProsesResetPassword,
+                    dataType    : 'json',
+                    success     : function(response){
+                        $('#button_reset_password').html('Login');
+
+                        //Kondisi Jik Berhasil
+                        if (response.status === 'success') {
+                            $('#FormResetPasword').load('_Page/Login/NotifikasiUbahPasswordBerhasil.php');
+                        } else {
+                            // Kondisi Jika gagal
+                            $('#NotifikasiresetPasword').html('<div class="alert alert-danger"><small>' + response.message + '</small></div>');
+                        }
+
+                        //Kembalikan Kndisi Tombol
+                        $('#button_reset_password').html('<i class="bi bi-arrow-clockwise"></i> Reset Password');
+                    }
+                });
             });
 
             // Jalankan reloadCaptcha setiap 1 menit (60.000 ms)

@@ -108,6 +108,71 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <form action="javascript:void(0);" id="ProsesUpdateCompany">
+                    <div class="card">
+                        <div class="card-header">
+                            <b class="card-title">
+                                <i class="bi bi-building"></i> Profil Sekolah
+                            </b>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label for="company_name">
+                                        <small>Company Name</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="company_name" id="company_name" value="<?php echo "$company_name"; ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label for="company_contact">
+                                        <small>Contact</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="company_contact" id="company_contact" value="<?php echo "$company_contact"; ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label for="company_email">
+                                        <small>Email</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="email" class="form-control" name="company_email" id="company_email" value="<?php echo "$company_email"; ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <label for="company_address">
+                                        <small>Alamat</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <textarea name="company_address" id="company_address" class="form-control"><?php echo "$company_address"; ?></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12" id="NotifikasiUpdateCompany">
+                                    <!-- Notifikasi Update Company -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-md btn-primary btn-rounded">
+                                <i class="bi bi-upload"></i> Update Setting
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <form action="javascript:void(0);" id="ProsesUpdateFavicon">
                     <div class="card">
@@ -119,7 +184,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-md-4 text-center">
-                                    <img src="assets\img\<?php echo "$app_favicon"; ?>" alt="" width="70%">
+                                    <img src="assets\img\<?php echo "$app_favicon"; ?>" alt="" width="150" height="150">
                                 </div>
                                 <div class="col-md-8">
                                     <label for="app_favicon"><small>Upload Favicon</small></label>
@@ -138,12 +203,14 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-md btn-success btn-rounded">
-                                <i class="bi bi-upload"></i> Upload & Update Setting
+                            <button type="submit" class="btn btn-md btn-primary btn-rounded">
+                                <i class="bi bi-upload"></i> Upload & Update
                             </button>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="col-md-6">
                 <form action="javascript:void(0);" id="ProsesUpdateLogo">
                     <div class="card">
                         <div class="card-header">
@@ -154,7 +221,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <div class="col-md-4 text-center">
-                                    <img src="assets\img\<?php echo "$app_logo"; ?>" alt="" width="70%">
+                                    <img src="assets\img\<?php echo "$app_logo"; ?>" alt="" width="150" height="150">
                                 </div>
                                 <div class="col-md-8">
                                     <label for="app_logo"><small>Upload Logo</small></label>
@@ -173,71 +240,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-md btn-success btn-rounded">
-                                <i class="bi bi-upload"></i> Upload & Update Setting
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <form action="javascript:void(0);" id="ProsesUpdateCompany">
-                    <div class="card">
-                        <div class="card-header">
-                            <b class="card-title">
-                                <i class="bi bi-building"></i> Profil Sekolah
-                            </b>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col-md-4">
-                                    <label for="company_name">
-                                        <small>Company Name</small>
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" name="company_name" id="company_name" value="<?php echo "$company_name"; ?>">
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-4">
-                                    <label for="company_contact">
-                                        <small>Contact</small>
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" name="company_contact" id="company_contact" value="<?php echo "$company_contact"; ?>">
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-4">
-                                    <label for="company_email">
-                                        <small>Email</small>
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="email" class="form-control" name="company_email" id="company_email" value="<?php echo "$company_email"; ?>">
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-md-4">
-                                    <label for="company_address">
-                                        <small>Alamat</small>
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <textarea name="company_address" id="company_address" class="form-control"><?php echo "$company_address"; ?></textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12" id="NotifikasiUpdateCompany">
-                                    <!-- Notifikasi Update Company -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-md btn-success btn-rounded">
-                                <i class="bi bi-upload"></i> Upload & Update Setting
+                            <button type="submit" class="btn btn-md btn-primary btn-rounded">
+                                <i class="bi bi-upload"></i> Upload & Update
                             </button>
                         </div>
                     </div>

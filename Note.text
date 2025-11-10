@@ -1,13 +1,18 @@
+## Koneksi Database Untuk MI AN-NUR
 Database_name   :   u1803823_pay_siswa
 Username        :   u1803823_dhiforester
 Password        :   Arunaparasilvanursari141213*#
 
 ## Notifiikasi Yang Perlu Ada
   - Data tagiihan siswa yang belum lunas sedangkan siswa sudah naik kelas/lulus
-  - 
+  - Data siswa yang belum punya NIS 
+  
 ## Melengkapi Fitur
   - Lengkapi Log Aktivitas
   - Perbaiki script SQL (Query SQL) agar lebi efisien
   - Tambahkan timer pada captcha pada saat login
   - Fitur lupa password (Reset Password)
   - Memblokir Semua transaksi saat periode akademik ditutup
+
+## Pembaharuan Database 
+ - Penambahan tabel 'access_reset ' yang terhubung dengan 'id_access' berfungsi untuk fitur lupa password
