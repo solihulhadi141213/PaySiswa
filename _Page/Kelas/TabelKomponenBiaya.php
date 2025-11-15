@@ -8,6 +8,13 @@
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
 
+    //Inisiasi Tombol Footer Modal
+    $button_footer = '
+        <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> Tutup
+        </button>
+    ';
+
     //Validasi Sesi Akses
     if (empty($SessionIdAccess)) {
         echo '
@@ -18,6 +25,7 @@
             </tr>
             <script>
                 $("#TitleListKomponenBiaya").html("");
+                $("#footer_modal_list_komponen_biaya").html(' . json_encode($button_footer) . ');
             </script>
         ';
         exit;
@@ -32,6 +40,7 @@
             </tr>
             <script>
                 $("#TitleListKomponenBiaya").html("");
+                $("#footer_modal_list_komponen_biaya").html(' . json_encode($button_footer) . ');
             </script>
         ';
         exit;
@@ -50,6 +59,16 @@
 
     //Hitung Jumlah Data
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_class FROM fee_by_class WHERE id_organization_class='$id_organization_class'"));
+
+    //Inisiasi Button
+    $button_footer = '
+        <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class.'">
+            Atur Komponen <i class="bi bi-chevron-right"></i> 
+        </button>
+        <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> Tutup
+        </button>
+    ';
 
     if(empty($jml_data)){
          echo '
@@ -141,6 +160,7 @@
     echo '
         <script>
             $("#TitleListKomponenBiaya").html(' . json_encode($TitleListKomponenBiaya) . ');
+            $("#footer_modal_list_komponen_biaya").html(' . json_encode($button_footer) . ');
         </script>
     ';
 ?>

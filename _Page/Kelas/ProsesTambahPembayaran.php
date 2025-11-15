@@ -10,34 +10,80 @@
 
     //Validasi Akses
     if (empty($SessionIdAccess)) {
-        echo '<div class="alert alert-danger"><small>Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small></div>';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Sesi Akses Sudah Berakhir, Silahkan Login Ulang!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
     
     //Validasi 'id_fee_by_student'
     if (empty($_POST['id_fee_by_student'])) {
-        echo '<div class="alert alert-danger"><small>ID tagihan tiidak boleh kosong!</small></div>';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Tagihan Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
+    
     //Validasi 'payment_datetime'
     if (empty($_POST['payment_datetime'])) {
-        echo '<div class="alert alert-danger"><small>Tanggal Pembayaran tiidak boleh kosong!</small></div>';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Tanggal Pembayaran Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
+    
+    //Validasi 'payment_time'
+    if (empty($_POST['payment_time'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Jam Pembayaran Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
+        exit;
+    }
+
     //Validasi 'payment_method'
     if (empty($_POST['payment_method'])) {
-        echo '<div class="alert alert-danger"><small>Metode Pembayaran tiidak boleh kosong!</small></div>';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Metode Pembayaran Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
+
     //Validasi 'payment_nominal'
-    if (empty($_POST['payment_nominal'])) {
-        echo '<div class="alert alert-danger"><small>Nomiinal Pembayaran tiidak boleh kosong!</small></div>';
+    if (empty($_POST['payment_method'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Nomnal Pembayaran Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
 
     //Buat Variabel
     $id_fee_by_student      = validateAndSanitizeInput($_POST['id_fee_by_student']);
     $payment_datetime       = validateAndSanitizeInput($_POST['payment_datetime']);
+    $payment_time           = validateAndSanitizeInput($_POST['payment_time']);
     $payment_method         = validateAndSanitizeInput($_POST['payment_method']);
     $payment_nominal        = validateAndSanitizeInput($_POST['payment_nominal']);
 
@@ -51,6 +97,9 @@
 
     //Generate uuid
     $id_payment=generateRandomString(36);
+
+    //Bentuk $payment_datetime
+    $payment_datetime = "$payment_datetime $payment_time";
     
     // Insert Data Menggunakan Prepared Statement
     $stmt = $Conn->prepare("INSERT INTO payment (
@@ -72,11 +121,32 @@
         $deskripsi_log="Input Pembayaran Berhasil";
         $InputLog=addLog($Conn, $SessionIdAccess, $now, $kategori_log, $deskripsi_log);
         if($InputLog=="Success"){
-            echo '<code class="text-success" id="NotifikasiTambahPembayaranBerhasil">Success</code>';
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Insert pembayaran berhasil!',
+                'id_organization_class' => $id_organization_class,
+                'id_student' => $id_student,
+                'id_fee_by_student' => $id_fee_by_student
+            ]);
+            exit;
         }else{
-            echo '<div class="alert alert-danger"><small>Terjadi kesalahan pada saat menyimpan log</small></div>';
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjad kesalahan pada saat menympan LOG!',
+                'id_organization_class' => $id_organization_class,
+                'id_student' => $id_student,
+                'id_fee_by_student' => $id_fee_by_student
+            ]);
+            exit;
         }
     }else{
-        echo '<div class="alert alert-danger"><small>Terjadi kesalahan pada saat input data pembayaran</small></div>';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Terjad kesalahan pada saat nsert pembayaran!',
+            'id_organization_class' => $id_organization_class,
+            'id_student' => $id_student,
+            'id_fee_by_student' => $id_fee_by_student
+        ]);
+        exit;
     }
 ?>

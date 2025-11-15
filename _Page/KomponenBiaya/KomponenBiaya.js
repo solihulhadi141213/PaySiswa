@@ -93,7 +93,7 @@ $(document).ready(function() {
     //Ketika Modal Tambah Fitur Muncul
     $('#ModalTambah').on('show.bs.modal', function (e) {
         //Tangkap id_academic_period
-        var id_academic_period = $('#id_academic_period').val();
+        var id_academic_period = $('[name="id_academic_period"]:checked').val();
 
         //tempelkan id_academic_period ke id_academic_period_tambah
         $('#id_academic_period_tambah').val(id_academic_period);
@@ -263,7 +263,7 @@ $(document).ready(function() {
     //Ketika Modal Copy Muncul
     $('#ModalCopy').on('show.bs.modal', function (e) {
         //Tangkap id_academic_period
-        var id_academic_period = $('#id_academic_period').val();
+        var id_academic_period = $('[name="id_academic_period"]:checked').val();
 
         //tempelkan id_academic_period ke id_academic_period_tambah
         $('#periode_tujuan').val(id_academic_period);

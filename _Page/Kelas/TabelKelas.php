@@ -120,9 +120,9 @@
 
             //Routing $jumlah_komponen
             if(empty($jumlah_komponen)){
-                $label_jumlah_komponen='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalListKomponenBiaya" data-id="'.$id_organization_class .'"><small class="text text-grayish">'.$jumlah_komponen.' Record</small></a>';
+                $label_jumlah_komponen='<a href="javascript:void(0);" class="list_komponen_biaya" data-id="'.$id_organization_class .'"><small class="text text-grayish">'.$jumlah_komponen.' Record</small></a>';
             }else{
-                $label_jumlah_komponen='<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalListKomponenBiaya" data-id="'.$id_organization_class .'"><small>'.$jumlah_komponen.' Record</small></a>';
+                $label_jumlah_komponen='<a href="javascript:void(0);" class="list_komponen_biaya" data-id="'.$id_organization_class .'"><small>'.$jumlah_komponen.' Record</small></a>';
             }
 
             //Hitung Jumlah Nomiinal Tagihan
@@ -288,14 +288,8 @@
                                 <i class="bi bi-list"></i> Siswa
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider border-1 border-bottom"></li>
                         <li>
-                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_organization_class .'">
-                                <i class="bi bi-plus-square-dotted"></i> Tambah K.B.P
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalListKomponenBiaya" data-id="'.$id_organization_class .'">
+                            <a class="dropdown-item" href="javascript:void(0)" class="list_komponen_biaya" data-id="'.$id_organization_class .'">
                                 <i class="bi bi-tag"></i> K.B.P
                             </a>
                         </li>

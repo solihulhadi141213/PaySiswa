@@ -15,6 +15,9 @@
                     <div class="alert alert-danger"><small>Sesi Akses Sudah Berakhir! Silahkan Login Ulang.</small></div>
                 </div>
             </div>
+            <script>
+                $("#kembali_ke_rincian_tagihan").hide();
+            </script>
         ';
         exit;
     }
@@ -27,6 +30,9 @@
                     <div class="alert alert-danger"><small>ID Tagihan Tiidak Boleh Kosong!</small></div>
                 </div>
             </div>
+            <script>
+                $("#kembali_ke_rincian_tagihan").hide();
+            </script>
         ';
         exit;
     }
@@ -43,7 +49,7 @@
     $jumlah_tagihan         = $fee_nominal-$fee_discount;
     $fee_nominal_format     = "Rp " . number_format($fee_nominal,0,',','.');
     $fee_discount_format    = "Rp " . number_format($fee_discount,0,',','.');
-    $jumlah_tagihan_format  = "Rp " . number_format($jumlah_tagihan,0,',','.');
+    $jumlah_tagihan         = "Rp " . number_format($jumlah_tagihan,0,',','.');
 
     //Membuka 'student_nis, student_name, student_gender, student_status dari table' 'student'
     $student_nis            = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_nis');
@@ -53,17 +59,6 @@
     $id_organization_class2 = GetDetailData($Conn, 'student', 'id_student', $id_student, 'id_organization_class');
     $class_level1           = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class2, 'class_level');
     $class_name1            = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class2, 'class_name');
-
-    //Routing Student Gender
-    if($student_gender=="Male"){
-        $label_gender='Laki-laki';
-    }else{
-        if($student_gender=="Female"){
-            $label_gender='Perempuan';
-        }else{
-            $label_gender='-';
-        }
-    }
 
     //Buka Periode Akademik
     $id_academic_period     = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
@@ -77,8 +72,15 @@
     $periode_month          = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
     $periode_year           = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
 
-    //Nama Bulan
-    $nama_bulan             = getNamaBulan($periode_month);
+    //Buat Tombol Modal Footer
+    $tutup_kembali='
+        <button type="submit" class="btn btn-outline-primary btn-rounded">
+            <i class="bi bi-download"></i> Export
+        </button>
+        <button type="button" class="btn btn-secondary btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalRincianTagihanSiswa" data-id_organization_class="'.$id_organization_class.'" data-id_student="'.$id_student.'">
+            <i class="bi bi-chevron-left"></i> Kembali
+        </button>
+    ';
 
     //Menampilkan Informasi Tagihan
     echo '
@@ -87,7 +89,7 @@
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-12">
-                        <small><b># Periode Akademik</b></small>
+                        <small><b># Informasi Tagihan</b></small>
                     </div>
                 </div>
                 <div class="row">
@@ -101,9 +103,42 @@
                     <div class="col-6"><small class="text text-grayish">'.$class_level.'</small></div>
                 </div>
                 <div class="row">
-                    <div class="col-5"><small>Kelas/Rombel</small></div>
+                    <div class="col-5"><small>Kelas / Rombel</small></div>
                     <div class="col-1"><small>:</small></div>
                     <div class="col-6"><small class="text text-grayish">'.$class_name.'</small></div>
+                </div>
+                <div class="row">
+                    <div class="col-5"><small>K.B.P</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$component_name.'</small></div>
+                </div>
+                <div class="row">
+                    <div class="col-5"><small>Kategori</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$component_category.'</small></div>
+                </div>
+                <div class="row">
+                    <div class="col-5"><small>Periode Tagihan</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$periode_month.' / '.$periode_year.'</small></div>
+                </div>
+                <div class="row">
+                    <div class="col-5"><small>Nominal Tagihan</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6">
+                        <small class="underscore_doted">
+                            <span class="text text-grayish">'.$fee_nominal_format.'</span>
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5"><small>Diskon</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6">
+                        <small class="underscore_doted">
+                            <span class="text text-grayish">'.$fee_discount_format.'</span>
+                        </small>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 mb-3">
@@ -125,65 +160,22 @@
                 <div class="row">
                     <div class="col-5"><small>Gender</small></div>
                     <div class="col-1"><small>:</small></div>
-                    <div class="col-6"><small class="text text-grayish">'.$label_gender.'</small></div>
-                </div>
-            </div>
-        </div>
-        <div class="row border-1 border-bottom">
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-12">
-                        <small><b># Komponen Biaya</b></small>
-                    </div>
+                    <div class="col-6"><small class="text text-grayish">'.$student_gender.'</small></div>
                 </div>
                 <div class="row">
-                    <div class="col-5"><small>Nama Komponen</small></div>
+                    <div class="col-5"><small>Jenjang/Level (Aktual)</small></div>
                     <div class="col-1"><small>:</small></div>
-                    <div class="col-6"><small class="text text-grayish">'.$component_name.'</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_level1.'</small></div>
                 </div>
                 <div class="row">
-                    <div class="col-5"><small>Kategori Biaya</small></div>
+                    <div class="col-5"><small>Kelas (Aktual)</small></div>
                     <div class="col-1"><small>:</small></div>
-                    <div class="col-6"><small class="text text-grayish">'.$component_category.'</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_name1.'</small></div>
                 </div>
                 <div class="row">
-                    <div class="col-5"><small>Periode Tagihan</small></div>
+                    <div class="col-5"><small>Status Siswa</small></div>
                     <div class="col-1"><small>:</small></div>
-                    <div class="col-6"><small class="text text-grayish">'.$nama_bulan.' '.$periode_year.'</small></div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="row">
-                    <div class="col-12">
-                        <small><b># Nominal Tagihan</b></small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5"><small>Nominal</small></div>
-                    <div class="col-1"><small>:</small></div>
-                    <div class="col-6">
-                        <small class="">
-                            <span class="text text-grayish">'.$fee_nominal_format.'</span>
-                        </small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5"><small>Diskon</small></div>
-                    <div class="col-1"><small>:</small></div>
-                    <div class="col-6">
-                        <small class="">
-                            <span class="text text-grayish">'.$fee_discount_format.'</span>
-                        </small>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5"><small>Tagihan</small></div>
-                    <div class="col-1"><small>:</small></div>
-                    <div class="col-6">
-                        <small class="underscore_doted">
-                            <span class="text text-grayish">'.$jumlah_tagihan_format.'</span>
-                        </small>
-                    </div>
+                    <div class="col-6"><small class="text text-grayish">'.$student_status.'</small></div>
                 </div>
             </div>
         </div>
@@ -195,7 +187,7 @@
                 <small><b># Riwayat Pembayaran</b></small>
             </div>
             <div class="col-4 text-end">
-                <button type="button" class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#ModalTambahPembayaran" data-id="'.$id_fee_by_student .'">
+                <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#ModalTambahPembayaran" data-id="'.$id_fee_by_student .'">
                     <i class="bi bi-plus"></i> Bayar
                 </button>
             </div>
@@ -209,10 +201,9 @@
                         <thead>
                             <tr>
                                 <td align="center"><small><b>No</b></small></th>
-                                <td align="left"><small><b>Tanggal</b></small></th>
-                                <td align="left"><small><b>Jam</b></small></th>
+                                <td align="left"><small><b>Tanggal Bayar</b></small></th>
                                 <td align="left"><small><b>Metode</b></small></th>
-                                <td align="right"><small><b>Pembayaran</b></small></th>
+                                <td align="right"><small><b>Nominal</b></small></th>
                                 <td align="center"><small><b>Opsi</b></small></th>
                             </tr>
                         </thead>
@@ -223,7 +214,7 @@
     if(empty($jml_data)){
         echo '
             <tr>
-                <td align="center" colspan="6"><small class="text-danger">Belum Ada Pembayaran Untuk Tagihan Ini</small></td>
+                <td align="center" colspan="5"><small>Belum Ada Pembayaran Untuk Tagihan Ini</small></td>
             </tr>
         ';
     }else{
@@ -241,8 +232,7 @@
             $total_payment = $total_payment + $payment_nominal;
 
             //Format Tanggal
-            $payment_datetime_format    = date('d/m/Y', strtotime($payment_datetime));
-            $payment_time_format        = date('H:i T', strtotime($payment_datetime));
+            $payment_datetime_format    = date('d/m/Y H:i', strtotime($payment_datetime));
 
             //Format Nominal
             $payment_nominal_format     = "Rp " . number_format($payment_nominal,0,',','.');
@@ -252,7 +242,6 @@
                 <tr>
                     <td align="center"><small>'.$no.'</small></td>
                     <td align="left"><small>'.$payment_datetime_format.'</small></td>
-                    <td align="left"><small>'.$payment_time_format.'</small></td>
                     <td align="left"><small>'.$payment_method.'</small></td>
                     <td align="right"><small>'.$payment_nominal_format.'</small></td>
                     <td align="center">
@@ -266,7 +255,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusPembayaran" data-id="'.$id_payment .'">
+                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusPembayaran" data-id_payment="'.$id_payment .'" data-id_fee_by_student="'.$id_fee_by_student .'">
                                     <i class="bi bi-trash"></i> Hapus Pembayaran
                                 </a>
                             </li>
@@ -280,20 +269,16 @@
         //Format Total Payment
         $total_payment_format     = "Rp " . number_format($total_payment,0,',','.');
 
-        //Menghitung Sisa Tagihan
-        $sisa_tagihan           = $jumlah_tagihan - $total_payment;
-        $sisa_tagihan_format    = "Rp " . number_format($sisa_tagihan,0,',','.');
-
         //Routing Status Pembayaran
         if($jumlah_tagihan<=$total_payment){
-            $status_pembayaran  = '<b class="text-success">Lunas</b>';
+            $status_pembayaran  = "LUNAS";
         }else{
-            $status_pembayaran  = '<b class="text-danger">Menunggu</b>';
+            $status_pembayaran  = "-";
         }
         echo '
             <tr>
                 <td align="center"></td>
-                <td align="left" colspan="2"><small><b>TOTAL PEMBAYARAN</b></small></td>
+                <td align="left"><small><b>TOTAL BAYAR</b></small></td>
                 <td align="left"></td>
                 <td align="right"><small><b>'.$total_payment_format.'</b></small></td>
                 <td align="center"></td>
@@ -302,18 +287,9 @@
         echo '
             <tr>
                 <td align="center"></td>
-                <td align="left" colspan="2"><small><b>SISA/TAGIHAN</b></small></td>
+                <td align="left"><small><b>KETERANGAN</b></small></td>
                 <td align="left"></td>
-                <td align="right"><small><b>'.$sisa_tagihan_format.'</b></small></td>
-                <td align="center"></td>
-            </tr>
-        ';
-        echo '
-            <tr>
-                <td align="center"></td>
-                <td align="left" colspan="2"><small><b>KETERANGAN</b></small></td>
-                <td align="left"></td>
-                <td align="right"><small>'.$status_pembayaran.'</small></td>
+                <td align="right"><small><b>'.$status_pembayaran.'</b></small></td>
                 <td align="center"></td>
             </tr>
         ';
@@ -325,4 +301,13 @@
     echo '      </div>';
     echo '  </div>';
     echo '</div>';
+
+    echo '
+        <script>
+            $("#kembali_ke_rincian_tagihan").show();
+            $("#kembali_ke_rincian_tagihan").attr("data-id_organization_class", "'.$id_organization_class.'");
+            $("#kembali_ke_rincian_tagihan").attr("data-id_student", "'.$id_student.'");
+            $("#button_modal_detail_tagihan").html(' . json_encode($tutup_kembali) . ');
+        </script>
+    ';
 ?>

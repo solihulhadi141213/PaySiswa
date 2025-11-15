@@ -34,6 +34,8 @@
     $payment_nominal_format = "Rp " . number_format($payment_nominal,0,',','.');
 
     echo '
+        <input type="hidden" name="id_payment" value="'.$id_payment.'">
+        <input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student.'">
         <div class="row mb-2">
             <div class="col-5"><small>Tanggal</small></div>
             <div class="col-1"><small>:</small></div>

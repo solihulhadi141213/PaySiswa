@@ -41,6 +41,18 @@
     //Buka 'student_name' dan 'student_nis' dari tabel 'student_name'
     $student_name   = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_name');
     $student_nis    = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_nis');
+    $student_gender = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_gender');
+
+    //Routing $student_gender
+    if($student_gender=="Male"){
+        $student_gender = "Laki-laki";
+    }else{
+        if($student_gender=="Female"){
+            $student_gender = "Perempuan";
+        }else{
+            $student_gender = "-";
+        }
+    }
     
     //Hitung Jumlah Data
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_student  FROM fee_by_student  WHERE id_organization_class='$id_organization_class' AND id_student='$id_student'"));
@@ -120,31 +132,46 @@
                 </td>
             </tr>
         </table>
-        <table class="identitas">
+        <table width="100%">
             <tr>
-                <td><small>Nama Siswa</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$student_name"; ?></small></td>
-            </tr>
-            <tr>
-                <td><small>NIS</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$student_nis"; ?></small></td>
-            </tr>
-            <tr>
-                <td><small>Periode Akademik</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$academic_period"; ?></small></td>
-            </tr>
-            <tr>
-                <td><small>Jenjang / Level</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$class_level"; ?></small></td>
-            </tr>
-            <tr>
-                <td><small>Kelas / Rombel</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$class_name"; ?></small></td>
+                <td width="50%">
+                    <table>
+                        <tr>
+                            <td><small>Nama Siswa</small></td>
+                            <td><small>:</small></td>
+                            <td><small><?php echo "$student_name"; ?></small></td>
+                        </tr>
+                        <tr>
+                            <td><small>NIS</small></td>
+                            <td><small>:</small></td>
+                            <td><small><?php echo "$student_nis"; ?></small></td>
+                        </tr>
+                        <tr>
+                            <td><small>Gender</small></td>
+                            <td><small>:</small></td>
+                            <td><small><?php echo "$student_gender"; ?></small></td>
+                        </tr>
+                    </table>
+                </td>
+                <td width="50%" align="right">
+                    <table>
+                        <tr>
+                            <td><small>Periode Akademik</small></td>
+                            <td><small>:</small></td>
+                            <td><small><?php echo "$academic_period"; ?></small></td>
+                        </tr>
+                        <tr>
+                            <td><small>Jenjang / Level</small></td>
+                            <td><small>:</small></td>
+                            <td><small><?php echo "$class_level"; ?></small></td>
+                        </tr>
+                        <tr>
+                            <td><small>Kelas / Rombel</small></td>
+                            <td><small>:</small></td>
+                            <td><small><?php echo "$class_name"; ?></small></td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
         </table>
         <br>

@@ -36,7 +36,7 @@
     $id_organization_class=validateAndSanitizeInput($_POST['id_organization_class']);
     $id_organization_class = (int)$id_organization_class;
 
-    //Buka Data access
+    //Buka Data 'organization_class'
     $Qry = $Conn->prepare("SELECT * FROM organization_class WHERE id_organization_class = ?");
     $Qry->bind_param("i", $id_organization_class);
     if (!$Qry->execute()) {
@@ -53,13 +53,13 @@
     $Qry->close();
 
     //Buat Variabel
-    $id_organization_class  =$Data['id_organization_class'];
-    $id_academic_period  =$Data['id_academic_period'];
-    $class_level            =$Data['class_level'];
-    $class_name             =$Data['class_name'];
+    $id_organization_class  = $Data['id_organization_class'];
+    $id_academic_period     = $Data['id_academic_period'];
+    $class_level            = $Data['class_level'];
+    $class_name             = $Data['class_name'];
 
     //Hitung Jumlah Siswa
-    $jumlah_siswa=mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class  FROM  student WHERE id_organization_class='$id_organization_class' AND student_status='Terdaftar'"));
+    $jumlah_siswa=mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class FROM student WHERE id_organization_class='$id_organization_class' AND student_status='Terdaftar'"));
 
     // Hitung Komponen Biaya SPP
     $sql_spp = "
@@ -85,31 +85,67 @@
     $row_non_spp = mysqli_fetch_assoc($result_non_spp);
     $jumlah_baris_non_spp = (int)$row_non_spp['jumlah_baris'];
 
+    //Jumlah Komponen
+    $jumlah_komponen_biaya = $jumlah_baris_spp + $jumlah_baris_non_spp;
+
     //Buka Periode Akademik
     $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
 
     //Tampilkan Data
     echo '
         <div class="row mb-2">
-            <div class="col-12 text-center">
-                <b>DAFTAR BIAYA PENDIDIKAN SISWA '.$class_level.' ('.$class_name.')</b><br>
-                PERIODE AKADEMIK '.$academic_period.'
+            <div class="col-12 mb-3">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <small>
+                        <i class="bi bi-info-circle"></i> 
+                        Data siswa yang ditampilkan pada tabel berikut ini merupakan data siswa yang secara aktual terdaftar pada periode dan rombel yang dipilih.
+                    </small>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <div class="row mb-2">
+                    <div class="col-5"><small>Periode Akademik</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$academic_period.'</small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Komponen Biaya</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$jumlah_komponen_biaya.' Record</small></div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                 <div class="row mb-2">
+                    <div class="col-5"><small>Jenjang/Level</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_level.'</small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Kelas/Rombel</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_name.'</small></div>
+                </div>
             </div>
         </div>
     ';
 ?>
 
-<div class="row border-top border-1">
+<div class="row">
     <div class="col-12">
         <div class="table table-responsive">
-            <table class="table table-sm table-striped table-hover">
+            <table class="table table-sm table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th rowspan="2" valign="middle"><b>No</b></th>
-                        <th rowspan="2" valign="middle"><b>Siswa</b></th>
-                        <th class="text-center" valign="middle" colspan="<?php echo $jumlah_baris_spp; ?>"><b>SPP</b></th>
-                        <th class="text-center" valign="middle" colspan="<?php echo $jumlah_baris_non_spp; ?>"><b>Non-SPP</b></th>
-                        <th class="text-center" valign="middle" rowspan="2"><b>Jumlah</b></th>
+                        <td rowspan="2" align="center" valign="middle"><b>No</b></td>
+                        <td rowspan="2" align="center" valign="middle"><b>Nama Siswa</b></td>
+                        <td rowspan="2" align="center" valign="middle"><b>NIS</b></td>
+                        <td class="text-center" valign="middle" colspan="<?php echo $jumlah_baris_spp; ?>"><b>SPP</b></td>
+                        <td class="text-center" valign="middle" colspan="<?php echo $jumlah_baris_non_spp; ?>"><b>Non-SPP</b></td>
+                        <td class="text-center" valign="middle" rowspan="2"><b>Jumlah</b></td>
                     </tr>
                     <tr>
                         <?php
@@ -130,7 +166,7 @@
                                 $nama_bulan=getNamaBulanSingkat($periode_month);
                                 echo '
                                     <td class="text-center">
-                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTambahTagihanMulti" data-id1="'.$id_academic_period.'" data-id2="'.$id_organization_class.'" data-id3="'.$id_fee_component.'">
+                                        <a href="javascript:void(0);" class="tambah_tagihan_multi" data-id1="'.$id_academic_period.'" data-id2="'.$id_organization_class.'" data-id3="'.$id_fee_component.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Click Disini Untuk Menambahkan Tagihan Secara Multiple">
                                             <small>'.$nama_bulan.'</small><br>
                                             <small>('.$periode_year.')</small><br>
                                             <small><i class="bi bi-arrow-down-circle"></i></small>
@@ -152,7 +188,7 @@
                                 $component_name    = $data_list_non_spp['component_name'];
                                  echo '
                                     <td class="text-center">
-                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTambahTagihanMulti" data-id1="'.$id_academic_period.'" data-id2="'.$id_organization_class.'" data-id3="'.$id_fee_component.'">
+                                        <a href="javascript:void(0);" class="tambah_tagihan_multi" data-id1="'.$id_academic_period.'" data-id2="'.$id_organization_class.'" data-id3="'.$id_fee_component.'">
                                             <small>'.$component_name.'</small><br>
                                             <small>('.$nama_bulan.' '.$periode_year.')</small><br>
                                             <small><i class="bi bi-arrow-down-circle"></i></small>
@@ -165,12 +201,12 @@
                 </thead>
                 <tbody>
                     <?php
-                        $jumlah_colspan=3+$jumlah_baris_spp+$jumlah_baris_non_spp;
+                        $jumlah_colspan=6+$jumlah_baris_spp+$jumlah_baris_non_spp;
                         if(empty($jumlah_siswa)){
                             echo '
                                 <tr>
                                     <td colspan="'.$jumlah_colspan.'" align="center">
-                                        <spall class="text-danger">Tidak Ada Data Siswa Yang Ditampilkan</spall>
+                                        <spall class="text-danger">Tidak Ada Data Siswa Yang Secara Aktual Ditampilkan Pada Rombel Ini</spall>
                                     </td>
                                 </tr>
                             ';
@@ -187,8 +223,9 @@
                             $student_nis= $data_siswa['student_nis'];
 
                             echo '<tr>';
-                            echo '  <td><small>'.$no.'</small></td>';
-                            echo '  <td><small>'.$student_name.'<br><small class="text text-grayish">NIS:'.$student_nis.'</small></small></td>';
+                            echo '  <td align="center"><small>'.$no.'</small></td>';
+                            echo '  <td><small>'.$student_name.'</small></td>';
+                            echo '  <td><small>'.$student_nis.'</small></td>';
                             
                             $jumlah_tagihan_siswa=0;
                             // Looping Daftar Biaya Pendidikan SPP
@@ -222,12 +259,21 @@
                                 }else{
                                     echo '
                                         <td class="text-center">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTambahTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
-                                                <small class="text text-grayish">'.$jumlah_tagihan_format.'</small>
-                                            </a><br>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
-                                                <small class="text-danger">x Hapus</small>
+                                            <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <small class="text text-grayish">'.$jumlah_tagihan_format.' <i class="bi bi-three-dots-vertical"></i></small>
                                             </a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow bg-body-secondary" style="">
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalTambahTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
+                                                        <i class="bi bi-pencil"></i> Edit Tagihan
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
+                                                        <i class="bi bi-x"></i> Hapus Tagihan
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </td>
                                     ';
                                 }
@@ -262,12 +308,21 @@
                                 }else{
                                     echo '
                                         <td class="text-center">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTambahTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
-                                                <small class="text text-grayish">'.$jumlah_tagihan_format.'</small>
-                                            </a><br>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
-                                                <small class="text-danger">x Hapus</small>
+                                            <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <small class="text text-grayish">'.$jumlah_tagihan_format.' <i class="bi bi-three-dots-vertical"></i></small>
                                             </a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow bg-body-secondary" style="">
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalTambahTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
+                                                        <i class="bi bi-pencil"></i> Edit Tagihan
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihan" data-id1="'.$id_organization_class .'" data-id2="'.$id_student .'" data-id3="'.$id_fee_component .'">
+                                                        <i class="bi bi-x"></i> Hapus Tagihan
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </td>
                                     ';
                                 }

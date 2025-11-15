@@ -12,43 +12,55 @@
 
     //Validasi Sesi Akses
     if (empty($SessionIdAccess)) {
-        echo '
-            <div class="alert alert-danger">
-                <small>
-                    Sesi akses sudah berakhir. Silahkan <b>login</b> ulang!
-                </small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Sesi Akses Sudah Berakhir, Silahkan Login Ulang!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
     //Tangkap id_payment
     if(empty($_POST['id_payment'])){
-         echo '
-            <div class="alert alert-danger">
-                <small>
-                    ID Pembayaran Siswa Tidak Boleh Kosong!
-                </small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Pembayaran Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
 
     //Buat variabel
     $id_payment=validateAndSanitizeInput($_POST['id_payment']);
+
+    //Buka detail Pembayaran
+    $id_fee_by_student      = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_fee_by_student');
+    $id_student             = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_student');
+    $id_fee_component       = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_fee_component');
+    $id_organization_class  = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_organization_class');
     
     //Proses hapus data
     $ProsesHapus = mysqli_query($Conn, "DELETE FROM payment WHERE id_payment='$id_payment'") or die(mysqli_error($Conn));
     if ($ProsesHapus) {
-        echo '<span class="text-success" id="NotifikasiHapusPembayaranBerhasil">Success</span>';
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Hapus data dari database berhasil!',
+            'id_organization_class' => $id_organization_class,
+            'id_student' => $id_student,
+            'id_fee_by_student' => $id_fee_by_student
+        ]);
+        exit;
     }else{
-
-        //Jika menghapus gagal
-        echo '
-            <div class="alert alert-danger">
-                <small>
-                    Terjadi kesalahan pada saat menghapus data!
-                </small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan pada saat proses hapus data dari database',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
+        exit;
     }
 ?>

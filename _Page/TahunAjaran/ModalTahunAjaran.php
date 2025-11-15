@@ -309,7 +309,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-rounded" id="button_kembali" data-bs-toggle="modal" data-bs-target="#ModalSiswaPerKelas" data-id="">
+                <button type="button" class="btn btn-secondary btn-rounded button_kembali_ke_daftar_siswa_perkelas">
                     <i class="bi bi-chevron-left"></i> Kembali
                 </button>
             </div>
@@ -472,7 +472,7 @@
                         </a>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-secondary btn-rounded" id="button_kembali_ke_tagihan_siswa" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="">
+                <button type="button" class="btn btn-secondary btn-rounded" id="button_kembali_ke_tagihan_siswa" data-id="">
                     <i class="bi bi-chevron-left"></i> Kembali
                 </button>
             </div>

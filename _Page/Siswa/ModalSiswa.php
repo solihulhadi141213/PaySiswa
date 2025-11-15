@@ -585,3 +585,126 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalRincianTagihanSiswa" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="_Page\Exporter\ExporterRincianTagihan.php" target="_blank" method="GET">
+                <input type="hidden" name="id_organization_class" id="put_id_organization_class">
+                <input type="hidden" name="id_student" id="put_id_student">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-list-nested"></i> Rincian Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="title_tagihan_siswa">
+                            <!-- Keterangan/Judul Tagihan Siswa Ditampilkan Disini -->
+                        </div>
+                    </div>
+                    <div class="row border-1 border-top">
+                        <div class="col-md-12 mt-3 mb-3 text-end" id="button_tambah_tagihan_siswa">
+                            <!-- Tombol Tambah Tagihan Siswa Ditampilkan Disini -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table table-responsive">
+                                <table class="table table-responsive table-hover table-striped border-1 border-top">
+                                    <thead>
+                                        <tr>
+                                            <th><b><small>No</small></b></th>
+                                            <th><b><small>Komponen Biaya</small></b></th>
+                                            <th><b><small>Nominal</small></b></th>
+                                            <th><b><small>Diskon</small></b></th>
+                                            <th><b><small>Tagihan</small></b></th>
+                                            <th><b><small>Pembayaran</small></b></th>
+                                            <th><b><small>Sisa/Tunggakan</small></b></th>
+                                            <th><b><small>Opsi</small></b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="TabelRincianTagihanSiswa">
+                                        <tr>
+                                            <td colspan="8" class="text-center">
+                                                <small>Loading...</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal Tambah Tagihan Siswa -->
+<div class="modal fade" id="ModalTambahTagihanSiswa" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahTagihanSiswa">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-plus"></i> Tambah Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" id="FormTambahTagihanSiswa">
+                            <!-- Menampilkan Form Tambah Tagihan Siswa -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiTambahTagihanSiswa">
+                            <!-- Notifikasi Tambah Tagihan Siswa -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="button_modal_tambah_tagihan_siswa">
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah Tagihan Siswa -->
+<div class="modal fade" id="ModalDetailTagihan" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="_Page/Exporter/ExporterDetailTagihan.php" method="GET" target="_blank">
+                <input type="hidden" name="id_fee_by_student" id="put_id_fee_by_student3">
+                <input type="hidden" name="id_organization_class" id="put_id_organization_class3">
+                <input type="hidden" name="id_student" id="put_id_student3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-plus"></i> Detail Tagihan & Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="FormDetailTagihan">
+                    <div class="row mb-3">
+                        <div class="col-12 text-center">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="button_modal_detail_tagihan">
+                   <!-- Tombol Export dan Tombol Kembali Akan Ditampilkan Disini -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -10,20 +10,49 @@
 
     //Validasi Session Akses
     if (empty($SessionIdAccess)) {
-        echo '<div class="alert alert-danger"><small>Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small></div>';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Sesi Akses Sudah Berakhir, Silahkan Login Ulang!',
+            'id_organization_class' => '',
+            'id_student' => ''
+        ]);
         exit;
     }
 
-    //Validasi Form Required
-    $required = ['id_organization_class','id_student','id_fee_component'];
-    foreach($required as $r){
-        if(empty($_POST[$r])){
-            echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
-            exit;
-        }
+    //Validasi 'id_organization_class' tidak boleh kosong
+    if (empty($_POST['id_organization_class'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Kelas Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => ''
+        ]);
+        exit;
     }
 
-    //Buat Variabel
+    //Validasi 'id_student' tidak boleh kosong
+    if (empty($_POST['id_student'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Siswa Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => ''
+        ]);
+        exit;
+    }
+
+    //Validasi 'id_fee_component' tidak boleh kosong
+    if (empty($_POST['id_fee_component'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Komponen Biaya Pendidikan Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => ''
+        ]);
+        exit;
+    }
+
+    //Buat Variabel Dan Sanitasi
     $id_organization_class  = validateAndSanitizeInput($_POST['id_organization_class']);
     $id_student             = validateAndSanitizeInput($_POST['id_student']);
     $id_fee_component       = validateAndSanitizeInput($_POST['id_fee_component']);
@@ -43,26 +72,24 @@
     }
 
     //Cek Apakah Data Sudah Ada
-    $QryCek = $Conn->prepare("SELECT id_fee_by_student FROM  fee_by_student WHERE id_organization_class = ? AND id_student = ? AND id_fee_component = ?");
+    $QryCek = $Conn->prepare("SELECT id_fee_by_student FROM fee_by_student WHERE id_organization_class = ? AND id_student = ? AND id_fee_component = ?");
     $QryCek->bind_param("iii", $id_organization_class, $id_student, $id_fee_component);
     if (!$QryCek->execute()) {
         $error=$Conn->error;
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'',
+            'id_organization_class' => $id_organization_class,
+            'id_student' => $id_student
+        ]);
         exit;
     }
     $ResultCek = $QryCek->get_result();
     $DataCek = $ResultCek->fetch_assoc();
     $QryCek->close();
 
-    //Buat Variabel
-    $id_fee_by_student  =$DataCek['id_fee_by_student'];
-
     //Proses Insert OR Update
-    if(empty($id_fee_by_student)){
+    if(empty($DataCek['id_fee_by_student'])){
         //Insert data
         $stmt = $Conn->prepare("INSERT INTO fee_by_student (id_organization_class, id_student, id_fee_component, fee_nominal, fee_discount) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("iiiss",$id_organization_class, $id_student, $id_fee_component, $fee_nominal, $fee_discount);
@@ -70,23 +97,65 @@
         $stmt->close();
 
         if($Input){
-            echo '<code class="text-success" id="NotifikasiTambahRincianTagihanSiswaBerhadil">Success</code>';
-            
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Insert Data Tagihan Siswa Berhasil',
+                'id_organization_class' => $id_organization_class,
+                'id_student' => $id_student
+            ]);
+            exit;
         }else{
-            echo '<div class="alert alert-danger"><small>Terjadi kesalahan pada saat input data</small></div>';
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan pada saat insert data tagihan siswa',
+                'id_organization_class' => $id_organization_class,
+                'id_student' => $id_student
+            ]);
+            exit;
         }
     }else{
-        $id_fee_by_student=validateAndSanitizeInput($_POST['id_fee_by_student']);
+        //Buat Variabel
+        $id_fee_by_student  = $DataCek['id_fee_by_student'];
         
-        //Update Data
-        $UpdateEntitias = mysqli_query($Conn,"UPDATE fee_by_student SET 
-            fee_nominal='$fee_nominal',
-            fee_discount='$fee_discount'
-        WHERE id_fee_by_student='$id_fee_by_student'") or die(mysqli_error($Conn)); 
-        if($UpdateEntitias){
-            echo '<code class="text-success" id="NotifikasiTambahRincianTagihanSiswaBerhadil">Success</code>';
-        }else{
-            echo '<div class="alert alert-danger"><small>Terjadi kesalahan pada saat menyimpan data</small></div>';
+        // Update Data Query menggunakan prepared statement
+        $Qry = $Conn->prepare("
+            UPDATE fee_by_student 
+            SET fee_nominal = ?, 
+                fee_discount = ?
+            WHERE id_fee_by_student = ?
+        ");
+
+        // Validasi prepare
+        if (!$Qry) {
+            die("Prepare failed: " . $Conn->error);
         }
+
+        // Bind parameter
+        // tipe data: s = string, i = integer, d = double
+        // fee_nominal dan fee_discount biasanya angka → gunakan "s" bila diposting sebagai string
+        $Qry->bind_param("ssi", $fee_nominal, $fee_discount, $id_fee_by_student);
+
+        // Eksekusi query
+        if ($Qry->execute()) {
+            $response = [
+                'status'  => 'success',
+                'message' => 'Data berhasil diperbarui',
+                'id_organization_class' => $id_organization_class,
+                'id_student' => $id_student
+            ];
+        } else {
+            $response = [
+                'status'  => 'error',
+                'message' => 'Gagal memperbarui data: ' . $Qry->error,
+                'id_organization_class' => $id_organization_class,
+                'id_student' => $id_student
+            ];
+        }
+
+        // Tutup statement
+        $Qry->close();
+
+        // Output JSON (opsional)
+        echo json_encode($response);
     }
 ?>  

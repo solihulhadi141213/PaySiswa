@@ -63,20 +63,61 @@
     //Buka Nama Komponen
     $component_name = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
 
+    //Buka Nama Siswa dan NIS
+    $student_name = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_name');
+    $student_nisn = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_nisn');
+
+    //Buka Kelas
+    $id_academic_period = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
+    $class_level = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
+    $class_name = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
+
+    //Buka periode akademik
+    $academic_period = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
+
     //Tampilkan Data
     echo '<input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student.'">';
-    echo '<input type="hidden" name="id_organization_class" id="put_id_organization_class5" value="'.$id_organization_class.'">';
-    echo '<input type="hidden" name="id_student" id="put_id_student5" value="'.$id_student.'">';
+    echo '<input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">';
+    echo '<input type="hidden" name="id_student" value="'.$id_student.'">';
+
+    //Menampilkan Detail Tagihan
     echo '
-         <div class="row mb-3">
-            <div class="col-12">
-                <label for="component_name"><small>Komponen Biaya</small></label>
-                <input type="text" disabled class="form-control" id="component_name" name="component_name" value="'.$component_name.'">
-            </div>
+        <div class="row mb-2">
+            <div class="col-5"><small>Nama Siswa</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6"><small class="text text-grayish">'.$student_name.'</small></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5"><small>NIS</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6"><small class="text text-grayish">'.$student_nisn.'</small></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5"><small>Periode Akademik</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6"><small class="text text-grayish">'.$academic_period.'</small></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5"><small>Jenjang/Level</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6"><small class="text text-grayish">'.$class_level.'</small></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5"><small>Kelas/Rombel</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6"><small class="text text-grayish">'.$class_name.'</small></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5"><small>Komponen Biaya</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-6"><small class="text text-grayish">'.$component_name.'</small></div>
         </div>
     ';
+   
+
+    //Menampilkan Form
     echo '
-         <div class="row mb-3">
+         <div class="row mb-2 mt-3">
             <div class="col-12">
                 <label for="nominal_tagihan_siswa3"><small>Nominal Tagihan</small></label>
                 <input type="text" class="form-control form-money" id="nominal_tagihan_siswa3" name="fee_nominal" placeholder="Rp" value="'.$fee_nominal.'">
@@ -84,18 +125,12 @@
         </div>
     ';
     echo '
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col-12">
                 <label for="nominal_diskon_siswa3"><small>Diskon</small></label>
                 <input type="text" class="form-control form-money" id="nominal_diskon_siswa3" name="fee_discount" placeholder="Rp" value="'.$fee_discount.'">
             </div>
         </div>
-    ';
-    echo '
-        <script>
-            $(".kembali_ke_rincian_tagihan").attr("data-id_organization_class", "'.$id_organization_class.'");
-            $(".kembali_ke_rincian_tagihan").attr("data-id_student", "'.$id_student.'");
-        </script>
     ';
 ?>
 

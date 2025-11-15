@@ -67,7 +67,9 @@
                                         <th><b>Bulan</b></th>
                                         <th><b>Tahun</b></th>
                                         <th><b>Tempo</b></th>
-                                        <th><b>Nominal</b></th>
+                                        <th><b>Tarif</b></th>
+                                        <th><b>Record Tagihan</b></th>
+                                        <th><b>Rp Tagihan</b></th>
                                         <th><b>Opsi</b></th>
                                     </tr>
                                 </thead>

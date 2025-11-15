@@ -109,7 +109,7 @@
             <div class="col-7">
                 <input type="text" name="fee_discount" id="fee_discount" class="form-control form-money" value="0">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="UpdateYangSudahAda" id="UpdateYangSudahAda" value="1">
+                    <input class="form-check-input" checked type="checkbox" name="UpdateYangSudahAda" id="UpdateYangSudahAda" value="1">
                     <label class="form-check-label" for="UpdateYangSudahAda">
                         <small>Update data yang sudah ada</small>
                     </label>
@@ -118,8 +118,3 @@
         </div>
     ';
 ?>
-
-<script>
-    var id_organization_class="<?php echo $id_organization_class; ?>";
-    $(".kembali_ke_modal_metrik").attr("data-id", id_organization_class);
-</script>

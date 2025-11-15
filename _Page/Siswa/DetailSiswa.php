@@ -283,27 +283,32 @@
                                             <b class="card-title"><i class="bi bi-coin"></i> Biaya Pendidikan Siswa</b>
                                         </div>
                                         <div class="col-4 text-end">
-                                            <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExportTagihanSiswa" data-id="'.$id_student.'">
+                                            <a href="_Page/Exporter/ExportTagihanPerSiswa.php?id_student='.$id_student.'" target="_blank" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export Tagihan Per Periode Siswa">
                                                 <i class="bi bi-download"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table table-responsive">
-                                        <table class="table table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th><b>No</b></th>
-                                                    <th><b>Kelas</b></th>
                                                     <th><b>Periode Akademik</b></th>
-                                                    <th><b>Komponen</b></th>
-                                                    <th><b>Bulan</b></th>
-                                                    <th><b>Tahun</b></th>
-                                                    <th><b>Nominal</b></th>
+                                                    <th><b>Jenjang / Level</b></th>
+                                                    <th><b>Kelas/Rombel</b></th>
+                                                    <th>
+                                                        <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Komponen Biaya Pendidikan">
+                                                            <b><i class="bi bi-info-circle"></i> K.B.P</b>
+                                                        </a>
+                                                    </th>
+                                                    <th><b>Tagihan</b></th>
                                                     <th><b>Diskon</b></th>
-                                                    <th><b>Jumlah</b></th>
+                                                    <th><b>Jumlah Tagihan</b></th>
                                                     <th><b>Pembayaran</b></th>
+                                                    <th><b>Sisa/Tunggakan</b></th>
+                                                    <th><b>Opsi</b></th>
                                                 </tr>
                                             </thead>
                                             <tbody id="TabelTagihanSiswa">

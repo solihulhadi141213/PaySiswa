@@ -137,7 +137,7 @@
         echo '
             <div class="row mb-3" id="foto_siswa_place" style="display:none;">
                 <div class="col-12 mb-3 text-center">
-                    <img src="'.$app_base_url.'/image_proxy.php?dir=Siswa&filename='.$student_foto.'" alt="'.$student_foto.'" width="70%" class="rounded-circle">
+                    <img src="../../image_proxy.php?dir=Siswa&filename='.$student_foto.'" alt="'.$student_foto.'" width="70%" class="rounded-circle">
                 </div>
             </div>
         ';

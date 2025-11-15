@@ -25,8 +25,8 @@
         exit;
     }
 
-    //Buat Variabel
-    $id_fee_by_student=$_POST['id_fee_by_student'];
+    //Buat Variabel dan sanitasi
+    $id_fee_by_student = validateAndSanitizeInput($_POST['id_fee_by_student']);
 
     //Buka Data fee_by_student
     $QryFee = $Conn->prepare("SELECT * FROM fee_by_student WHERE id_fee_by_student = ?");
@@ -44,8 +44,16 @@
     $DataFee= $ResultFee->fetch_assoc();
     $QryFee->close();
 
+    if(empty($DataFee['id_fee_by_student'])){
+        echo '
+            <div class="alert alert-danger">
+                <small>ID Tagihan <b>'.$id_fee_by_student.'</b> Tidak Valid (tidak ditemukan pada database)</small>
+            </div>
+        ';
+        exit;
+    }
+
     //Buat Variabel
-    $id_fee_by_student      = $DataFee['id_fee_by_student'];
     $id_student             = $DataFee['id_student'];
     $id_organization_class  = $DataFee['id_organization_class'];
     $id_fee_component       = $DataFee['id_fee_component'];
@@ -77,6 +85,7 @@
 
     //Tampilkan Form
     echo '
+        <input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student.'">
         <div class="row mb-2">
             <div class="col-4"><small>Siswa</small></div>
             <div class="col-1"><small>:</small></div>
@@ -118,7 +127,7 @@
             <div class="col-7"><small class="text text-grayish">'.$sisa_format.'</small></div>
         </div>
         <div class="row mb-3">
-            <div class="col-12"><small><br></small></div>
+            <div class="col-12 border-1 border-bottom"><small><br></small></div>
         </div>
     ';
 
@@ -126,7 +135,7 @@
         echo '
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="payment_datetime">Tanggal</label>
+                    <label for="payment_datetime"><small>Tanggal</small></label>
                 </div>
                 <div class="col-md-8">
                     <input type="date" name="payment_datetime" id="payment_datetime" class="form-control" value="'.date('Y-m-d').'">
@@ -134,7 +143,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="payment_time">Jam</label>
+                    <label for="payment_time"><small>Jam</small></label>
                 </div>
                 <div class="col-md-8">
                     <input type="time" name="payment_time" id="payment_time" class="form-control" value="'.date('H:i').'">
@@ -142,7 +151,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="payment_nominal">Nominal</label>
+                    <label for="payment_nominal"><small>Nominal Bayar</small></label>
                 </div>
                 <div class="col-8">
                     <input type="text" name="payment_nominal" id="payment_nominal" class="form-control form-money" value="'.$sisa.'">
@@ -150,10 +159,10 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="payment_method">Metode</label>
+                    <label for="payment_method"><small>Metode Pembayaran</small></label>
                 </div>
                 <div class="col-md-8">
-                    <select name="payment_method" class="form-control">
+                    <select name="payment_method" id="payment_method" class="form-control">
                         <option value="">Pilih</option>
                         <option value="Cash">Cash</option>
                         <option value="Transfer">Transfer</option>

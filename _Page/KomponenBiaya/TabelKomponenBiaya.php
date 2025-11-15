@@ -78,6 +78,25 @@
             $label_spp='<span class="badge bg-success">Non-SPP</span>';
         }
 
+        //Menghitung jumlah tagihan
+        $jumlah_record_tagihan = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_student FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
+        $jumlah_record_tagihan_format= "" . number_format($jumlah_record_tagihan,0,',','.');
+        if(empty($jumlah_record_tagihan)){
+            $label_record_tagihan = '<span class="text text-grayish">0 Record</span>';
+        }else{
+            $label_record_tagihan = '<span class="text text-dark">'.$jumlah_record_tagihan_format.' Record</span>';
+        }
+
+        //Menghitung Jumlah Nominal Tagihan
+        $SumTagihan                 = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS jumlah_tagihan FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
+        $jumlah_rp_tagihan          = $SumTagihan['jumlah_tagihan'];
+        $jumlah_rp_tagihan_format   = "Rp " . number_format($jumlah_rp_tagihan,0,',','.');
+        if(empty($jumlah_rp_tagihan)){
+            $label_jumlah_rp_tagihan = '<span class="text text-grayish">Rp 0</span>';
+        }else{
+            $label_jumlah_rp_tagihan = '<span class="text text-dark">'.$jumlah_rp_tagihan_format.'</span>';
+        }
+
         //Tampilkan Data
         echo '
             <tr>
@@ -93,9 +112,9 @@
                 <td>
                     <small>'.date('d/m/Y', strtotime($periode_start)).' - '.date('d/m/Y', strtotime($periode_end)).'</small>
                 </td>
-                <td>
-                    <small>'.$fee_nominal_format.'</small>
-                </td>
+                <td><small>'.$fee_nominal_format.'</small></td>
+                <td><small>'.$label_record_tagihan.'</small></td>
+                <td><small>'.$label_jumlah_rp_tagihan.'</small></td>
                 <td>
                     <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>

@@ -10,7 +10,11 @@
 
     //Validasi Session Akses
     if (empty($SessionIdAccess)) {
-        echo '<div class="alert alert-danger"><small>Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small></div>';
+        echo json_encode([
+            'status'                => 'error',
+            'message'               => 'Sesi Akses Sudah Berakhir, Silahkan Login Ulang!',
+            'id_organization_class' => ''
+        ]);
         exit;
     }
 
@@ -18,7 +22,11 @@
     $required = ['id_organization_class','id_academic_period','id_fee_component'];
     foreach($required as $r){
         if(empty($_POST[$r])){
-            echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
+            echo json_encode([
+                'status'                => 'error',
+                'message'               => 'Field '.htmlspecialchars($r).' wajib diisi!',
+                'id_organization_class' => ''
+            ]);
             exit;
         }
     }
@@ -75,10 +83,18 @@
     //Selesai proses → commit/rollback
     if($all_success){
         $Conn->commit();
-        echo '<code class="text-success" id="NotifikasiTambahTagihanMultiBerhasil">Success</code>';
+        echo json_encode([
+            'status'                => 'success',
+            'message'               => 'Tambah Tagihan Berhasil',
+            'id_organization_class' => $id_organization_class
+        ]);
     }else{
         $Conn->rollback();
-        echo '<div class="alert alert-danger"><small>Terjadi kesalahan pada saat menyimpan data. Semua perubahan dibatalkan.</small></div>';
+        echo json_encode([
+            'status'                => 'error',
+            'message'               => 'Terjadi kesalahan pada saat menyimpan data. Semua perubahan dibatalkan.',
+            'id_organization_class' => $id_organization_class
+        ]);
     }
 
     //Kembalikan autocommit

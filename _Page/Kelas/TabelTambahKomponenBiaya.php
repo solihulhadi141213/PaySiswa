@@ -6,7 +6,6 @@
 
     //Zona Waktu
     date_default_timezone_set("Asia/Jakarta");
-
     //Validasi Akses
     if(empty($SessionIdAccess)){
         echo '
@@ -15,6 +14,9 @@
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
+            <script>
+                $("#title_komponen_biaya").html("");
+            </script>
         ';
         exit;
     }
@@ -27,6 +29,9 @@
                     <small class="text-danger">Belum ada data kelas yang dipilih!</small>
                 </td>
             </tr>
+            <script>
+                $("#title_komponen_biaya").html("");
+            </script>
         ';
         exit;
     }
@@ -38,6 +43,9 @@
                     <small class="text-danger">Periode Akademik Tidak Boleh Kosong! Silahkan pilih tahun akademik terlebih dulu!</small>
                 </td>
             </tr>
+            <script>
+                $("#title_komponen_biaya").html("");
+            </script>
         ';
         exit;
     }
@@ -59,12 +67,38 @@
                     <small class="text-danger">ID Periode Akademik yang Anda Pilih ('.$id_academic_period.') Tidak Valid</small>
                 </td>
             </tr>
+            <script>
+                $("#title_komponen_biaya").html("");
+            </script>
         ';
         exit;
     }
 
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_component FROM fee_component WHERE id_academic_period='$id_academic_period'"));
     
+    //Inisiasi Komponen untuk 'title_komponen_biaya'
+    $title_komponen_biaya = '
+        <div class="row">
+            <div class="col-md-5">
+                <div class="row mb-2">
+                    <div class="col-5"><small>Tahun Akademik</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$academic_period.'</small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Jenjang/Level</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_level.'</small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Kelas/Level</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_name.'</small></div>
+                </div>
+            </div>
+        </div>
+    ';
+
     //Mengatur Halaman
     if(empty($jml_data)){
         echo '
@@ -73,6 +107,9 @@
                     <small class="text-danger">Tidak Ada Data Komponen Biiaya Pendidikan Untuk Periode <b>'.$academic_period.'</b> ini!</small>
                 </td>
             </tr>
+            <script>
+                $("#title_komponen_biaya").html(' . json_encode($title_komponen_biaya) . ');
+            </script>
         ';
         exit;
     }
@@ -124,11 +161,9 @@
         ';
         $no++;
     }
+    echo '
+        <script>
+            $("#title_komponen_biaya").html(' . json_encode($title_komponen_biaya) . ');
+        </script>
+    ';
 ?>
-
-<script>
-    var academic_period = "<?php echo $academic_period; ?>";
-    var class_level     = "<?php echo $class_level; ?>";
-    var class_name      = "<?php echo $class_name; ?>";
-    $('#title_komponen_biaya').html(`<b>Daftar Biaya Pendidikan ${class_level} (${class_name}) <br>Periode ${academic_period}</b><br><small>Silahkan Tambahkan Komponen Biaya Pendidikan Pada Kelas Tersebut</small>`);
-</script>

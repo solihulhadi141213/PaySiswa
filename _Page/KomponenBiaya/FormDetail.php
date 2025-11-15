@@ -50,15 +50,29 @@
         $Qry->close();
 
         //Buat Variabel
-        $id_fee_component   =$Data['id_fee_component'];
-        $component_name     =$Data['component_name'] ?? '-';
-        $component_category =$Data['component_category'] ?? '-';
-        $periode_start      =$Data['periode_start'] ?? '-';
-        $periode_end        =$Data['periode_end'] ?? '-';
-        $fee_nominal        =$Data['fee_nominal'] ?? '-';
+        $id_fee_component   = $Data['id_fee_component'];
+        $periode_month      = $Data['periode_month'];
+        $periode_year      = $Data['periode_year'];
+        $component_name     = $Data['component_name'] ?? '-';
+        $component_category = $Data['component_category'] ?? '-';
+        $periode_start      = $Data['periode_start'] ?? '-';
+        $periode_end        = $Data['periode_end'] ?? '-';
+        $fee_nominal        = $Data['fee_nominal'] ?? '-';
+
+        //Nama Bulan 
+        $nama_bulan=getNamaBulan($periode_month);
         
         //Format Rupiah
         $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
+
+        //Menghitung jumlah tagihan
+        $jumlah_record_tagihan = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_student FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
+        $jumlah_record_tagihan_format= "" . number_format($jumlah_record_tagihan,0,',','.');
+
+        //Menghitung Jumlah Nominal Tagihan
+        $SumTagihan                 = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS jumlah_tagihan FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
+        $jumlah_rp_tagihan          = $SumTagihan['jumlah_tagihan'];
+        $jumlah_rp_tagihan_format   = "Rp " . number_format($jumlah_rp_tagihan,0,',','.');
 
         //Tampilkan Data
         echo '
@@ -77,6 +91,20 @@
                 </div>
             </div>
             <div class="row mb-2">
+                <div class="col-4"><small>Periode Bulan</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$nama_bulan.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Periode Tahun</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$periode_year.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
                 <div class="col-4"><small>Awal Berlaku</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
@@ -91,10 +119,24 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4"><small>Nominal</small></div>
+                <div class="col-4"><small>Tarif Komponen</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text text-grayish">'.$fee_nominal_format.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Record Tagihan</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$jumlah_record_tagihan_format.' Record</small>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4"><small>Rp Tagihan</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$jumlah_rp_tagihan_format.'</small>
                 </div>
             </div>
         ';

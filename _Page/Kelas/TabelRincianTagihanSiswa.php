@@ -20,6 +20,7 @@
                 $("#put_student_nis").html("-");
                 $("#put_academic_period").html("-");
                 $("#put_class_name").html("-");
+                $("#put_button_tambah_rincian_tagihan_siswa").html("");
             </script>
         ';
         exit;
@@ -38,6 +39,7 @@
                 $("#put_student_nis").html("-");
                 $("#put_academic_period").html("-");
                 $("#put_class_name").html("-");
+                $("#put_button_tambah_rincian_tagihan_siswa").html("");
             </script>
         ';
     }
@@ -55,6 +57,7 @@
                 $("#put_student_nis").html("-");
                 $("#put_academic_period").html("-");
                 $("#put_class_name").html("-");
+                $("#put_button_tambah_rincian_tagihan_siswa").html("");
             </script>
         ';
     }
@@ -216,6 +219,13 @@
         <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
         <input type="hidden" name="id_student" value="'.$id_student.'">
     ';
+
+    //Buat Tombol Tambah Rincian Tagihan Siswa
+    $button_tambah_rincian_tagihan_siswa = '
+        <button type="button" class="btn btn-md btn-primary button_tambah_rincian_tagihan_siswa" data-id_organization_class="'.$id_organization_class.'" data-id_student="'.$id_student.'">
+            <i class="bi bi-plus-circle-dotted"></i> Tambah
+        </button>
+    ';
     echo '
         <script>
             $("#put_student_name").html("'.$student_name.'");
@@ -224,9 +234,7 @@
             $("#put_academic_period").html("'.$academic_period.'");
             $("#put_class_level").html("'.$class_level.'");
             $("#put_class_name").html("'.$class_name.'");
-
-            $(".button_tambah_rincian_tagihan_siswa").attr("data-id_organization_class", "'.$id_organization_class.'");
-            $(".button_tambah_rincian_tagihan_siswa").attr("data-id_student", "'.$id_student.'");
+            $("#put_button_tambah_rincian_tagihan_siswa").html(' . json_encode($button_tambah_rincian_tagihan_siswa) . ');
         </script>
     ';
 ?>
