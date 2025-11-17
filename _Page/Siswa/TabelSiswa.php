@@ -149,17 +149,18 @@
 
                 //Routing Gender
                 if($student_gender=="Male"){
-                    $gender_label='<span class="badge badge-success"><i class="bi bi-gender-male"></i> Male</span>';
+                    $gender_label='<span class="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Laki-laki (Male)">L</span>';
                 }else{
                     if($student_gender=="Female"){
-                        $gender_label='<span class="badge badge-danger"><i class="bi bi-gender-female"></i> Female</span>';
+                        $gender_label='<span class="badge bg-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Perempuan (Female)">P</span>';
                     }else{
-                        $gender_label='<span class="badge badge-dark"><i class="bi bi-x-circle"></i> NONE</span>';
+                        $gender_label='<span class="badge bg-dark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tidak Diketahui">-</span>';
                     }
                 }
 
                 //Buka Kelas
                 if(empty($data['id_organization_class'])){
+                    $label_jenjang='-';
                     $label_kelas='-';
                     $id_academic_period='';
                     $academic_period='-';
@@ -167,7 +168,8 @@
                     $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
                     $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
                     $id_academic_period=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
-                    $label_kelas="$level-$kelas";
+                    $label_jenjang="$level";
+                    $label_kelas="$kelas";
 
                     //Periode Akademik
                     $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
@@ -187,23 +189,62 @@
                         $label_status='<span class="badge badge-danger">Keluar</span>';
                     }
                 }
+
+                //Menghitung Sisa Tunggakan
+                ## Hitung Jumlah Tagihan
+                $SumTagihan = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal - fee_discount) AS total_tagihan FROM fee_by_student WHERE id_student='$id_student'"));
+                $jumlah_tagihan = $SumTagihan['total_tagihan'];
+                $jumlah_tagihan_format  = "" . number_format($jumlah_tagihan,0,',','.');
+
+                ## Hitung Jumlah Pembayaran
+                $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_student='$id_student'"));
+                $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
+                $jumlah_pembayaran_format   = "" . number_format($jumlah_pembayaran,0,',','.');
+
+                ## Menghitung Sisa Tagihan
+                $sisa_tagihan = $jumlah_tagihan-$jumlah_pembayaran;
+                $sisa_tagihan_format   = "Rp " . number_format($sisa_tagihan,0,',','.');
+                if(empty($sisa_tagihan)){
+                    $label_sisa = '<span class="text text-grayish">Rp 0</span>';
+                }else{
+                    $label_sisa = '<span class="text text-dark">'.$sisa_tagihan_format.'</span>';
+                }
+                $tooltip = "
+                <div class='text-left' style='margin:0; font-size:13px; align:left;'>
+                Tagihan     : $jumlah_tagihan_format
+                Pembayaran  : $jumlah_pembayaran_format
+                --------------------------------
+                Sisa        : $sisa_tagihan_format
+                </div>
+                ";
+
                 echo '
                     <tr>
                         <td>
                             <input type="checkbox" name="id_student[]" class="form-check-input" value="'.$id_student .'">
                         </td>
-                        <td><small>'.$no.'</small></td>
                         <td>
-                            <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
+                            <a href="javascript:void(0);" class="badge badge-info" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
+                                '.$no.'
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="text-dark" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
                                 <small>'.$student_name.'</small>
                             </a>
                         </td>
                         <td><small>'.$student_nis.'</small></td>
+                        <td><small>'.$label_jenjang.'</small></td>
                         <td><small>'.$label_kelas.'</small></td>
                         <td><small>'.$academic_period.'</small></td>
-                        <td><small>'.$gender_label.'</small></td>
+                        <td>'.$gender_label.'</td>
                         <td><small>'.$tanggal_daftar.'</small></td>
                         <td><small>'.$label_status.'</small></td>
+                        <td>
+                            <a href="javascript:void(0);" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$tooltip.'">
+                                <small class="underscore_doted">'.$label_sisa.'</small>
+                            </a>
+                        </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>

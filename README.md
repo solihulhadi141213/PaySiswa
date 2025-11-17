@@ -101,3 +101,7 @@
 - Relation Database Design : https://drawsql.app/teams/rsu-el-syifa/diagrams/school-system
 - Sequance Diagram : https://drive.google.com/file/d/1fX6SMki9oydaelz97KHcJVUzifKv_pj5/view?usp=sharing
 
+> **Tutorial dan Dokumentasi Lengkap**<br>
+> Untuk mendapatkan informasi lengkap mengenai aplikasi ini, bisa juga mengakses halaman github book berikut ini:
+> https://parasilva-technology.gitbook.io/pay-siswa/referensi
+

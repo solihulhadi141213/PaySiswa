@@ -26,6 +26,9 @@ function filterAndLoadTable() {
                 'opacity': '1',
                 'pointer-events': 'auto'
             });
+            
+            // 🔁 Re-inisialisasi tooltip setelah data dimuat
+            $('[data-bs-toggle="tooltip"]').tooltip();
         },
         error: function() {
             $tabel.html('<div class="alert alert-danger m-2">Gagal memuat data. Silakan coba lagi.</div>');

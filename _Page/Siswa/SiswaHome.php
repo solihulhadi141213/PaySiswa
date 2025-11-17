@@ -1,13 +1,13 @@
 <div class="pagetitle">
     <h1>
         <a href="">
-            <i class="bi bi-people"></i> Siswa</a>
+            <i class="bi bi-people"></i> Daftar Siswa</a>
         </a>
     </h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">Siswa</li>
+            <li class="breadcrumb-item active">Daftar Siswa</li>
         </ol>
     </nav>
 </div>
@@ -30,7 +30,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-12 text-end">
-                                <button type="button" class="btn btn-md btn-light btn-floating" data-bs-toggle="modal" data-bs-target="#ModalImport" title="Import Data Siswa">
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalImport" title="Import Data Siswa">
                                     <i class="bi bi-upload"></i>
                                 </button>
                                 <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter" title="Filter Data Siswa">
@@ -47,18 +47,28 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <td valign="middle">
                                             <input type="checkbox" name="check_all" class="form-check-input" value="check_all">
-                                        </th>
-                                        <th><b>No</b></th>
-                                        <th><b>Nama</b></th>
-                                        <th><b>NIS</b></th>
-                                        <th><b>Kelas</b></th>
-                                        <th><b>Thn.Akademik</b></th>
-                                        <th><b>Gender</b></th>
-                                        <th><b>Tgl.Daftar</b></th>
-                                        <th><b>Status</b></th>
-                                        <th><b>Opsi</b></th>
+                                        </td>
+                                        <td valign="middle"><b>No</b></td>
+                                        <td valign="middle"><b>Nama</b></td>
+                                        <td valign="middle"><b>NIS</b></td>
+                                        <td valign="middle"><b>Level <br> Jenjang</b></td>
+                                        <td valign="middle"><b>Kelas <br> Rombel</b></td>
+                                        <td valign="middle">
+                                            <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tahun Akademik / Periode Akademik">
+                                                <b class="text-dark"><i class="bi bi-info-circle"></i> T.A</b>
+                                            </a>
+                                        </td>
+                                        <td valign="middle">
+                                            <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jenis Kelamin (Laki-laki/Perempuan)">
+                                                <b class="text-dark"><i class="bi bi-info-circle"></i> L/P</b>
+                                            </a>
+                                        </td>
+                                        <td valign="middle"><b>Tanggal <br>Daftar</b></td>
+                                        <td valign="middle"><b>Status</b></td>
+                                        <td valign="middle"><b>Sisa <br>Tunggakan</b></td>
+                                        <td valign="middle"><b>Opsi</b></td>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelSiswa">
