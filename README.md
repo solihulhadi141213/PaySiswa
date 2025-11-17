@@ -18,15 +18,22 @@
 - **Manajemen Kelas**
   Rombongan belajar (Rombel) dikelola berdasarkan level atau jenjang tingkatan secara vertikal dan berdasarkan kelompok belajar secara horisontal. Fitur manajemen kelas berfungsi untuk mengelola profil masing-masing Rombel tersebut pada setiap periode akademik.
 
+- **Daftar Siswa**
+  Halaman daftar siswa menampilkan data siswa secara keseluruhan, baik yang masih aktif, lulus, maupun siswa yang sudah keluar. Pada halaman ini user dapat mengelola (menambah, mengubah dan menghapus) data siswa yang ada serta menetapkan status masing-masing siswa.
+
 
 ## Teknologi yang Digunakan
-- **Bahasa Pemrograman** :  
+- **Bahasa Pemrograman Utama** :  
   - PHP 8.0.30  
   - JavaScript
   - HTML5
   - CSS3  
-- **Database**: MySQL 9.1.0  
-- **Framework & Library** :  
+
+- **Database Managment System**: 
+  - MySQL 9.1.0  
+  - MariaDB 11.5.2  
+
+- **Library (Pustaka)** :  
   - Bootstrap 5 (UI/UX)
   - mdb-ui-kit 8.2.0  
   - JQuery  3.7.1
@@ -35,7 +42,10 @@
   - phpqrcode 1.1.4
   - phpoffice/phpspreadsheet 
   - mpdf/mpdf
-- **Arsitektur**: Web-based application (Client–Server)  
+
+- **Arsitektur**: 
+  - Web-based application
+  - Client–Server 
 
 ## Integrasi
 1. **Email Gateway**
@@ -78,6 +88,12 @@
 
 3. **NIS :**
  Singkatan dari "Nomor Induk Siswa" yang merupakan informasi utama sebagai kode yang mewakili seluruh informasi siswa tersebut.
+
+4. **Komponen Biaya Pendidikan :**
+ Komponen dasar yang menyatakan informasi nama biaya pendidikan yang harus dibayar oleh siswa.
+
+5. **Jenjang :**
+ Jenjang adalah satuan dari tingkatan pada lembaga pendidikan tertentu. Misalnya : Kelas 1, Kelas 2, Kelas 3 Dst.
 
 
 ## Referensi

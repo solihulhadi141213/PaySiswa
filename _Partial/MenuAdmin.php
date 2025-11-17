@@ -69,12 +69,13 @@
                 <i class="bi bi-building"></i> <span>Manajemen Kelas</span>
             </a>
         </li>
-        <li class="nav-heading">Master</li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Siswa"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Siswa">
                 <i class="bi bi-people"></i> <span>Daftar Siswa</span>
             </a>
         </li>
+        <li class="nav-heading">Master</li>
+        
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Tagihan"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Tagihan">
                 <i class="bi bi-calendar-week"></i> <span>Tagihan Siswa</span>

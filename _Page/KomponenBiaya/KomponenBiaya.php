@@ -23,8 +23,9 @@
             <div class="col-md-12">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <small>
-                        Berikut ini adalah halaman pengelolaan komponen biaya. 
-                        Anda bisa mengelola data tarif dan pola pembayaran berdasarkan kelompok.
+                        Berikut ini adalah halaman pengelolaan komponen biaya pendidikan. 
+                        Anda bisa mengelola data tarif pada komponen biaya berdasarkan periode akademik. 
+                        Komponen biaya pendidikan adalah standar tarif biaya pendidikan yang akan berlaku pada setiap siswa.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </small>
                 </div>
@@ -47,41 +48,91 @@
                                 <input type="hidden" id="id_academic_period">
                             </div>
                             <div class="col-xl-9 col-lg-8 col-md-3 col-sx-4 col-4 text-end">
-                                <button type="button" class="btn btn-md btn-outline-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalCopy" title="Copy dari periode lain">
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating button_copy_komponen_biaya" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambahkan komponen biaya dari periode akademik lainnya">
                                     <i class="bi bi-copy"></i>
                                 </button>
-                                <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambah" title="Tambah Data Komponen Biaya">
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating button_export_komponen_biaya" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Download/Export Komponen Biaya">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                                <button type="button" class="btn btn-md btn-primary btn-floating button_tambah_komponen"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Komponen Biaya">
                                     <i class="bi bi-plus"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><b>No</b></th>
-                                        <th><b>Biaya Pendidikan</b></th>
-                                        <th><b>Kategori</b></th>
-                                        <th><b>Bulan</b></th>
-                                        <th><b>Tahun</b></th>
-                                        <th><b>Tempo</b></th>
-                                        <th><b>Tarif</b></th>
-                                        <th><b>Record Tagihan</b></th>
-                                        <th><b>Rp Tagihan</b></th>
-                                        <th><b>Opsi</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="TabelKomponenBiaya">
-                                    <tr>
-                                        <td class="text-center" colspan="8">
-                                            <small>Tidak ada data yang ditampilkan</small>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <form action="javascript:void(0);" id="ProsesMultipleKomponenBiaya">
+                            <div class="table table-responsive mb-2">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" name="check_all" class="form-check-input" value="check_all">
+                                            </th>
+                                            <th><b>No</b></th>
+                                            <th><b>Komponen Biaya</b></th>
+                                            <th><b>Kategori</b></th>
+                                            <th><b>Bulan</b></th>
+                                            <th><b>Tahun</b></th>
+                                            <th><b>Tempo</b></th>
+                                            <th>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tarif standar biaya pendidikan per orang">
+                                                    <b class="text-dark"><i class="bi bi-info-circle"></i> Tarif/Biaya</b>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jumlah/Total tagihan per komponen biaya (setelah potongan/diskon)">
+                                                    <b class="text-dark"><i class="bi bi-info-circle"></i> Tagihan</b>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jumlah/Total Pembayaran Atas Tagihan Yang Dibuat">
+                                                    <b class="text-dark"><i class="bi bi-info-circle"></i> Pembayaran</b>
+                                                </a>
+                                            </th>
+                                            <th>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jumlah Sisa Tagihan Setelah Dikurangi Pembayaran">
+                                                    <b class="text-dark"><i class="bi bi-info-circle"></i> Sisa/Tunggakan</b>
+                                                </a>
+                                            </th>
+                                            <th><b>Opsi</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="TabelKomponenBiaya">
+                                        <tr>
+                                            <td class="text-center" colspan="12">
+                                                <small>Loading...</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"  data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i> Option
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditKategoriMultiple">
+                                        <i class="bi bi-tag"></i> Ubah Kategori
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditTahunMultiple">
+                                        <i class="bi bi-calendar"></i> Ubah Tahun
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditTarifMultiple">
+                                        <i class="bi bi-cash-coin"></i> Ubah Tarif/Biaya
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusMultiple">
+                                        <i class="bi bi-x"></i> Hapus Komponen
+                                    </a>
+                                </li>
+                            </ul>
+                        </form>
                     </div>
                     <div class="card-footer">
                         <div class="row">

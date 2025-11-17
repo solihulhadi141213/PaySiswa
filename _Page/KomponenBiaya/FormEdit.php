@@ -151,9 +151,10 @@ if (!$Qry->execute()) {
             <div class="row mb-3">
                 <div class="col-12">
                     <label for="fee_nominal">
-                        <small>Nominal Pembayaran <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
+                        <small>Nominal Biaya <i class="bi bi-exclamation-circle" title="Wajib Diisi"></i></small>
                     </label>
                     <input type="text" name="fee_nominal" id="fee_nominal" class="form-control form-money" value="' . $fee_nominal_format . '" required>
+                    <small><small><b>Penting!</b> Mengubah tarif biaya pendidikan pada halaman ini tidak akan mengubah data tagihan yang sudah ada</small></small>
                 </div>
             </div>
         ';
