@@ -616,7 +616,9 @@
                                     <thead>
                                         <tr>
                                             <th><b><small>No</small></b></th>
-                                            <th><b><small>Komponen Biaya</small></b></th>
+                                            <th><b><small>Komponen</small></b></th>
+                                            <th><b><small>Bulan</small></b></th>
+                                            <th><b><small>Tahun</small></b></th>
                                             <th><b><small>Nominal</small></b></th>
                                             <th><b><small>Diskon</small></b></th>
                                             <th><b><small>Tagihan</small></b></th>
@@ -627,7 +629,7 @@
                                     </thead>
                                     <tbody id="TabelRincianTagihanSiswa">
                                         <tr>
-                                            <td colspan="8" class="text-center">
+                                            <td colspan="10" class="text-center">
                                                 <small>Loading...</small>
                                             </td>
                                         </tr>
@@ -649,6 +651,7 @@
         </div>
     </div>
 </div>
+
 <!-- Modal Tambah Tagihan Siswa -->
 <div class="modal fade" id="ModalTambahTagihanSiswa" tabindex="-1">
     <div class="modal-dialog modal-md">
@@ -672,15 +675,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" id="button_modal_tambah_tagihan_siswa">
-                    
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_rincian_tagihan">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Modal Tambah Tagihan Siswa -->
+<!-- Modal Detail Tagihan Siswa -->
 <div class="modal fade" id="ModalDetailTagihan" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -701,8 +709,116 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" id="button_modal_detail_tagihan">
-                   <!-- Tombol Export dan Tombol Kembali Akan Ditampilkan Disini -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                   <button type="button" class="btn btn-secondary btn-rounded kembali_ke_rincian_tagihan">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Tagihan Siswa -->
+<div class="modal fade" id="ModalEditTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditTagihan">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-pencil"></i> Edit Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" id="FormEditTagihan">
+                            <!-- Menampilkan Form Edit Tagihan Siswa -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiEditTagihan">
+                            <!-- Notifikasi Edit Tagihan Siswa -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_rincian_tagihan">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Hapus Tagihan Siswa -->
+<div class="modal fade" id="ModalHapusTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusTagihan">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-trash"></i> Hapus Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" id="FormHapusTagihan">
+                            <!-- Menampilkan Form Hapus Tagihan Siswa -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiHapusTagihan">
+                            <!-- Notifikasi Hapus Tagihan Siswa -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_rincian_tagihan">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Rekapitulasi Tagihan Siswa -->
+<div class="modal fade" id="ModalRekapitulasiTagihanSiswa" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="index.php" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-table"></i> Rekapitulasi Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="FormRekapitulasiTagihanSiswa">
+                    <div class="row mb-3">
+                        <div class="col-12 text-center">
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary btn-rounded">
+                        <i class="bi bi-three-dots-vertical"></i> Selengkapnya
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
                 </div>
             </form>
         </div>

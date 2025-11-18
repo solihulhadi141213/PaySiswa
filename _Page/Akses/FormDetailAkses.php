@@ -75,9 +75,9 @@
 
         //Routing URL image
         if(!empty($access_foto_saya)){
-            $image_url= '../../image_proxy.php?dir=User&filename='.$access_foto_saya;
+            $image_url= ''.$app_base_url.'/image_proxy.php?dir=User&filename='.$access_foto_saya;
         }else{
-            $image_url= '../../image_proxy.php?dir=User&filename=No-Image.png';
+            $image_url= ''.$app_base_url.'/image_proxy.php?dir=User&filename=No-Image.png';
         }
 
         //Tampilkan Data

@@ -15,9 +15,6 @@
                     <div class="alert alert-danger"><small>Sesi Akses Sudah Berakhir! Silahkan Login Ulang.</small></div>
                 </div>
             </div>
-            <script>
-                $("#kembali_ke_rincian_tagihan").hide();
-            </script>
         ';
         exit;
     }
@@ -30,9 +27,6 @@
                     <div class="alert alert-danger"><small>ID Tagihan Tiidak Boleh Kosong!</small></div>
                 </div>
             </div>
-            <script>
-                $("#kembali_ke_rincian_tagihan").hide();
-            </script>
         ';
         exit;
     }
@@ -71,16 +65,6 @@
     $component_category     = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
     $periode_month          = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
     $periode_year           = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
-
-    //Buat Tombol Modal Footer
-    $tutup_kembali='
-        <button type="submit" class="btn btn-outline-primary btn-rounded">
-            <i class="bi bi-download"></i> Export
-        </button>
-        <button type="button" class="btn btn-secondary btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalRincianTagihanSiswa" data-id_organization_class="'.$id_organization_class.'" data-id_student="'.$id_student.'">
-            <i class="bi bi-chevron-left"></i> Kembali
-        </button>
-    ';
 
     //Menampilkan Informasi Tagihan
     echo '
@@ -301,13 +285,4 @@
     echo '      </div>';
     echo '  </div>';
     echo '</div>';
-
-    echo '
-        <script>
-            $("#kembali_ke_rincian_tagihan").show();
-            $("#kembali_ke_rincian_tagihan").attr("data-id_organization_class", "'.$id_organization_class.'");
-            $("#kembali_ke_rincian_tagihan").attr("data-id_student", "'.$id_student.'");
-            $("#button_modal_detail_tagihan").html(' . json_encode($tutup_kembali) . ');
-        </script>
-    ';
 ?>

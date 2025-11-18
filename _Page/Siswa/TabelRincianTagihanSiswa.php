@@ -14,7 +14,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="10" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang</small>
                 </td>
             </tr>
@@ -30,7 +30,7 @@
     if(empty($_POST['id_student'])){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="10" class="text-center">
                     <small class="text-danger">ID Siswa Tidak Boleh Kosong!</small>
                 </td>
             </tr>
@@ -46,7 +46,7 @@
     if(empty($_POST['id_organization_class'])){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="10" class="text-center">
                     <small class="text-danger">ID Kelas Siswa Tidak Boleh Kosong!</small>
                 </td>
             </tr>
@@ -137,7 +137,7 @@
     if(empty($jml_data)){
         echo '
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="10" class="text-center">
                     <small class="text-danger">Tidak Ada Data Tagihan Siswa Yang Ditampilkan</small>
                 </td>
             </tr>
@@ -161,22 +161,27 @@
             $fee_discount       = $data['fee_discount'];
             $jumlah_tagihan     = $fee_nominal-$fee_discount;
 
-            $fee_nominal_format     = "Rp " . number_format($fee_nominal,0,',','.');
-            $fee_discount_format    = "Rp " . number_format($fee_discount,0,',','.');
-            $jumlah_tagihan_format  = "Rp " . number_format($jumlah_tagihan,0,',','.');
+            $fee_nominal_format     = "" . number_format($fee_nominal,0,',','.');
+            $fee_discount_format    = "" . number_format($fee_discount,0,',','.');
+            $jumlah_tagihan_format  = "" . number_format($jumlah_tagihan,0,',','.');
 
             //Buka Komponen
             $component_name     = GetDetailData($Conn, ' fee_component', 'id_fee_component', $id_fee_component, 'component_name');
             $component_category = GetDetailData($Conn, ' fee_component', 'id_fee_component', $id_fee_component, 'component_category');
+            $periode_month      = GetDetailData($Conn, ' fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
+            $periode_year       = GetDetailData($Conn, ' fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
+
+            //Nama Bulan
+            $nama_bulan = getNamaBulan($periode_month);
 
             //Hitung Jumlah Pembayaran
             $SumPembayaran              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS jumlah_pembayaran FROM payment WHERE id_fee_by_student='$id_fee_by_student'"));
             $jumlah_pembayaran          = $SumPembayaran['jumlah_pembayaran'];
-            $jumlah_pembayaran_format   = "Rp " . number_format($jumlah_pembayaran,0,',','.');
+            $jumlah_pembayaran_format   = "" . number_format($jumlah_pembayaran,0,',','.');
 
             //Menghitung Sisa Tagihan
             $jumlah_sisa_tagihan        = $jumlah_tagihan-$jumlah_pembayaran;
-            $jumlah_sisa_tagihan_format = "Rp " . number_format($jumlah_sisa_tagihan,0,',','.');
+            $jumlah_sisa_tagihan_format = "" . number_format($jumlah_sisa_tagihan,0,',','.');
 
             //menampilkan data pada baris tabel
             echo '
@@ -184,9 +189,11 @@
                     <td><small>'.$no.'</small></td>
                     <td>
                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailTagihan" data-id="'.$id_fee_by_student .'">
-                            <small class="underscore_doted">'.$component_name.'</small>
+                            <small>'.$component_name.'</small>
                         </a>
                     </td>
+                    <td><small>'.$nama_bulan.'</small></td>
+                    <td><small>'.$periode_year.'</small></td>
                     <td><small>'.$fee_nominal_format.'</small></td>
                     <td><small>'.$fee_discount_format.'</small></td>
                     <td><small>'.$jumlah_tagihan_format.'</small></td>
@@ -206,12 +213,12 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditTagihan" data-id="'.$id_fee_by_student .'">
+                                <a href="javascript:void(0)" class="dropdown-item modal_edit_tagihan" data-id="'.$id_fee_by_student .'">
                                     <i class="bi bi-pencil"></i> Edit
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusTagihan" data-id="'.$id_fee_by_student .'">
+                                <a href="javascript:void(0)" class="dropdown-item modal_hapus_tagihan" data-id="'.$id_fee_by_student .'">
                                     <i class="bi bi-x"></i> Hapus
                                 </a>
                             </li>
@@ -229,17 +236,17 @@
             $subtotal_tunggakan         = $subtotal_tunggakan + $jumlah_sisa_tagihan;
         }
         //Format Rupiah
-        $subtotal_tagihan_format        = "Rp " . number_format($subtotal_tagihan,0,',','.');
-        $subtotal_diskon_format         = "Rp " . number_format($subtotal_diskon,0,',','.');
-        $subtotal_tagihan_netto_format  = "Rp " . number_format($subtotal_tagihan_netto,0,',','.');
-        $subtotal_pembayaran_format     = "Rp " . number_format($subtotal_pembayaran,0,',','.');
-        $subtotal_tunggakan_format      = "Rp " . number_format($subtotal_tunggakan,0,',','.');
+        $subtotal_tagihan_format        = "" . number_format($subtotal_tagihan,0,',','.');
+        $subtotal_diskon_format         = "" . number_format($subtotal_diskon,0,',','.');
+        $subtotal_tagihan_netto_format  = "" . number_format($subtotal_tagihan_netto,0,',','.');
+        $subtotal_pembayaran_format     = "" . number_format($subtotal_pembayaran,0,',','.');
+        $subtotal_tunggakan_format      = "" . number_format($subtotal_tunggakan,0,',','.');
 
         //Menampilkan Total
         echo '
             <tr>
                 <td></td>
-                <td><b>SUBTOTAL</b></td>
+                <td colspan="3"><b>SUBTOTAL</b></td>
                 <td><b>'.$subtotal_tagihan_format.'</b></td>
                 <td><b>'.$subtotal_diskon_format.'</b></td>
                 <td><b>'.$subtotal_tagihan_netto_format.'</b></td>

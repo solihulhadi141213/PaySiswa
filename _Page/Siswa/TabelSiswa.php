@@ -241,7 +241,7 @@
                         <td><small>'.$tanggal_daftar.'</small></td>
                         <td><small>'.$label_status.'</small></td>
                         <td>
-                            <a href="javascript:void(0);" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$tooltip.'">
+                            <a href="javascript:void(0);" class="modal_rekapitulasi_tagihan_siswa" data-id="'.$id_student.'" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="'.$tooltip.'">
                                 <small class="underscore_doted">'.$label_sisa.'</small>
                             </a>
                         </td>
