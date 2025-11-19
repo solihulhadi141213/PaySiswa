@@ -69,6 +69,8 @@
     //Menampilkan Informasi Tagihan
     echo '
         <input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student.'">
+        <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
+        <input type="hidden" name="id_student" value="'.$id_student.'">
         <div class="row border-1 border-bottom">
             <div class="col-md-6 mb-3">
                 <div class="row">
@@ -171,7 +173,7 @@
                 <small><b># Riwayat Pembayaran</b></small>
             </div>
             <div class="col-4 text-end">
-                <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#ModalTambahPembayaran" data-id="'.$id_fee_by_student .'">
+                <button type="button" class="btn btn-md btn-success modal_tambah_pembayaran" data-id="'.$id_fee_by_student .'">
                     <i class="bi bi-plus"></i> Bayar
                 </button>
             </div>
@@ -239,7 +241,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusPembayaran" data-id_payment="'.$id_payment .'" data-id_fee_by_student="'.$id_fee_by_student .'">
+                                <a class="dropdown-item modal_hapus_pembayaran" href="javascript:void(0)" data-id_payment="'.$id_payment .'" data-id_fee_by_student="'.$id_fee_by_student .'">
                                     <i class="bi bi-trash"></i> Hapus Pembayaran
                                 </a>
                             </li>

@@ -40,7 +40,20 @@ function filterAndLoadTable() {
     });
 }
 
+//Rekapitulasi Tagihan Siswa
+function ShowRekapitulasiTagihan(id_student) {
+    //Tampilkan 'FormRekapitulasiTagihanSiswa.php' dengan ajax
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Siswa/FormRekapitulasiTagihanSiswa.php',
+        data        : {id_student: id_student},
+        success     : function(data){
+            $('#FormRekapitulasiTagihanSiswa').html(data);
+        }
+    });
+}
 
+//Tabel Tagihan Siswa
 function ShowTagihanSiswa() {
     var FormFilterTagihanSiswa = $('#FormFilterTagihanSiswa').serialize();
 
@@ -106,6 +119,18 @@ function ShowRincianTagihan(id_organization_class, id_student) {
         data    : {id_organization_class: id_organization_class, id_student: id_student},
         success : function(data) {
             $('#TabelRincianTagihanSiswa').html(data);
+        }
+    });
+}
+
+//Fungsi untuk menampilkan detail tagihan dan pembayaran
+function ShowDetailTagihan(id_fee_by_student) {
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Siswa/FormDetailTagihan.php',
+        data        : {id_fee_by_student: id_fee_by_student},
+        success     : function(data){
+            $('#FormDetailTagihan').html(data);
         }
     });
 }
@@ -549,6 +574,9 @@ $(document).ready(function() {
                     //Loadd Ulang Tagihan Siswa
                     ShowTagihanSiswa();
 
+                    //Load Ulang Rekapitulasi Tagihan Siswa
+                    ShowRekapitulasiTagihan(id_student);
+
                     //reset form
                     $('#ProsesTambahTagihanSiswa')[0].reset();
                 }
@@ -556,25 +584,6 @@ $(document).ready(function() {
         });
     });
     
-
-    //Menampilkan Detail Tagihan
-    $(document).on('click', '[data-bs-target="#ModalDetailTagihan"]', function () {
-        //Tangkap Data Pada Tombol
-        var id_fee_by_student = $(this).data('id');
-        
-        //Loading Pada Form
-        $('#FormDetailTagihan').html('<div class="row"><div class="col-md-12 text-center"><small>Loading...</small></div></div>');
-
-        //Tampilkan 'FormDetailTagihan.php' dengan ajax
-        $.ajax({
-            type 	    : 'POST',
-            url 	    : '_Page/Siswa/FormDetailTagihan.php',
-            data        : {id_fee_by_student: id_fee_by_student},
-            success     : function(data){
-                $('#FormDetailTagihan').html(data);
-            }
-        });
-    });
 
     //Click 'modal_edit_tagihan'
     $(document).on('click', '.modal_edit_tagihan', function () {
@@ -637,6 +646,12 @@ $(document).ready(function() {
 
                     //Load Ulang Rincian Tagihan
                     ShowRincianTagihan(id_organization_class, id_student);
+
+                    //Load Ulang Rekapitulasi Tagihan Siswa
+                    ShowRekapitulasiTagihan(id_student);
+
+                    //Menampilkan Tagihan Siswa Pada halaman detail siswa
+                    ShowTagihanSiswa();
 
                 }else{
 
@@ -709,6 +724,12 @@ $(document).ready(function() {
                     //Load Ulang Rincian Tagihan
                     ShowRincianTagihan(id_organization_class, id_student);
 
+                    //Load Ulang Rekapitulasi Tagihan Siswa
+                    ShowRekapitulasiTagihan(id_student);
+
+                    //Menampilkan Tagihan Siswa Pada halaman detail siswa
+                    ShowTagihanSiswa();
+
                 }else{
 
                     //Jika Gagal, Tampilkan 'message'
@@ -719,7 +740,200 @@ $(document).ready(function() {
         });
     });
 
-    //Menampilkan Riwayat Tagihan
+    //Menampilkan Detail Tagihan
+    $(document).on('click', '[data-bs-target="#ModalDetailTagihan"]', function () {
+        //Tangkap Data Pada Tombol
+        var id_fee_by_student = $(this).data('id');
+        
+        //Loading Pada Form
+        $('#FormDetailTagihan').html('<div class="row"><div class="col-md-12 text-center"><small>Loading...</small></div></div>');
+
+        //Tampilkan 'FormDetailTagihan.php' dengan ajax melalui fungsi ShowDetailTagihan
+        ShowDetailTagihan(id_fee_by_student);
+    });
+
+    //Click 'kembali_ke_detail_tagihan'
+    $(document).on('click', '.kembali_ke_detail_tagihan', function () {
+        //Sembunyikan Modal 'ModalTambahPembayaran'
+        $('#ModalTambahPembayaran').modal('hide');
+
+        //Sembunyikan Modal 'ModalHapusPembayaran'
+        $('#ModalHapusPembayaran').modal('hide');
+
+        //Buka/Tampilkan Modal 'ModalDetailTagihan'
+        $('#ModalDetailTagihan').modal('show');
+    });
+
+    //Menampilkan Modal Tambah Pembayaran
+    $(document).on('click', '.modal_tambah_pembayaran', function () {
+        //Tangkap Data Pada Tombol
+        var id_fee_by_student = $(this).data('id');
+
+        //Tampilkan Modal 'ModalTambahPembayaran'
+        $('#ModalTambahPembayaran').modal('show');
+
+        //Sembunyikan Modal 'ModalDetailTagihan'
+        $('#ModalDetailTagihan').modal('hide');
+
+        //Loading Pada Form
+        $('#FormTambahPembayaran').html('<div class="row"><div class="col-md-12 text-center"><small>Loading...</small></div></div>');
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiTambahPembayaran').html('');
+
+        //Menampilkan Form Tambah Pembayaran
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Siswa/FormTambahPembayaran.php',
+            data        : {id_fee_by_student: id_fee_by_student},
+            success     : function(data){
+                $('#FormTambahPembayaran').html(data);
+
+                //Format 'form-money'
+                initializeMoneyInputs();
+            }
+        });
+
+    });
+
+    //Proses Tambah Pembayaran
+    $('#ProsesTambahPembayaran').submit(function(){
+
+        //Tangkap Data Dari Form
+        var ProsesTambahPembayaran = $('#ProsesTambahPembayaran').serialize();
+
+        //Loading Notifikasi
+        $('#NotifikasiTambahPembayaran').html("Loading...");
+
+        //Proses Data Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Siswa/ProsesTambahPembayaran.php',
+            data 	    :  ProsesTambahPembayaran,
+            dataType    : 'json',
+            success     : function(response){
+                var status                  = response.status;
+                var message                 = response.message;
+                var id_organization_class   = response.id_organization_class;
+                var id_fee_by_student       = response.id_fee_by_student;
+                var id_student              = response.id_student;
+
+                //Jika Berhasil
+                if(status=="success"){
+
+                    //Tutup 'ModalTambahPembayaran'
+                    $('#ModalTambahPembayaran').modal('hide');
+
+                    //Buka 'ModalDetailTagihan'
+                    $('#ModalDetailTagihan').modal('show');
+
+                    //Load Ulang Detail Pembayaran Tagihan
+                    ShowDetailTagihan(id_fee_by_student);
+
+                    //Load Ulang Rincian Tagihan
+                    ShowRincianTagihan(id_organization_class, id_student);
+
+                    //Load Ulang Rekapitulasi Tagihan Siswa
+                    ShowRekapitulasiTagihan(id_student);
+
+                    //Menampilkan Tagihan Siswa Pada halaman detail siswa
+                    ShowTagihanSiswa();
+
+                }else{
+
+                    //Jika Gagal, Tampilkan 'message'
+                    $('#NotifikasiTambahPembayaran').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+
+            }
+        });
+    });
+
+    //Menampilkan Modal Hapus Pembayaran
+    $(document).on('click', '.modal_hapus_pembayaran', function () {
+        //Tangkap Data Pada Tombol
+        var id_payment = $(this).data('id_payment');
+        var id_fee_by_student = $(this).data('id_fee_by_student');
+
+        //Tampilkan Modal 'ModalTambahPembayaran'
+        $('#ModalHapusPembayaran').modal('show');
+
+        //Sembunyikan Modal 'ModalDetailTagihan'
+        $('#ModalDetailTagihan').modal('hide');
+
+        //Loading Pada Form
+        $('#FormHapusPembayaran').html('<div class="row"><div class="col-md-12 text-center"><small>Loading...</small></div></div>');
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiHapusPembayaran').html('');
+
+        //Menampilkan Form Tambah Pembayaran
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Siswa/FormHapusPembayaran.php',
+            data        : {id_payment: id_payment, id_fee_by_student: id_fee_by_student},
+            success     : function(data){
+                $('#FormHapusPembayaran').html(data);
+            }
+        });
+
+    });
+
+    //Proses Hapus Pembayaran
+    $('#ProsesHapusPembayaran').submit(function(){
+
+        //Tangkap Data Dari Form
+        var ProsesHapusPembayaran = $('#ProsesHapusPembayaran').serialize();
+
+        //Loading Notifikasi
+        $('#NotifikasiHapusPembayaran').html("Loading...");
+
+        //Proses Data Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Siswa/ProsesHapusPembayaran.php',
+            data 	    :  ProsesHapusPembayaran,
+            dataType    : 'json',
+            success     : function(response){
+                var status                  = response.status;
+                var message                 = response.message;
+                var id_fee_by_student       = response.id_fee_by_student;
+                var id_organization_class   = response.id_organization_class;
+                var id_student              = response.id_student;
+
+                //Jika Berhasil
+                if(status=="success"){
+
+                    //Tutup 'ModalHapusPembayaran'
+                    $('#ModalHapusPembayaran').modal('hide');
+
+                    //Buka 'ModalDetailTagihan'
+                    $('#ModalDetailTagihan').modal('show');
+
+                    //Load Ulang Detail Pembayaran Tagihan
+                    ShowDetailTagihan(id_fee_by_student);
+
+                    //Load Ulang Rincian Tagihan
+                    ShowRincianTagihan(id_organization_class, id_student);
+
+                    //Load Ulang Rekapitulasi Tagihan Siswa
+                    ShowRekapitulasiTagihan(id_student);
+
+                    //Menampilkan Tagihan Siswa Pada halaman detail siswa
+                    ShowTagihanSiswa();
+
+                }else{
+
+                    //Jika Gagal, Tampilkan 'message'
+                    $('#NotifikasiHapusPembayaran').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+
+            }
+        });
+    });
+
+
+    //Menampilkan Rekapitulasi Tagihan
     $(document).on('click', '.modal_rekapitulasi_tagihan_siswa', function () {
         //Tangkap Data Pada Tombol
         var id_student = $(this).data('id');
@@ -730,15 +944,8 @@ $(document).ready(function() {
         //Loading Pada Form
         $('#FormRekapitulasiTagihanSiswa').html('<div class="row"><div class="col-md-12 text-center"><small>Loading...</small></div></div>');
 
-        //Tampilkan 'FormRekapitulasiTagihanSiswa.php' dengan ajax
-        $.ajax({
-            type 	    : 'POST',
-            url 	    : '_Page/Siswa/FormRekapitulasiTagihanSiswa.php',
-            data        : {id_student: id_student},
-            success     : function(data){
-                $('#FormRekapitulasiTagihanSiswa').html(data);
-            }
-        });
+        //Menampilkan RRekapitulasi dengan fungsi 'ShowRekapitulasiTagihan
+        ShowRekapitulasiTagihan(id_student);
     });
 
     
