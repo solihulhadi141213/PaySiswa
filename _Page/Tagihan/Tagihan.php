@@ -34,81 +34,46 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <form action="javascript:void(0);" id="ProsesFilterTagihan">
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="IdPeriodeAkademik">
-                                        <small>Periode Akademik</small>
-                                    </label>
-                                    <select name="id_academic_period" id="IdPeriodeAkademik" class="form-control">
-                                        <option value="">Pilih</option>
-                                        <?php
-                                            //Menampilkan periode akademik
-                                            $query = mysqli_query($Conn, "SELECT id_academic_period, academic_period, academic_period_start FROM academic_period ORDER BY academic_period_start ASC");
-                                            while ($data = mysqli_fetch_array($query)) {
-                                                $id_academic_period = $data['id_academic_period'];
-                                                $academic_period= $data['academic_period'];
-                                                $academic_period_start= $data['academic_period_start'];
-                                                echo '<option value="'.$id_academic_period.'">'.$academic_period.'</option>';
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="SelectOrganizationClass">
-                                        <small>Kelas</small>
-                                    </label>
-                                    <select name="id_organization_class" id="SelectOrganizationClass" class="form-control">
-                                        <option value="">Pilih</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 mb-3">
-                                    <label for="kelompok_status_siswa">
-                                        <small>Status Siswa</small>
-                                    </label>
-                                    <select name="kelompok_status_siswa" id="kelompok_status_siswa" class="form-control">
-                                        <option value="">Semua</option>
-                                        <option selected value="Terdaftar">Terdaftar</option>
-                                        <option value="Lulus">Lulus</option>
-                                        <option value="Keluar">Keluar</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 mb-3">
-                                    <br>
-                                    <button type="submit" class="btn btn-md btn-block btn-primary">
-                                        <i class="bi bi-search"></i> Tampilkan
-                                    </button>
-                                </div>
-                                <div class="col-md-2 mb-3">
-                                    <br>
-                                    <button type="button" class="btn btn-md btn-block btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalExportTagihan">
-                                        <i class="bi bi-download"></i> Export
-                                    </button>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating modal_export_tagihan" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export Data Tagihan Siswa">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                                <button type="button" class="btn btn-md btn-secondary btn-floating modal_filter_tagihan" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Ubah Filter Periode Akademik Dan Mode Tampilan Data">
+                                    <i class="bi bi-filter"></i>
+                                </button>
+                                <button type="button" class="btn btn-md btn-primary btn-floating modal_pilih_siswa" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Data Tagihan Siswa Secara Parsial">
+                                    <i class="bi bi-plus"></i>
+                                </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="table table-responsive">
+                        <div class="row mb-2">
+                            <div class="col-12" id="title_table">
+                                <!-- Title Table -->
+                            </div>
+                        </div>
+                        <div class="table table-responsive border-1 border-top">
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th><b>No</b></th>
-                                        <th><b>Nama Siswa</b></th>
-                                        <th><b>NIS</b></th>
-                                        <th><b>Kelas</b></th>
-                                        <th><b>Thn.Akademik</b></th>
-                                        <th><b>Tgl.Daftar</b></th>
-                                        <th><b>Status</b></th>
-                                        <th><b>Biaya Pendidikan</b></th>
-                                        <th><b>Pembayaran</b></th>
-                                        <th><b>Sisa/Tunggakan</b></th>
-                                        <th><b>Opsi</b></th>
+                                        <td valign="middle"><small><b>No</b></small></td>
+                                        <td valign="middle"><small><b>Nama Siswa</b></small></td>
+                                        <td valign="middle"><small><b>NIS</b></small></td>
+                                        <td valign="middle"><small><b>Biaya Pendidikan</b></small></td>
+                                        <td valign="middle"><small><b>Diskon/Potongan</b></small></td>
+                                        <td valign="middle"><small><b>Jumlah Tagihan</b></small></td>
+                                        <td valign="middle"><small><b>Pembayaran</b></small></td>
+                                        <td valign="middle"><small><b>Sisa/Tunggakan</b></small></td>
+                                        <td valign="middle"><small><b>Opsi</b></small></td>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelTagihan">
                                     <tr>
-                                        <td colspan="11" class="text-center">Belum Ada Data Yang Ditampilkan</td>
+                                        <td colspan="9" class="text-center">
+                                            <small>Loading..</small>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

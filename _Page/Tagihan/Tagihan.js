@@ -1,3 +1,19 @@
+//Fungsi Menampilkan Select Option Class
+function SelectOrganizationClass(id_academic_period, callback){
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Tagihan/TabelKelas.php',
+        data        : {id_academic_period: id_academic_period},
+        success     : function(data){
+            $('#TabelKelas').html(data);
+
+            if (typeof callback === "function") {
+                callback(); // <-- panggil setelah AJAX selesai
+            }
+        }
+    });
+}
+
 //Fungsi Menampilkan Data
 function FilterTagihan() {
     var ProsesFilterTagihan = $('#ProsesFilterTagihan').serialize();
@@ -112,26 +128,49 @@ function initializeMoneyInputs() {
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
 
-    //Menampilkan Data Pertama Kali
-    FilterTagihan();
+    //Tangkap 'IdPeriodeAkademik'
+    var id_academic_period = $('#IdPeriodeAkademik').val();
+
+    //Menampilkan Select Option Class Pertama Kali
+    SelectOrganizationClass(id_academic_period, function() {
+        //Menampilkan Data Pertama Kali
+        FilterTagihan();
+    });
 
     //Ketika Filter Di submit
     $('#ProsesFilterTagihan').submit(function(){
+
+        //Reload data dengan fungsi 'FilterTagihan'
         FilterTagihan();
+
+        //Tutup Modal Filter
+        $('#ModalFilterTagihan').modal('hide');
     });
 
     //Jika IdPeriodeAkademik diubah
      $('#IdPeriodeAkademik').change(function(){
         var id_academic_period = $('#IdPeriodeAkademik').val();
-        $.ajax({
-            type 	    : 'POST',
-            url 	    : '_Page/Tagihan/SelectOrganizationClass.php',
-            data        : {id_academic_period: id_academic_period},
-            success     : function(data){
-                $('#SelectOrganizationClass').html(data);
-            }
-        });
+        SelectOrganizationClass(id_academic_period);
     });
+
+    //Menampilkan Modal Export
+    $(document).on('click', '.modal_export_tagihan', function() {
+        //Tampilkan Modal
+        $('#ModalExportTagihan').modal('show');
+    });
+
+    //Menampilkan Modal Filter
+    $(document).on('click', '.modal_filter_tagihan', function() {
+        //Tampilkan Modal
+        $('#ModalFilterTagihan').modal('show');
+    });
+
+    //Menampilkan Modal Pilih Siswa
+    $(document).on('click', '.modal_pilih_siswa', function() {
+        //Tampilkan Modal
+        $('#ModalPilihSiswa').modal('show');
+    });
+
 
     //Pagging
     $(document).on('click', '#next_button', function() {

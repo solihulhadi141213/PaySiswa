@@ -6,6 +6,7 @@
     date_default_timezone_set("Asia/Jakarta");
     $JmlHalaman=0;
     $page=0;
+    $jml_data = 0;
     //Validasi Akses
     if(empty($SessionIdAccess)){
         echo '
@@ -14,6 +15,10 @@
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
+            <script>
+                $("#title_table").html("");
+                $("#page_info").html("Jumlah Data : '.$jml_data.'");
+            </script>
         ';
         exit;
     }
@@ -24,6 +29,10 @@
                     <small class="text-danger">Silahkan pilih <b>Periode Tahun Akademik</b> terlebih dulu untuk menampilkan data tagihan siswa</small>
                 </td>
             </tr>
+            <script>
+                $("#title_table").html("");
+                $("#page_info").html("Jumlah Data : '.$jml_data.'");
+            </script>
         ';
         exit;
     }
@@ -34,6 +43,10 @@
                     <small class="text-danger">Silahkan pilih <b>group kelas</b> terlebih dulu untuk menampilkan data tagihan siswa</small>
                 </td>
             </tr>
+            <script>
+                $("#title_table").html("");
+                $("#page_info").html("Jumlah Data : '.$jml_data.'");
+            </script>
         ';
         exit;
     }
@@ -48,12 +61,60 @@
     $id_organization_class  = validateAndSanitizeInput($_POST['id_organization_class']);
     $id_academic_period     = validateAndSanitizeInput($_POST['id_academic_period']);
 
+    //Buka Detail Periode Akademik
+    $academic_period        = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
+    $academic_period_start  = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period_start');
+    $academic_period_end    = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period_end');
+
+    //Buka class_name
+    $class_name     = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
+    $class_level    = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
+
+    //Buat title tabel
+    $table_title = '
+        <div class="row mb-2">
+            <div class="col-12 text-center"><b class="text text-decoration-underline">DAFTAR TAGIHAN SISWA</b></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <div class="row mb-2">
+                    <div class="col-5"><small>Periode Akademik</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6">
+                        <a href="javascript:void(0);" class="text text-primary" data-bs-toggle="modal" data-bs-target="#ModalFilterTagihan">
+                            <small class="text text-primary">'.$academic_period.' <i class="bi bi-arrow-up-right-square"></i></small>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Periode Mulai</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$academic_period_start.'</small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Periode Selesai</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$academic_period_end.'</small></div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="row mb-2">
+                    <div class="col-5"><small>Level/Jenjang</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_level.'</small></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5"><small>Kelas/Rombel</small></div>
+                    <div class="col-1"><small>:</small></div>
+                    <div class="col-6"><small class="text text-grayish">'.$class_name.'</small></div>
+                </div>
+            </div>
+        </div>
+    ';
+
     //Hitung jumlah
-    if(empty($_POST['kelompok_status_siswa'])){
-        $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_student FROM student WHERE id_organization_class='$id_organization_class'"));
-    }else{
-        $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_student FROM student WHERE student_status='$status_siswa' AND id_organization_class='$id_organization_class'"));
-    }
+    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT DISTINCT id_student FROM fee_by_student  WHERE id_organization_class='$id_organization_class'"));
     
     if(empty($jml_data)){
         echo '
@@ -62,104 +123,78 @@
                     <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
                 </td>
             </tr>
+            <script>
+                $("#title_table").html(' . json_encode($table_title) . ');
+                $("#page_info").html("Jumlah Data : '.$jml_data.'");
+            </script>
         ';
     }else{
         $no = 1;
-        //KONDISI PENGATURAN MASING FILTER
-        if(empty($_POST['kelompok_status_siswa'])){
-            $query = mysqli_query($Conn, "SELECT*FROM student WHERE id_organization_class='$id_organization_class' ORDER BY student_name ASC");
-        }else{
-            $query = mysqli_query($Conn, "SELECT*FROM student WHERE student_status='$status_siswa' AND id_organization_class='$id_organization_class' ORDER BY student_name ASC");
-        }
+        //MEMBUAT QUERY UNTUK MENAMPILKAN DATA DAN MENGURUTKAN BERDASARKAN NAMA
+        $query = mysqli_query($Conn, "
+            SELECT DISTINCT f.id_student 
+            FROM fee_by_student AS f
+            JOIN student AS s ON f.id_student = s.id_student
+            WHERE f.id_organization_class = '$id_organization_class'
+            ORDER BY s.student_name ASC
+        ");
         while ($data = mysqli_fetch_array($query)) {
             $id_student = $data['id_student'];
-            $id_organization_class= $data['id_organization_class'];
-            $student_name= $data['student_name'];
-            $student_gender= $data['student_gender'];
-            $student_registered= $data['student_registered'];
-            $student_status= $data['student_status'];
 
-            //NIS
-            if(empty($data['student_nis'])){
-                $student_nis='-';
+            //Buka data dari tabel 'student'
+            $student_name = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_name');
+            $student_nis = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_nis');
+
+
+            //Menghitung Biaya Pendidikan, Diskon, Tagihan Siswa, Pembayaran dan Sisa Tunggakan
+            ## Hitung Jumlah Biaya Pendidikan
+            $SumBiayaPendidikan             = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal) AS biaya_pendidikan FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
+            $jumlah_biaya_pendidikan        = $SumBiayaPendidikan['biaya_pendidikan'];
+            $jumlah_biaya_pendidikan_format = "" . number_format($jumlah_biaya_pendidikan,0,',','.');
+            if(empty($jumlah_biaya_pendidikan)){
+                $label_jumlah_biaya_pendidikan = '<span class="text text-grayish">Rp 0</span>';
             }else{
-                $student_nis=$data['student_nis'];
-            }
-
-            //Routing Gender
-            if($student_gender=="Male"){
-                $gender_label='<i class="bi bi-gender-male"></i> Male';
-            }else{
-                $gender_label='<i class="bi bi-gender-female"></i> Female';
-            }
-
-            //Buka Kelas
-            if(empty($data['id_organization_class'])){
-                $label_kelas='-';
-                $id_academic_period="";
-                $academic_period="-";
-            }else{
-                $id_academic_period=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
-                $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
-                $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
-                $label_kelas="$level-$kelas";
-
-                $academic_period=GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
+                $label_jumlah_biaya_pendidikan = '<span class="text text-dark">'.$jumlah_biaya_pendidikan_format.'</span>';
             }
             
-
-            //Format Tanggal Daftar
-            $tanggal_daftar=date('d/m/Y', strtotime($student_registered));
-
-            //Status
-            if($student_status=="Terdaftar"){
-                $label_status='<span class="badge badge-success">Terdaftar</span>';
+            ## Hitung Jumlah Diskon
+            $SumDiskon              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_discount) AS total_diskon FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
+            $jumlah_diskon          = $SumDiskon['total_diskon'];
+            $jumlah_diskon_format   = "" . number_format($jumlah_diskon,0,',','.');
+            if(empty($jumlah_diskon)){
+                $label_jumlah_diskon = '<span class="text text-grayish">Rp 0</span>';
             }else{
-                if($student_status=="Lulus"){
-                    $label_status='<span class="badge badge-warning">Lulus</span>';
-                }else{
-                    $label_status='<span class="badge badge-danger">Keluar</span>';
-                }
+                $label_jumlah_diskon = '<span class="text text-dark">'.$jumlah_diskon_format.'</span>';
             }
 
-            //Buka Data Tagihan Siswa
-            $jumlah_tagihan=0;
-            $query_tagihan = mysqli_query($Conn, "SELECT fee_nominal, fee_discount FROM  fee_by_student WHERE id_student='$id_student'");
-            while ($data_tagihan = mysqli_fetch_array($query_tagihan)) {
-                $fee_nominal = $data_tagihan['fee_nominal'];
-                $fee_discount = $data_tagihan['fee_discount'];
-
-                //Hitung Subtotal
-                $subtotal = $fee_nominal-$fee_discount;
-
-                //Totalkan
-                $jumlah_tagihan=$jumlah_tagihan+$subtotal;
+            ## Hitung Jumlah Tagihan
+            $SumTagihan              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS total_tagihan FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
+            $jumlah_tagihan          = $SumTagihan['total_tagihan'];
+            $jumlah_tagihan_format   = "" . number_format($jumlah_tagihan,0,',','.');
+            if(empty($jumlah_tagihan)){
+                $label_jumlah_tagihan = '<span class="text text-grayish">Rp 0</span>';
+            }else{
+                $label_jumlah_tagihan = '<span class="text text-dark">'.$jumlah_tagihan_format.'</span>';
             }
-            
-            //Format Uang Tagihan
-            $jumlah_tagihan_format="" . number_format($jumlah_tagihan,0,',','.');
 
-            //Buka Data Pembayaran Siswa
-            $jumlah_payment=0;
-            $query_payment = mysqli_query($Conn, "SELECT payment_nominal FROM payment WHERE id_student='$id_student'");
-            while ($data_payment = mysqli_fetch_array($query_payment)) {
-                if(empty($data_payment['payment_nominal'])){
-                    $payment_nominal =0;
-                }else{
-                    $payment_nominal = $data_payment['payment_nominal'];
-                }
-                
-
-                //Totalkan
-                $jumlah_payment=$jumlah_payment+$payment_nominal;
+            ## Hitung Jumlah Pembayaran
+            $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
+            $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
+            $jumlah_pembayaran_format   = "" . number_format($jumlah_pembayaran,0,',','.');
+            if(empty($jumlah_pembayaran)){
+                $label_jumlah_pembayaran = '<span class="text text-grayish">Rp 0</span>';
+            }else{
+                $label_jumlah_pembayaran = '<span class="text text-dark">'.$jumlah_pembayaran_format.'</span>';
             }
-            
-            //Format Uang Tagihan
-            $jumlah_payment_format="" . number_format($jumlah_payment,0,',','.');
 
-            //Menghitung Sisa Pembayaran
-            $sisa=$jumlah_tagihan-$jumlah_payment;
-            $sisa_format="" . number_format($sisa,0,',','.');
+            ## Menghitung Sisa Tagihan
+            $sisa_tagihan = $jumlah_tagihan-$jumlah_pembayaran;
+            $sisa_tagihan_format   = "Rp " . number_format($sisa_tagihan,0,',','.');
+            if(empty($sisa_tagihan)){
+                $label_sisa_tagihan = '<span class="text text-grayish">Rp 0</span>';
+            }else{
+                $label_sisa_tagihan = '<span class="text text-dark">'.$sisa_tagihan_format.'</span>';
+            }
 
             //Tampilkan Data
             echo '
@@ -171,13 +206,11 @@
                         </a>
                     </td>
                     <td><small>'.$student_nis.'</small></td>
-                    <td><small>'.$label_kelas.'</small></td>
-                    <td><small>'.$academic_period.'</small></td>
-                    <td><small>'.$tanggal_daftar.'</small></td>
-                    <td><small>'.$label_status.'</small></td>
-                    <td><small>'.$jumlah_tagihan_format.'</small></td>
-                    <td><small>'.$jumlah_payment_format.'</small></td>
-                    <td><small>'.$sisa_format.'</small></td>
+                    <td><small>'.$label_jumlah_biaya_pendidikan.'</small></td>
+                    <td><small>'.$label_jumlah_diskon.'</small></td>
+                    <td><small>'.$label_jumlah_tagihan.'</small></td>
+                    <td><small>'.$label_jumlah_pembayaran.'</small></td>
+                    <td><small>'.$label_sisa_tagihan.'</small></td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
@@ -202,13 +235,12 @@
             ';
             $no++;
         }
+
+        echo '
+            <script>
+                $("#title_table").html(' . json_encode($table_title) . ');
+                $("#page_info").html("Jumlah Data : '.$jml_data.'");
+            </script>
+        ';
     }
 ?>
-<script>
-    //Creat Javascript Variabel
-    var jml_data="<?php echo $jml_data; ?>";
-    
-    //Put Into Pagging Element
-    $('#page_info').html('Jumlah Data : '+jml_data+' Siswa');
-    
-</script>

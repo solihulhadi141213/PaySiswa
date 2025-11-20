@@ -15,7 +15,6 @@
     $id_academic_period=$_POST['id_academic_period'];
 
     //Menampilkan Kelas Berdasarkan id_academic_period
-    echo '<option value="">Pilih</option>';
     $query_level = mysqli_query($Conn, "SELECT DISTINCT class_level FROM organization_class WHERE id_academic_period='$id_academic_period' ORDER BY class_level ASC");
     while ($data_level = mysqli_fetch_array($query_level)) {
         $class_level = $data_level['class_level'];
