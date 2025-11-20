@@ -75,13 +75,13 @@
         <div class="row mb-2">
             <div class="col-12 text-center"><b class="text text-decoration-underline">DAFTAR TAGIHAN SISWA</b></div>
         </div>
-        <div class="row mb-2">
+        <div class="row mb-2 border-1 border-bottom">
             <div class="col-md-4">
                 <div class="row mb-2">
                     <div class="col-5"><small>Periode Akademik</small></div>
                     <div class="col-1"><small>:</small></div>
                     <div class="col-6">
-                        <a href="javascript:void(0);" class="text text-primary" data-bs-toggle="modal" data-bs-target="#ModalFilterTagihan">
+                        <a href="javascript:void(0);" class="text text-primary modal_filter_tagihan" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Ubah Filter Periode Akademik Dan Mode Tampilan Data">
                             <small class="text text-primary">'.$academic_period.' <i class="bi bi-arrow-up-right-square"></i></small>
                         </a>
                     </div>
@@ -109,6 +109,13 @@
                     <div class="col-1"><small>:</small></div>
                     <div class="col-6"><small class="text text-grayish">'.$class_name.'</small></div>
                 </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12 text-end">
+                <button type="button" class="btn btn-md btn-outline-secondary modal_metriks_tagihan">
+                    <i class="bi bi-table"></i> Metriks Tagihan
+                </button>
             </div>
         </div>
     ';
@@ -160,7 +167,8 @@
             ## Hitung Jumlah Diskon
             $SumDiskon              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_discount) AS total_diskon FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
             $jumlah_diskon          = $SumDiskon['total_diskon'];
-            $jumlah_diskon_format   = "" . number_format($jumlah_diskon,0,',','.');
+            $jumlah_diskon          = round($jumlah_diskon);
+            $jumlah_diskon_format   = "Rp " . number_format($jumlah_diskon,0,',','.');
             if(empty($jumlah_diskon)){
                 $label_jumlah_diskon = '<span class="text text-grayish">Rp 0</span>';
             }else{
@@ -170,7 +178,7 @@
             ## Hitung Jumlah Tagihan
             $SumTagihan              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS total_tagihan FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
             $jumlah_tagihan          = $SumTagihan['total_tagihan'];
-            $jumlah_tagihan_format   = "" . number_format($jumlah_tagihan,0,',','.');
+            $jumlah_tagihan_format   = "Rp " . number_format($jumlah_tagihan,0,',','.');
             if(empty($jumlah_tagihan)){
                 $label_jumlah_tagihan = '<span class="text text-grayish">Rp 0</span>';
             }else{
@@ -180,7 +188,7 @@
             ## Hitung Jumlah Pembayaran
             $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
             $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
-            $jumlah_pembayaran_format   = "" . number_format($jumlah_pembayaran,0,',','.');
+            $jumlah_pembayaran_format   = "Rp " . number_format($jumlah_pembayaran,0,',','.');
             if(empty($jumlah_pembayaran)){
                 $label_jumlah_pembayaran = '<span class="text text-grayish">Rp 0</span>';
             }else{
@@ -199,19 +207,19 @@
             //Tampilkan Data
             echo '
                 <tr>
-                    <td><small>'.$no.'</small></td>
+                    <td align="center"><small>'.$no.'</small></td>
                     <td>
-                        <a href="javascript:void(0);" class="text text-decoration-underline" data-bs-toggle="modal" data-bs-target="#ModalDetailSiswa" data-id="'.$id_student .'">
+                        <a href="javascript:void(0);" class="underscore_doted modal_detail_siswa" data-id="'.$id_student .'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Click Untuk Melihat Detail Siswa">
                             <small>'.$student_name.'</small>
                         </a>
                     </td>
                     <td><small>'.$student_nis.'</small></td>
-                    <td><small>'.$label_jumlah_biaya_pendidikan.'</small></td>
-                    <td><small>'.$label_jumlah_diskon.'</small></td>
-                    <td><small>'.$label_jumlah_tagihan.'</small></td>
-                    <td><small>'.$label_jumlah_pembayaran.'</small></td>
-                    <td><small>'.$label_sisa_tagihan.'</small></td>
-                    <td>
+                    <td align="right"><small class="underscore_doted">'.$label_jumlah_biaya_pendidikan.'</small></td>
+                    <td align="right"><small class="underscore_doted">'.$label_jumlah_diskon.'</small></td>
+                    <td align="right"><small class="underscore_doted">'.$label_jumlah_tagihan.'</small></td>
+                    <td align="right"><small class="underscore_doted">'.$label_jumlah_pembayaran.'</small></td>
+                    <td align="right"><small class="underscore_doted">'.$label_sisa_tagihan.'</small></td>
+                    <td align="right">
                         <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
                         </button>

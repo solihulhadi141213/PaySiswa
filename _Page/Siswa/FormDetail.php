@@ -59,6 +59,17 @@
         $student_registered     =$Data['student_registered'];
         $student_status         =$Data['student_status'];
 
+        //Routing gender
+        if($student_gender=="Male"){
+            $label_gender='Laki-laki';
+        }else{
+            if($student_gender=="Female"){
+                $label_gender='Perempuan';
+            }else{
+                $label_gender='-';
+            }
+        }
+
         //Parent
         $parent_arry=json_decode($student_parent, true);
         if(empty($parent_arry['nama'])){
@@ -83,7 +94,7 @@
         if($Data['date_of_birth']=="0000-00-00"){
             $date_of_birth="-";
         }else{
-            $date_of_birth =date('d F Y', strtotime($Data['date_of_birth']));
+            $date_of_birth = date('d F Y', strtotime($Data['date_of_birth']));
         }
 
         //Kontak
@@ -143,118 +154,105 @@
         ';
         echo '
             <div class="row mb-3">
-                <div class="col-12 mb-3 text-center border-1 border-bottom">
-                    <a href="javascript:void(0);" id="tampilkan_foto_siswa">Tampilkan Foto <i class="bi bi-chevron-down"></i></a>
+                <div class="col-md-2 text-center">
+                    <img src="'.$app_base_url.'/image_proxy.php?dir=Siswa&filename='.$student_foto.'" alt="'.$student_foto.'" width="90%" class="rounded-circle mb-3">
                 </div>
-            </div>
-        ';
-        echo '
-            <div class="row mb-2">
-                <div class="col-4"><small>Nama</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_name.'</small>
+                <div class="col-md-5">
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Nama</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$student_name.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>NIS</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$student_nis.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>NISN</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$student_nisn.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Jenis Kelamin</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$label_gender.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Tempat Lahir</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$place_of_birth.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Tanggal Lahir</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$date_of_birth.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Kontak</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$student_contact.'</small>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>NIS</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_nis.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>NISN</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_nisn.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Gender</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_gender.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Tempat Lahir</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$place_of_birth.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Tanggal Lahir</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$date_of_birth.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Kontak</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_contact.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Email</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_email.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Alamat</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$student_address.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Nama Orang Tua</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$parent_nama.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Kontak Orang Tua</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$parent_kontak.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Tgl.Daftar</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    <small class="text text-grayish">'.$tanggal_daftar.'</small>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4"><small>Status</small></div>
-                <div class="col-1"><small>:</small></div>
-                <div class="col-7">
-                    '.$label_status.'
+                <div class="col-md-5">
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Email</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$student_email.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Alamat</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$student_address.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Nama Orang Tua</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$parent_nama.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Kontak Orang Tua</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$parent_kontak.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Tgl.Daftar</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            <small class="text text-grayish">'.$tanggal_daftar.'</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5"><small>Status</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-6">
+                            '.$label_status.'
+                        </div>
+                    </div>
                 </div>
             </div>
         ';
     }
 ?>
-
-<script>
-    $(document).ready(function(){
-        $("#tampilkan_foto_siswa").on("click", function(){
-            $("#foto_siswa_place").slideToggle(400, function(){ // 400ms = durasi animasi
-                // ubah teks link sesuai kondisi setelah animasi selesai
-                if($(this).is(":visible")){
-                    $("#tampilkan_foto_siswa").html('Sembunyikan Foto <i class="bi bi-chevron-up"></i>');
-                } else {
-                    $("#tampilkan_foto_siswa").html('Tampilkan Foto <i class="bi bi-chevron-down"></i>');
-                }
-            });
-        });
-    });
-</script>

@@ -3,6 +3,9 @@
 **PaySiswa** adalah aplikasi berbasis web untuk mempermudah tata usaha sekolah dalam mengelola pembayaran SPP siswa.  Aplikasi ini dikembangkan agar administrasi keuangan lebih transparan, efisien, dan mudah diakses. Secara umum, aplikasi ini berguna untuk menyiimpan (mencatat) transaksi pembayaran siswa dan menyajikan laporan secara dinamis sehingga lebih mudah untuk diinterpertasikan.
 
 ## Fitur Utama
+- **Dashboard**  
+  Menampilkan ringkasan informasi keseluruhan dari mulai jumlah siswa, jumlah periode akademik, jumlah kelas/rombel, jumlah nominal tagihan dan nominal pembayaran. Halaman dashboard dilengkapi dengan grafik pembayaran masuk setiap bulan.  
+
 - **Aksesibilitas**  
   Pengguna dapat mengatur siapa saja yang bisa mengakses aplikasi secara dinamis. Fitur ini berfungsi untuk mengelola data pengguna, menetapkan fitur yang bisa diakses dan mengelola kode akses pada setiap halaman.  
 

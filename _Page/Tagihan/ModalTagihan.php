@@ -156,7 +156,7 @@
 </div>
 
 <div class="modal fade" id="ModalDetailSiswa" tabindex="-1">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <form action="index.php" method="GET">
                 <div class="modal-header">
@@ -173,8 +173,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info btn-rounded">
-                        <i class="bi bi-three-dots"></i> Lihat Selengkapnya
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-three-dots"></i> Selengkapnya
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup

@@ -58,15 +58,15 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <td valign="middle"><small><b>No</b></small></td>
+                                        <td valign="middle" align="center"><small><b>No</b></small></td>
                                         <td valign="middle"><small><b>Nama Siswa</b></small></td>
                                         <td valign="middle"><small><b>NIS</b></small></td>
-                                        <td valign="middle"><small><b>Biaya Pendidikan</b></small></td>
-                                        <td valign="middle"><small><b>Diskon/Potongan</b></small></td>
-                                        <td valign="middle"><small><b>Jumlah Tagihan</b></small></td>
-                                        <td valign="middle"><small><b>Pembayaran</b></small></td>
-                                        <td valign="middle"><small><b>Sisa/Tunggakan</b></small></td>
-                                        <td valign="middle"><small><b>Opsi</b></small></td>
+                                        <td valign="middle" align="right"><small><b>Biaya Pendidikan</b></small></td>
+                                        <td valign="middle" align="right"><small><b>Diskon/Potongan</b></small></td>
+                                        <td valign="middle" align="right"><small><b>Jumlah Tagihan</b></small></td>
+                                        <td valign="middle" align="right"><small><b>Pembayaran</b></small></td>
+                                        <td valign="middle" align="right"><small><b>Sisa/Tunggakan</b></small></td>
+                                        <td valign="middle" align="right"><small><b>Opsi</b></small></td>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelTagihan">

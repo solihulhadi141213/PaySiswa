@@ -27,6 +27,9 @@ function FilterTagihan() {
             success : function(data) {
                 $('#TabelTagihan').html(data);
 
+                // 🔁 Re-inisialisasi tooltip setelah data dimuat
+                $('[data-bs-toggle="tooltip"]').tooltip();
+
                 // Setelah ganti konten → fadeIn lagi
                 $('#TabelTagihan').fadeIn(200);
             }
@@ -188,9 +191,18 @@ $(document).ready(function() {
 
 
     //Modal Detail Siswa
-    $('#ModalDetailSiswa').on('show.bs.modal', function (e) {
-        var id_student = $(e.relatedTarget).data('id');
+    $(document).on('click', '.modal_detail_siswa', function() {
+
+        //Tangkap 'id_student'
+        var id_student = $(this).data('id');
+
+        //Show Modal
+        $('#ModalDetailSiswa').modal('show');
+
+        //Loading Modal
         $('#FormDetailSiswa').html("Loading...");
+
+        //Tampilkan Detail Siswa Dengan AJAX
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/Siswa/FormDetail.php',
