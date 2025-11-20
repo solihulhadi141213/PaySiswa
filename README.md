@@ -2,6 +2,8 @@
 
 **PaySiswa** adalah aplikasi berbasis web untuk mempermudah tata usaha sekolah dalam mengelola pembayaran SPP siswa.  Aplikasi ini dikembangkan agar administrasi keuangan lebih transparan, efisien, dan mudah diakses. Secara umum, aplikasi ini berguna untuk menyiimpan (mencatat) transaksi pembayaran siswa dan menyajikan laporan secara dinamis sehingga lebih mudah untuk diinterpertasikan.
 
+> Aplikasi ini dikembangkan secara custom framework dengan arsitektur MVC yang dapat dengan mudah dipahami. Baca dokumentasi lengkap pada tautan yang sudah saya sediakan di akhir halaman. 
+
 ## Fitur Utama
 - **Dashboard**  
   Menampilkan ringkasan informasi keseluruhan dari mulai jumlah siswa, jumlah periode akademik, jumlah kelas/rombel, jumlah nominal tagihan dan nominal pembayaran. Halaman dashboard dilengkapi dengan grafik pembayaran masuk setiap bulan.  
@@ -104,7 +106,7 @@
 - Relation Database Design : https://drawsql.app/teams/rsu-el-syifa/diagrams/school-system
 - Sequance Diagram : https://drive.google.com/file/d/1fX6SMki9oydaelz97KHcJVUzifKv_pj5/view?usp=sharing
 
-> **Tutorial dan Dokumentasi Lengkap**<br>
+## Tutorial dan Dokumentasi Lengkap
 > Untuk mendapatkan informasi lengkap mengenai aplikasi ini, bisa juga mengakses halaman github book berikut ini:
 > https://parasilva-technology.gitbook.io/pay-siswa/referensi
 
