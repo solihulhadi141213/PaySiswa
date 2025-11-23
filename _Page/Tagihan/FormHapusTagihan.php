@@ -191,24 +191,13 @@
             <div class="col-7"><small class="text text-grayish">'.$fee_nominal_format.'</small></div>
         </div>
         <div class="row mb-2 mt-3">
-            <div class="col-12">
-                <small><b># Form Ubah Tagihan</b></small>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-md-12">
-                <label for="fee_nominal_edit">
-                    <small>Nominal Tagihan</small>
-                </label>
-                <input type="text" name="fee_nominal" id="fee_nominal_edit" class="form-control form-money" value="'.$fee_nominal.'">
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-md-12">
-                <label for="fee_discount_edit">
-                    <small>Diskon/Potongan</small>
-                </label>
-                <input type="text" name="fee_discount" id="fee_discount_edit" class="form-control form-money" value="'.$fee_discount.'">
+            <div class="col-12 text-center">
+                <div class="alert alert-danger">
+                    <small>
+                        Menghapus data tagihan akan menyebabkan riwayat pembayaran dihapus dari database. Tindakan ini akan menyebabkan siswa tidak akan bisa melakukan pembayaran atas tagihan tersebut.<br>
+                        <b>Apakah anda yakin akan menghapus data tersebut?</b>
+                    </small>
+                </div>
             </div>
         </div>
     ';

@@ -196,7 +196,7 @@
             if(empty($jumlah_pembayaran)){
                 $label_jumlah_pembayaran = '<span class="text text-grayish">Rp 0</span>';
             }else{
-                $label_jumlah_pembayaran = '<span class="text text-dark">'.$jumlah_pembayaran_format.'</span>';
+                $label_jumlah_pembayaran = '<span class="text text-success">'.$jumlah_pembayaran_format.'</span>';
             }
 
             ## Menghitung Sisa Tagihan
@@ -221,7 +221,11 @@
                     <td align="right"><small class="">'.$label_jumlah_biaya_pendidikan.'</small></td>
                     <td align="right"><small class="">'.$label_jumlah_diskon.'</small></td>
                     <td align="right"><small class="">'.$label_jumlah_tagihan.'</small></td>
-                    <td align="right"><small class="">'.$label_jumlah_pembayaran.'</small></td>
+                    <td align="right">
+                        <a href="javascript:void(0);" class="underscore_doted modal_riwayat_pembayaran_siswa" data-id_student="'.$id_student .'" data-id_organization_class="'.$id_organization_class.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Click Untuk Melihat Riwayat Pembayaran Siswa">
+                            <small class="">'.$label_jumlah_pembayaran.'</small>
+                        </a>
+                    </td>
                     <td align="right">
                         <a href="javascript:void(0);" class="underscore_doted modal_tagihan_siswa" data-id_student="'.$id_student .'" data-id_organization_class="'.$id_organization_class.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Click Untuk Melihat List Tagihan Siswa">
                             <small class="">'.$label_sisa_tagihan.'</small>

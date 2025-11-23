@@ -617,61 +617,169 @@ $(document).ready(function() {
         });
     });
 
-    //Modal Ubah Tagihan
-    $('#ModalUbahTagihan').on('show.bs.modal', function (e) {
-        var id_fee_by_student = $(e.relatedTarget).data('id');
+    //Modal Ubah Tagihan (click 'modal_ubah_tagihan')
+    $(document).on('click', '.modal_ubah_tagihan', function() {
+
+        //tangkap 'id_fee_by_student'
+        var id_fee_by_student = $(this).data('id');
+
+        //Tutup Modal 'ModalTagihanSiswa'
+        $('#ModalTagihanSiswa').modal('hide');
+
+        //Tampilkan modal 'ModalUbahTagihan'
+        $('#ModalUbahTagihan').modal('show');
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiUbahTagihan').html('');
+
+        //Loading Form
+        $('#FormUbahTagihan').html('Loading...');
+
+        //Tampilkan 'FormUbahTagihan' dengan AJAX
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/Tagihan/FormUbahTagihan.php',
             data 	    :  {id_fee_by_student: id_fee_by_student},
             success     : function(data){
                 $('#FormUbahTagihan').html(data);
-                $('#NotifikasiUbahTagihan').html('');
+                
+                //Format Uang
                 initializeMoneyInputs();
             }
         });
     });
 
+    //Ketika Click 'kembali_ke_modal_tagihan'
+    $(document).on('click', '.kembali_ke_modal_tagihan', function() {
+
+       //Tampilkan Modal 'ModalTagihanSiswa'
+        $('#ModalTagihanSiswa').modal('show');
+
+        //Tutup modal 'ModalUbahTagihan'
+        $('#ModalUbahTagihan').modal('hide');
+
+        //Tutup modal 'ModalUbahTagihan'
+        $('#ModalHapusTagihan').modal('hide');
+    });
+
     //Proses Ubah Tagihan
     $('#ProsesUbahTagihan').submit(function(){
-               
-        //Loading
+        //Tangkap Data Dari Form
+        var ProsesUbahTagihan = $('#ProsesUbahTagihan').serialize();   
+        
+        //Loading 'NotifikasiUbahTagihan'
         $('#NotifikasiUbahTagihan').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
-
-        //Get Data Form
-        var ProsesUbahTagihan = $('#ProsesUbahTagihan').serialize();
 
         //Simpan Data Dengan Ajax
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/Tagihan/ProsesUbahTagihan.php',
             data 	    :  ProsesUbahTagihan,
-            enctype     : 'multipart/form-data',
-            success     : function(data){
-                $('#NotifikasiUbahTagihan').html(data);
+            dataType    : 'json',
+            success     : function(response){
+                
+                //Tangkap status, message, id_student dan id_organization_class
+                var status                  = response.status;
+                var message                 = response.message;
+                var id_student              = response.id_student;
+                var id_organization_class   = response.id_organization_class;
 
-                //Tangkap id_siswa
-                var id_student=$('#get_id_student3').val();
-
-                //Tangkap Notifikasi
-                var NotifikasiUbahTagihanBerhasil=$('#NotifikasiUbahTagihanBerhasil').html();
-
-                //Jika Berhasil
-                if(NotifikasiUbahTagihanBerhasil=="Success"){
-
-                    //Tutup Modal 'ModalBayar'
+                //Jika Proses Berhasil
+                if(status=="success"){
+                    //Tutup Modal 'ModalUbahTagihan'
                     $('#ModalUbahTagihan').modal('hide');
 
                     //Buka Modal 'ModalTagihanSiswa'
                     $('#ModalTagihanSiswa').modal('show');
-                    ShowTagihanSiswa(id_student);
+
+                    //Reload Tagihan Siswa
+                    ShowTagihanSiswa(id_student,id_organization_class);
 
                     //Reload Tabel Tagihan
                     FilterTagihan();
+                }else{
+                    //Jika Proses Gagal, Tampilkan pada Notifikasi
+                    $('#NotifikasiUbahTagihan').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
             }
         });
     });
+
+    //Modal Hapus Tagihan (click 'modal_ubah_tagihan')
+    $(document).on('click', '.modal_hapus_tagihan_siswa', function() {
+
+        //tangkap 'id_fee_by_student'
+        var id_fee_by_student = $(this).data('id');
+
+        //Tutup Modal 'ModalTagihanSiswa'
+        $('#ModalTagihanSiswa').modal('hide');
+
+        //Tampilkan modal 'ModalHapusTagihan'
+        $('#ModalHapusTagihan').modal('show');
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiHapusTagihan').html('');
+
+        //Loading Form
+        $('#FormHapusTagihan').html('Loading...');
+
+        //Tampilkan 'FormHapusTagihan' dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/FormHapusTagihan.php',
+            data 	    :  {id_fee_by_student: id_fee_by_student},
+            success     : function(data){
+                $('#FormHapusTagihan').html(data);
+                
+                //Format Uang
+                initializeMoneyInputs();
+            }
+        });
+    });
+
+    //Proses Hapus Tagihan
+    $('#ProsesHapusTagihan').submit(function(){
+        //Tangkap Data Dari Form
+        var ProsesHapusTagihan = $('#ProsesHapusTagihan').serialize();   
+        
+        //Loading 'NotifikasiHapusTagihan'
+        $('#NotifikasiHapusTagihan').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+
+        //Simpan Data Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/ProsesHapusTagihan.php',
+            data 	    :  ProsesHapusTagihan,
+            dataType    : 'json',
+            success     : function(response){
+                
+                //Tangkap status, message, id_student dan id_organization_class
+                var status                  = response.status;
+                var message                 = response.message;
+                var id_student              = response.id_student;
+                var id_organization_class   = response.id_organization_class;
+
+                //Jika Proses Berhasil
+                if(status=="success"){
+                    //Tutup Modal 'ModalHapusTagihan'
+                    $('#ModalHapusTagihan').modal('hide');
+
+                    //Buka Modal 'ModalTagihanSiswa'
+                    $('#ModalTagihanSiswa').modal('show');
+
+                    //Reload Tagihan Siswa
+                    ShowTagihanSiswa(id_student,id_organization_class);
+
+                    //Reload Tabel Tagihan
+                    FilterTagihan();
+                }else{
+                    //Jika Proses Gagal, Tampilkan pada Notifikasi
+                    $('#NotifikasiHapusTagihan').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+            }
+        });
+    });
+
 
     //Modal Export Tagihan
     $('#ModalExportTagihan').on('show.bs.modal', function (e) {

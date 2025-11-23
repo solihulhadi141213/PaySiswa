@@ -64,92 +64,28 @@
         $Qry->close();
 
         //Buat Variabel
-        $id_organization_class  =$Data['id_organization_class'];
-        $student_nis            =$Data['student_nis'] ?? '-';
-        $student_nisn           =$Data['student_nisn'] ?? '-';
-        $student_name           =$Data['student_name'];
-        $student_gender         =$Data['student_gender'];
-        $student_parent         =$Data['student_parent'];
-        $student_registered     =$Data['student_registered'];
-        $student_status         =$Data['student_status'];
+        $student_nis            = $Data['student_nis'] ?? '-';
+        $student_name           = $Data['student_name'];
+        $student_gender         = $Data['student_gender'];
 
-        //Parent
-        $parent_arry=json_decode($student_parent, true);
-        if(empty($parent_arry['nama'])){
-            $parent_nama="-";
+        //Routing Gender
+        if($student_gender=="Male"){
+            $gender = "Laki-laki";
         }else{
-            $parent_nama=$parent_arry['nama'];
-        }
-        if(empty($parent_arry['kontak'])){
-            $parent_kontak="-";
-        }else{
-            $parent_kontak=$parent_arry['kontak'];
-        }
-
-        //Tempat lahir
-        if(empty($place_of_birth)){
-            $place_of_birth ="-";
-        }else{
-            $place_of_birth =$Data['place_of_birth'];
-        }
-
-        //Tanggal Lahir
-        if($Data['date_of_birth']=="0000-00-00"){
-            $date_of_birth="-";
-        }else{
-            $date_of_birth =date('d F Y', strtotime($Data['date_of_birth']));
-        }
-
-        //Kontak
-        if(empty($Data['student_contact'])){
-            $student_contact ="-";
-        }else{
-            $student_contact =$Data['student_contact'];
-        }
-
-        //Kontak
-        if(empty($Data['student_email'])){
-            $student_email ="-";
-        }else{
-            $student_email =$Data['student_email'];
-        }
-
-        //student_address
-        if(empty($Data['student_address'])){
-            $student_address ="-";
-        }else{
-            $student_address =$Data['student_address'];
-        }
-
-        //student_foto
-        if(empty($Data['student_foto'])){
-            $student_foto ="No-Image.png";
-        }else{
-            $student_foto =$Data['student_foto'];
-        }
-
-        //Format Tanggal Daftar
-        $tanggal_daftar=date('d/m/Y', strtotime($student_registered));
-
-        //Status
-        if($student_status=="Terdaftar"){
-            $label_status='<span class="badge badge-success">Terdaftar</span>';
-        }else{
-            if($student_status=="Lulus"){
-                $label_status='<span class="badge badge-warning">Lulus</span>';
+            if($student_gender=="Female"){
+                $gender = "Perempuan";
             }else{
-                $label_status='<span class="badge badge-danger">Keluar</span>';
+                $gender = "-";
             }
         }
 
         //Buka Kelas
-        if(empty($Data['id_organization_class'])){
-            $label_kelas='-';
-        }else{
-            $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
-            $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
-            $label_kelas="$level-$kelas";
-        }
+        $class_level            = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
+        $class_name             = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
+        $id_academic_period     = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
+
+        //Buka Periode Akademik
+        $academic_period        = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
 
         //Form Hide
         echo '
@@ -158,17 +94,10 @@
         ';
         //Tampilkan Data
         echo '
-            <div class="row mb-2">
-                <div class="col-12">
-                    <small>
-                        <b>1. Identitas Siswa</b>
-                    </small>
-                </div>
-            </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                    <div class="row mb-2">
-                        <div class="col-4"><small>Nama</small></div>
+                        <div class="col-4"><small>Nama Siswa</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
                             <small class="text text-grayish">'.$student_name.'</small>
@@ -182,42 +111,42 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-4"><small>Kelas</small></div>
+                        <div class="col-4"><small>Jenis Kelamin</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
-                            <small class="text text-grayish">'.$label_kelas.'</small>
+                            <small class="text text-grayish">'.$gender.'</small>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row mb-2">
-                        <div class="col-4"><small>Tgl.Daftar</small></div>
+                        <div class="col-4"><small>Tahun Akademik</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
-                            <small class="text text-grayish">'.$tanggal_daftar.'</small>
+                            <small class="text text-grayish">'.$academic_period.'</small>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-4"><small>Status</small></div>
+                        <div class="col-4"><small>Jenjang/Level</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
-                            '.$label_status.'
+                            <small class="text text-grayish">'.$class_level.'</small>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row mb-2 border-1 border-top">
-                <div class="col-12 mt-3">
-                    <small>
-                        <b>2. Uraian Tagihan</b>
-                    </small>
+                    <div class="row mb-2">
+                        <div class="col-4"><small>Kelas/Rombel</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-7">
+                            <small class="text text-grayish">'.$class_name.'</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         ';
         //Menampilkan Komponen Biaya/Tagihan
         echo '<div class="row mb-2">';
         echo '  <div class="col-12">';
-        echo '      <div class="table table-responsive">';
+        echo '      <div class="table table-responsive border-1 border-top">';
         echo '          <table class="table table-hover table-striped ">';
         echo '              
                             <thead>
@@ -237,7 +166,7 @@
         ';
         echo '              <tbody>';
                                 $no=1;
-                                $JumlahKomponen = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_student FROM fee_by_student WHERE id_student='$id_student'"));
+                                $JumlahKomponen = mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_student FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
                                 if(empty($JumlahKomponen)){
                                     echo '
                                         <tr>
@@ -251,31 +180,30 @@
                                     $jumlah_fee_discount=0;
                                     $jumlah_pembayaran_masuk=0;
                                     $jumlah_sisa_pembayaran=0;
-                                    $query = mysqli_query($Conn, "SELECT*FROM fee_by_student  WHERE id_student='$id_student' ORDER BY id_fee_by_student ASC");
+                                    $query = mysqli_query($Conn, "SELECT*FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class' ORDER BY id_fee_by_student ASC");
                                     while ($data = mysqli_fetch_array($query)) {
                                         $id_fee_by_student = $data['id_fee_by_student'];
                                         $id_organization_class= $data['id_organization_class'];
                                         $id_fee_component = $data['id_fee_component'];
                                         $fee_nominal= $data['fee_nominal'];
                                         $fee_discount= $data['fee_discount'];
-
                                         $jumlah_tagihan=$fee_nominal-$fee_discount;
                                         
                                         //Buka Detail Komponen
-                                        $component_name=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
-                                        $component_category=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
-                                        $periode_month=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
-                                        $periode_year=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
+                                        $component_name     = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
+                                        $component_category = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
+                                        $periode_month      = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
+                                        $periode_year       = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
 
                                         //Nama Bulan
                                         $nama_bulan=getNamaBulan($periode_month);
 
                                         //Format Rupiah
-                                        $fee_nominal_format="" . number_format($fee_nominal,0,',','.');
-                                        $fee_discount_format="" . number_format($fee_discount,0,',','.');
+                                        $fee_nominal_format     = "Rp" . number_format($fee_nominal,0,',','.');
+                                        $fee_discount_format    = "Rp" . number_format($fee_discount,0,',','.');
 
                                         //Hitung Pembayaran Yang Sudah Masuk
-                                        $JumlahPembayaranMasuk = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS jumlah FROM payment WHERE id_student='$id_student' AND id_fee_component='$id_fee_component'"));
+                                        $JumlahPembayaranMasuk = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS jumlah FROM payment WHERE id_fee_by_student='$id_fee_by_student'"));
                                         $JumlahPembayaranMasuk = $JumlahPembayaranMasuk['jumlah'];
 
                                         //Format Rupiah
@@ -319,20 +247,21 @@
                                                             <h6>Option</h6>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalBayar" data-id1="'.$id_fee_component .'" data-id2="'.$id_student .'" title="Tambah Pembayaran">
-                                                                <i class="bi bi-cash-coin"></i> Bayar Tagihan
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahTagihan" data-id="'.$id_fee_by_student .'" title="Ubah Tagihan">
-                                                                <i class="bi bi-pencil"></i> Ubah Tagihan
-                                                            </a>
-                                                        </li>
-                                                         <li>
                                                             <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id1="'.$id_fee_component .'" data-id2="'.$id_student .'" title="Riwayat Pembayaran">
                                                                 <i class="bi bi-clock-history"></i> Riwayat Pembayaran
                                                             </a>
                                                         </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" class="dropdown-item modal_ubah_tagihan" data-id="'.$id_fee_by_student .'">
+                                                                <i class="bi bi-pencil"></i> Edit Tagihan
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0)" class="dropdown-item modal_hapus_tagihan_siswa" data-id="'.$id_fee_by_student .'" title="Ubah Tagihan">
+                                                                <i class="bi bi-trash"></i> Hapus Tagihan
+                                                            </a>
+                                                        </li>
+                                                         
                                                     </ul>
                                                 </td>
                                             </tr>

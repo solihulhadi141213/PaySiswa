@@ -394,7 +394,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check-circle"></i> Ya, Hapus
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id1="" data-id2="">
@@ -457,7 +457,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check-circle"></i> Ya, Hapus
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran_siswa" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaranSiswa" data-id="">
@@ -469,6 +469,7 @@
     </div>
 </div>
 
+<!-- Modal Ubah Tagihan Siswa -->
 <div class="modal fade" id="ModalUbahTagihan" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -495,7 +496,42 @@
                     <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_modal_tagihan" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="">
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_modal_tagihan">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal Hapus tagihan Siswa -->
+<div class="modal fade" id="ModalHapusTagihan" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusTagihan">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-trash"></i> Hapus Tagihan Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12" id="FormHapusTagihan">
+                            <!-- Form Hapus Tagihan -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12" id="NotifikasiHapusTagihan">
+                            <!-- Notifikasi Hapus Tagihan -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-check-circle"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_modal_tagihan">
                         <i class="bi bi-chevron-left"></i> Kembali
                     </button>
                 </div>

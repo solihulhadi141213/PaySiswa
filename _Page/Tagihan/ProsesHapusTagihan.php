@@ -10,7 +10,7 @@
 
     //Validasi Session Akses
     if (empty($SessionIdAccess)) {
-         echo json_encode([
+            echo json_encode([
             'status' => 'error',
             'message' => 'Sesi Akses Sudah Berakhir! Silahkan Login Ulang!',
             'id_student' => '',
@@ -28,55 +28,29 @@
         ]);
         exit;
     }
-
-    if(empty($_POST['fee_nominal'])){
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Nominal Tagihan Tidak Boleh Kosong',
-            'id_student' => '',
-            'id_organization_class' => ''
-        ]);
-        exit;
-    }
-    
-    //Buat Variabel
+    //Buat Variabel Data
     $id_fee_by_student  = validateAndSanitizeInput($_POST['id_fee_by_student']);
-    $fee_nominal        = validateAndSanitizeInput($_POST['fee_nominal']);
-    if(empty($_POST['fee_discount'])){
-        $fee_discount   =0;
-    }else{
-        $fee_discount   = validateAndSanitizeInput($_POST['fee_discount']);
-    }
-
-    //Format Uang Jadi Angka
-    $fee_nominal        = str_replace('.', '', $fee_nominal);
-    $fee_discount       = str_replace('.', '', $fee_discount);
 
     //Buka 'id_student' dan 'id_organization_class'
     $id_student             = GetDetailData($Conn, 'fee_by_student', 'id_fee_by_student', $id_fee_by_student, 'id_student');
     $id_organization_class  = GetDetailData($Conn, 'fee_by_student', 'id_fee_by_student', $id_fee_by_student, 'id_organization_class');
-    
-    //Update Data
-    $UpdateEntitias = mysqli_query($Conn,"UPDATE fee_by_student SET 
-        fee_nominal='$fee_nominal',
-        fee_discount='$fee_discount'
-    WHERE id_fee_by_student='$id_fee_by_student'") or die(mysqli_error($Conn)); 
-    if($UpdateEntitias){
-        # Jika Proses Berhasil
+
+    //Proses Hapus Data
+    $HapusData = mysqli_query($Conn, "DELETE FROM fee_by_student WHERE id_fee_by_student='$id_fee_by_student'") or die(mysqli_error($Conn));
+    if($HapusData){
         echo json_encode([
             'status' => 'success',
-            'message' => 'Update Tagihan Siswa Berhasil',
+            'message' => 'Hapus Tagihan Siswa Berhasil',
             'id_student' => $id_student,
             'id_organization_class' => $id_organization_class
         ]);
         exit;
     }else{
-        # Jika Proses Berhasil
         echo json_encode([
             'status' => 'error',
-            'message' => 'Terjadi kesalahan pada saat update Tagihan Siswa',
-            'id_student' => $id_student,
-            'id_organization_class' => $id_organization_class
+            'message' => 'Terjadi Kesalahan Pada Saat Hapus Data Tagihan',
+            'id_student' => '',
+            'id_organization_class' => ''
         ]);
         exit;
     }
