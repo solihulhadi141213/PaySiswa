@@ -94,7 +94,11 @@
         if($Data['date_of_birth']=="0000-00-00"){
             $date_of_birth="-";
         }else{
-            $date_of_birth = date('d F Y', strtotime($Data['date_of_birth']));
+            if(empty($Data['date_of_birth'])){
+                $date_of_birth="-";
+            }else{
+                $date_of_birth = date('d F Y', strtotime($Data['date_of_birth']));
+            }
         }
 
         //Kontak

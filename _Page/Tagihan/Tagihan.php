@@ -5,6 +5,7 @@
         include "_Page/Error/NoAccess.php";
     }else{
 ?>
+    <input type="hidden" id="put_id_organization_class">
     <div class="pagetitle">
         <h1>
             <a href="">

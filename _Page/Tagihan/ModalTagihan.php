@@ -104,50 +104,102 @@
 <div class="modal fade" id="ModalPilihSiswa" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesFilterTagihan">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-check-circle"></i> Pilih Siswa
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-12 mb-3">
+                        <form action="javascript:void(0);" id="FilterSiswa">
+                            <input type="hidden" name="page" id="page_siswa" value="1">
+                            <div class="input-group">
+                                <input type="text" name="keyword" class="form-control" placeholder="Nama/NIS">
+                                <button type="submit" class="btn btn-md btn-secondary">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12" style="overflow-y:auto; height:400px;">
+                        <div class="table table-responsive border-1 border-top">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <td><small><b>No</b></small></td>
+                                        <td><small><b>NIS</b></small></td>
+                                        <td><small><b>Nama Siswa</b></small></td>
+                                        <td><small><b>Opsi</b></small></td>
+                                    </tr>
+                                </thead>
+                                <tbody id="TabelSiswa">
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            <small>Loading...</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <small id="page_info_siswa">Page 0 Of 0</small>
+                    </div>
+                    <div class="col-6 text-end">
+                       <button type="button" class="btn btn-md btn-outline-info btn-floating" id="prev_button_siswa">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button type="button" class="btn btn-md btn-outline-info btn-floating" id="next_button_siswa">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah Tagihan -->
+<div class="modal fade" id="ModalTambahTagihan" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahTagihan">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark">
-                        <i class="bi bi-filter-circle"></i> Ubah Periode Data
+                        <i class="bi bi-plus"></i> Tambah Tagihan Parsial
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-2">
-                        <div class="col-md-12">
-                            <label for="IdPeriodeAkademik">
-                                <small>Periode Akademik</small>
-                            </label>
-                            <select name="id_academic_period" id="IdPeriodeAkademik" class="form-control">
-                                <?php
-                                    //Menampilkan periode akademik
-                                    $query = mysqli_query($Conn, "SELECT id_academic_period, academic_period, academic_period_start FROM academic_period ORDER BY academic_period_start ASC");
-                                    while ($data = mysqli_fetch_array($query)) {
-                                        $id_academic_period = $data['id_academic_period'];
-                                        $academic_period= $data['academic_period'];
-                                        $academic_period_start= $data['academic_period_start'];
-                                        echo '<option value="'.$id_academic_period.'">'.$academic_period.'</option>';
-                                    }
-                                ?>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-12" id="FormTambahTagihan">
+                            <!-- Form Tambah Tagihan -->
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-md-12">
-                            <label for="IdPeriodeAkademik">
-                                <small>Kelas/Rombel</small>
-                            </label>
-                            <select name="id_organization_class" id="SelectOrganizationClass" class="form-control">
-                                <option value=""># Pilih Kelas/Rombel</option>
-                            </select>
+                        <div class="col-md-12" id="NotifikasiTambahTagihan">
+                            <!-- Notifikasi Tambah Tagihan -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary btn-rounded">
-                        <i class="bi bi-search"></i> Tampilkan
+                        <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i> Tutup
+                    <button type="button" class="btn btn-secondary btn-rounded modal_pilih_siswa">
+                        <i class="bi bi-chevron-left"></i> Kembali
                     </button>
                 </div>
             </form>

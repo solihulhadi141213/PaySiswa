@@ -18,6 +18,7 @@
             <script>
                 $("#title_table").html("");
                 $("#page_info").html("Jumlah Data : '.$jml_data.'");
+                $("#put_id_organization_class").val("");
             </script>
         ';
         exit;
@@ -32,6 +33,7 @@
             <script>
                 $("#title_table").html("");
                 $("#page_info").html("Jumlah Data : '.$jml_data.'");
+                $("#put_id_organization_class").val("");
             </script>
         ';
         exit;
@@ -46,6 +48,7 @@
             <script>
                 $("#title_table").html("");
                 $("#page_info").html("Jumlah Data : '.$jml_data.'");
+                $("#put_id_organization_class").val("");
             </script>
         ';
         exit;
@@ -133,6 +136,7 @@
             <script>
                 $("#title_table").html(' . json_encode($table_title) . ');
                 $("#page_info").html("Jumlah Data : '.$jml_data.'");
+                $("#put_id_organization_class").val("'.$id_organization_class.'");
             </script>
         ';
     }else{
@@ -214,11 +218,15 @@
                         </a>
                     </td>
                     <td><small>'.$student_nis.'</small></td>
-                    <td align="right"><small class="underscore_doted">'.$label_jumlah_biaya_pendidikan.'</small></td>
-                    <td align="right"><small class="underscore_doted">'.$label_jumlah_diskon.'</small></td>
-                    <td align="right"><small class="underscore_doted">'.$label_jumlah_tagihan.'</small></td>
-                    <td align="right"><small class="underscore_doted">'.$label_jumlah_pembayaran.'</small></td>
-                    <td align="right"><small class="underscore_doted">'.$label_sisa_tagihan.'</small></td>
+                    <td align="right"><small class="">'.$label_jumlah_biaya_pendidikan.'</small></td>
+                    <td align="right"><small class="">'.$label_jumlah_diskon.'</small></td>
+                    <td align="right"><small class="">'.$label_jumlah_tagihan.'</small></td>
+                    <td align="right"><small class="">'.$label_jumlah_pembayaran.'</small></td>
+                    <td align="right">
+                        <a href="javascript:void(0);" class="underscore_doted modal_tagihan_siswa" data-id_student="'.$id_student .'" data-id_organization_class="'.$id_organization_class.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Click Untuk Melihat List Tagihan Siswa">
+                            <small class="">'.$label_sisa_tagihan.'</small>
+                        </a>
+                    </td>
                     <td align="right">
                         <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
@@ -228,7 +236,7 @@
                                 <h6>Option</h6>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_student .'">
+                                <a href="javascript:void(0)" class="dropdown-item modal_tagihan_siswa"  data-id_student="'.$id_student .'" data-id_organization_class="'.$id_organization_class.'">
                                     <i class="bi bi-list-check"></i> List Tagihan
                                 </a>
                             </li>
@@ -248,6 +256,7 @@
             <script>
                 $("#title_table").html(' . json_encode($table_title) . ');
                 $("#page_info").html("Jumlah Data : '.$jml_data.'");
+                $("#put_id_organization_class").val("'.$id_organization_class.'");
             </script>
         ';
     }

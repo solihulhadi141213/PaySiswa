@@ -19,7 +19,8 @@
         ';
         exit;
     }
-    //Tangkap id_organization_class
+
+    //Tangkap 'id_student'
     if(empty($_POST['id_student'])){
          echo '
             <div class="alert alert-danger">
@@ -31,8 +32,21 @@
         exit;
     }
 
+    //Tangkap id_organization_class
+    if(empty($_POST['id_organization_class'])){
+         echo '
+            <div class="alert alert-danger">
+                <small>
+                    ID Kelas Tidak Boleh Kosong!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
     //Buat variabel
     $id_student=validateAndSanitizeInput($_POST['id_student']);
+    $id_organization_class=validateAndSanitizeInput($_POST['id_organization_class']);
 
     //Buka Data sISWA
     $Qry = $Conn->prepare("SELECT * FROM student WHERE id_student = ?");
