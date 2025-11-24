@@ -242,7 +242,7 @@
             <form action="_Page/Siswa/ProsesExportTagihanSiswa.php" method="GET" target="_blank">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark">
-                        <i class="bi bi-info-circle"></i> Daftar Tagihan Siswa
+                        <i class="bi bi-list-check"></i> Daftar Tagihan Siswa
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -265,32 +265,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="ModalBayar" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesBayar">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark">
-                        <i class="bi bi-info-circle"></i> Tambah Pembayaran
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-12" id="FormBayar">
-                            <!-- Form Tambah Pembayaran -->
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12" id="NotifikasiBayar">
-                            <!-- Notifikasi Tambah Pembayaran -->
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 <div class="modal fade" id="ModalRiwayatPembayaranSiswa" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -312,159 +287,6 @@
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
             </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="ModalRiwayatPembayaran" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
-                    <i class="bi bi-clock-history"></i> Riwayat Pembayaran
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12" id="FormRiwayatPembayaran">
-                        <!-- Form Riwayat Pembayaran -->
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-info btn-rounded kembali_ke_modal_tagihan" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="">
-                    <i class="bi bi-chevron-left"></i> Kembali
-                </button>
-                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="ModalDetailPembayaran" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
-                    <i class="bi bi-info"></i> Detail Pembayaran
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12" id="FormDetailPembayaran">
-                        <!-- Form Detail Pembayaran -->
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-info btn-rounded kembali_ke_riwayat_pembayaran" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id1="" data-id2="">
-                    <i class="bi bi-chevron-left"></i> Kembali
-                </button>
-                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="ModalHapusPembayaran" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesHapusPembayaran">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark">
-                        <i class="bi bi-trash"></i> Hapus Pembayaran
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-2">
-                        <div class="col-md-12" id="FormHapusPembayaran">
-                            <!-- Form Detail Pembayaran -->
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-12" id="NotifikasiHapusPembayaran">
-                            <!-- Notifikasi Hapus Pembayaran -->
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
-                        <i class="bi bi-check-circle"></i> Ya, Hapus
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id1="" data-id2="">
-                        <i class="bi bi-chevron-left"></i> Kembali
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="ModalDetailPembayaran2" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
-                    <i class="bi bi-info"></i> Detail Pembayaran
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12" id="FormDetailPembayaran2">
-                        <!-- Form Detail Pembayaran -->
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-info btn-rounded kembali_ke_riwayat_pembayaran_siswa" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaranSiswa" data-id="">
-                    <i class="bi bi-chevron-left"></i> Kembali
-                </button>
-                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="ModalHapusPembayaran2" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesHapusPembayaran2">
-                <div class="modal-header">
-                    <h5 class="modal-title text-dark">
-                        <i class="bi bi-trash"></i> Hapus Pembayaran
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-2">
-                        <div class="col-md-12" id="FormHapusPembayaran2">
-                            <!-- Form Detail Pembayaran -->
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-12" id="NotifikasiHapusPembayaran2">
-                            <!-- Notifikasi Hapus Pembayaran -->
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-rounded">
-                        <i class="bi bi-check-circle"></i> Ya, Hapus
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran_siswa" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaranSiswa" data-id="">
-                        <i class="bi bi-chevron-left"></i> Kembali
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -540,3 +362,132 @@
     </div>
 </div>
 
+<!-- Modal Riwayat Pembayaran -->
+<div class="modal fade" id="ModalRiwayatPembayaran" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-clock-history"></i> Riwayat Pembayaran
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormRiwayatPembayaran">
+                        <!-- Form Riwayat Pembayaran -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary btn-rounded">
+                    <i class="bi bi-download"></i> Export
+                </button>
+                <button type="button" class="btn btn-secondary btn-rounded kembali_ke_modal_tagihan">
+                    <i class="bi bi-chevron-left"></i> Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah Pembayaran (ModalBayar) -->
+<div class="modal fade" id="ModalBayar" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahPembayaran">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-info-circle"></i> Tambah Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormBayar">
+                            <!-- Form Tambah Pembayaran -->
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="NotifikasiBayar">
+                            <!-- Notifikasi Tambah Pembayaran -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded" id="button_tambah_pembayaran">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detail Pembayaran -->
+<div class="modal fade" id="ModalDetailPembayaran" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info"></i> Detail Pembayaran
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailPembayaran">
+                        <!-- Form Detail Pembayaran -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-rounded">
+                    <i class="bi bi-download"></i> Export
+                </button>
+                <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran">
+                    <i class="bi bi-chevron-left"></i> Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Hapus Pembayaran -->
+<div class="modal fade" id="ModalHapusPembayaran" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusPembayaran">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-trash"></i> Hapus Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12" id="FormHapusPembayaran">
+                            <!-- Form Detail Pembayaran -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12" id="NotifikasiHapusPembayaran">
+                            <!-- Notifikasi Hapus Pembayaran -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-check-circle"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_riwayat_pembayaran">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

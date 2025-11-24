@@ -19,12 +19,25 @@
         ';
         exit;
     }
-    //Tangkap id_organization_class
+    
+    //Tangkap id_student
     if(empty($_POST['id_student'])){
          echo '
             <div class="alert alert-danger">
                 <small>
-                    ID sISWA Tidak Boleh Kosong!
+                    ID Siswa Tidak Boleh Kosong!
+                </small>
+            </div>
+        ';
+        exit;
+    }
+
+    //Tangkap id_organization_class
+    if(empty($_POST['id_organization_class'])){
+         echo '
+            <div class="alert alert-danger">
+                <small>
+                    ID Kelas Tidak Boleh Kosong!
                 </small>
             </div>
         ';
@@ -32,9 +45,10 @@
     }
 
     //Buat variabel
-    $id_student=validateAndSanitizeInput($_POST['id_student']);
+    $id_student             = validateAndSanitizeInput($_POST['id_student']);
+    $id_organization_class  = validateAndSanitizeInput($_POST['id_organization_class']);
 
-    //Buka Data sISWA
+    //Buka Data Siswa
     $Qry = $Conn->prepare("SELECT * FROM student WHERE id_student = ?");
     $Qry->bind_param("i", $id_student);
     if (!$Qry->execute()) {
@@ -50,51 +64,35 @@
         $Qry->close();
 
         //Buat Variabel
-        $id_organization_class  =$Data['id_organization_class'];
-        $student_nis            =$Data['student_nis'] ?? '-';
-        $student_nisn           =$Data['student_nisn'] ?? '-';
-        $student_name           =$Data['student_name'];
-        $student_gender         =$Data['student_gender'];
-        $student_parent         =$Data['student_parent'];
-        $student_registered     =$Data['student_registered'];
-        $student_status         =$Data['student_status'];
+        $student_nis            = $Data['student_nis'] ?? '-';
+        $student_name           = $Data['student_name'];
+        $student_gender         = $Data['student_gender'];
 
-        //Format Tanggal Daftar
-        $tanggal_daftar=date('d/m/Y', strtotime($student_registered));
-
-        //Status
-        if($student_status=="Terdaftar"){
-            $label_status='<span class="badge badge-success">Terdaftar</span>';
+        //Routing Gender
+        if($student_gender=="Male"){
+            $gender = "Laki-laki";
         }else{
-            if($student_status=="Lulus"){
-                $label_status='<span class="badge badge-warning">Lulus</span>';
+            if($student_gender=="Female"){
+                $gender = "Perempuan";
             }else{
-                $label_status='<span class="badge badge-danger">Keluar</span>';
+                $gender = "-";
             }
         }
 
         //Buka Kelas
-        if(empty($Data['id_organization_class'])){
-            $label_kelas='-';
-        }else{
-            $level=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
-            $kelas=GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
-            $label_kelas="$level-$kelas";
-        }
+        $class_level            = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_level');
+        $class_name             = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'class_name');
+        $id_academic_period     = GetDetailData($Conn, 'organization_class', 'id_organization_class', $id_organization_class, 'id_academic_period');
+
+        //Buka Periode Akademik
+        $academic_period        = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
 
         //Tampilkan Data
         echo '
-            <div class="row mb-2">
-                <div class="col-12">
-                    <small>
-                        <b>1. Identitas Siswa</b>
-                    </small>
-                </div>
-            </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                    <div class="row mb-2">
-                        <div class="col-4"><small>Nama</small></div>
+                        <div class="col-4"><small>Nama Siswa</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
                             <small class="text text-grayish">'.$student_name.'</small>
@@ -108,35 +106,35 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-4"><small>Kelas</small></div>
+                        <div class="col-4"><small>Jenis Kelamin</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
-                            <small class="text text-grayish">'.$label_kelas.'</small>
+                            <small class="text text-grayish">'.$gender.'</small>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row mb-2">
-                        <div class="col-4"><small>Tgl.Daftar</small></div>
+                        <div class="col-4"><small>Tahun Akademik</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
-                            <small class="text text-grayish">'.$tanggal_daftar.'</small>
+                            <small class="text text-grayish">'.$academic_period.'</small>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-4"><small>Status</small></div>
+                        <div class="col-4"><small>Jenjang/Level</small></div>
                         <div class="col-1"><small>:</small></div>
                         <div class="col-7">
-                            '.$label_status.'
+                            <small class="text text-grayish">'.$class_level.'</small>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row mb-2 border-1 border-top">
-                <div class="col-12 mt-3">
-                    <small>
-                        <b>2. Uraian Tagihan</b>
-                    </small>
+                    <div class="row mb-2">
+                        <div class="col-4"><small>Kelas/Rombel</small></div>
+                        <div class="col-1"><small>:</small></div>
+                        <div class="col-7">
+                            <small class="text text-grayish">'.$class_name.'</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         ';

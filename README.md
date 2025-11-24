@@ -26,6 +26,8 @@
 - **Daftar Siswa**
   Halaman daftar siswa menampilkan data siswa secara keseluruhan, baik yang masih aktif, lulus, maupun siswa yang sudah keluar. Pada halaman ini user dapat mengelola (menambah, mengubah dan menghapus) data siswa yang ada serta menetapkan status masing-masing siswa.
 
+- **Tagihan Siswa**
+  Halaman tagihan siswa berfungsi menampilkan daftar tagihan per siswa berdasarkan periode akademik. Pada halaman ini, pengguna dapat menambahkan data tagihan secara parsial. Pada masing-masing siswa dapat menampilkan rincian tagihan sesuai filter periode akademik.
 
 ## Teknologi yang Digunakan
 - **Bahasa Pemrograman Utama** :  

@@ -130,7 +130,7 @@
         echo '
             <tr>
                 <td colspan="11" class="text-center">
-                    <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
+                    <small class="text-danger">Tidak Ada Data Tagihan Yang Ditampilkan!</small>
                 </td>
             </tr>
             <script>
@@ -140,6 +140,7 @@
             </script>
         ';
     }else{
+        //Inisialisasi Nomor
         $no = 1;
         //MEMBUAT QUERY UNTUK MENAMPILKAN DATA DAN MENGURUTKAN BERDASARKAN NAMA
         $query = mysqli_query($Conn, "
@@ -245,7 +246,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaranSiswa" data-id="'.$id_student .'">
+                                <a href="javascript:void(0)" class="dropdown-item modal_riwayat_pembayaran_siswa" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaranSiswa" data-id_student="'.$id_student .'" data-id_organization_class="'.$id_organization_class.'">
                                     <i class="bi bi-clock-history"></i> Riwayat Pembayaran
                                 </a>
                             </li>

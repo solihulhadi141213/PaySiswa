@@ -4,81 +4,63 @@
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
 
-    //Keterangan Waktu
-    date_default_timezone_set("Asia/Jakarta");
+    //Time Zone
+    date_default_timezone_set('Asia/Jakarta');
 
-    //Datetime Sekarang
+    //Time Now Tmp
     $now=date('Y-m-d H:i:s');
 
-    //Validasi Akses
+    //Validasi Sesi Akses
     if (empty($SessionIdAccess)) {
-        echo '
-            <div class="alert alert-danger">
-                <small>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Sesi Akses Sudah Berakhir, Silahkan Login Ulang!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
-
-    //Validasi id_payment
+    //Tangkap id_payment
     if(empty($_POST['id_payment'])){
-        echo '
-            <div class="alert alert-danger">
-                <small>ID Pembayaran Tidak Boleh Kosong!</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Pembayaran Tidak Boleh Kosong!',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
         exit;
     }
 
-    //Buat Variabel
+    //Buat variabel
     $id_payment=validateAndSanitizeInput($_POST['id_payment']);
 
-    //Buka id_student dan id_fee_component
-    $Qry = $Conn->prepare("SELECT * FROM payment WHERE id_payment = ?");
-    $Qry->bind_param("s", $id_payment);
-    if (!$Qry->execute()) {
-        $error=$Conn->error;
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
-            </div>
-        ';
+    //Buka detail Pembayaran
+    $id_fee_by_student      = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_fee_by_student');
+    $id_student             = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_student');
+    $id_fee_component       = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_fee_component');
+    $id_organization_class  = GetDetailData($Conn, 'payment', 'id_payment', $id_payment, 'id_organization_class');
+    
+    //Proses hapus data
+    $ProsesHapus = mysqli_query($Conn, "DELETE FROM payment WHERE id_payment='$id_payment'") or die(mysqli_error($Conn));
+    if ($ProsesHapus) {
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Hapus data dari database berhasil!',
+            'id_organization_class' => $id_organization_class,
+            'id_student' => $id_student,
+            'id_fee_by_student' => $id_fee_by_student
+        ]);
         exit;
-    }
-    $Result = $Qry->get_result();
-    $Data = $Result->fetch_assoc();
-    $Qry->close();
-
-    //Buat Variabel
-    $id_student             = $Data['id_student'];
-    $id_fee_component       = $Data['id_fee_component'];
-
-    //Hapus Data
-    $HapusDataPayment = mysqli_query($Conn, "DELETE FROM payment WHERE id_payment='$id_payment'") or die(mysqli_error($Conn));
-    if($HapusDataPayment){
-
-        //Simpan Log
-        $kategori_log="Pembayaran";
-        $deskripsi_log="Hapus Pembayaran Berhasil";
-        $InputLog=addLog($Conn,$SessionIdAccess,$now,$kategori_log,$deskripsi_log);
-        if($InputLog=="Success"){
-            echo '
-                <input type="hidden" name="get_id_fee_component2" id="get_id_fee_component2" value="'.$id_fee_component.'">
-                <input type="hidden" name="get_id_student2" id="get_id_student2" value="'.$id_student.'">
-                <small class="text-success" id="NotifikasiHapusPembayaranBerhasil">Success</small>
-            ';
-        }else{
-            echo '
-                <div class="alert alert-danger">
-                    <small>Terjadi kesalahan pada saat menyimpan Log!</small>
-                </div>
-            ';
-        }
     }else{
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat menghapus data pada database!</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan pada saat proses hapus data dari database',
+            'id_organization_class' => '',
+            'id_student' => '',
+            'id_fee_by_student' => ''
+        ]);
+        exit;
     }
 ?>

@@ -1,14 +1,14 @@
 <?php
-    //Zona Waktu
+    // Zona Waktu
     date_default_timezone_set('Asia/Jakarta');
 
-    //Koneksi
+    // Koneksi
     include "../../_Config/Connection.php";
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
 
-    //Validasi Sesi Akses
+    // Validasi Sesi Akses
     if (empty($SessionIdAccess)) {
         echo '
             <div class="alert alert-danger">
@@ -19,7 +19,7 @@
         ';
         exit;
     }
-    //Tangkap id_payment
+    // Tangkap id_payment
     if(empty($_POST['id_payment'])){
          echo '
             <div class="alert alert-danger">
@@ -31,10 +31,10 @@
         exit;
     }
 
-    //Buat variabel
+    // Buat variabel
     $id_payment=validateAndSanitizeInput($_POST['id_payment']);
 
-    //Buka Data payment
+    // Buka Data payment
     $Qry = $Conn->prepare("SELECT * FROM payment WHERE id_payment = ?");
     $Qry->bind_param("s", $id_payment);
     if (!$Qry->execute()) {
@@ -49,7 +49,7 @@
         $Data = $Result->fetch_assoc();
         $Qry->close();
 
-        //Buat Variabel
+        // Buat Variabel
         $id_payment             = $Data['id_payment'];
         $id_student             = $Data['id_student'];
         $id_organization_class  = $Data['id_organization_class'];
@@ -58,14 +58,14 @@
         $payment_nominal        = $Data['payment_nominal'];
         $payment_method         = $Data['payment_method'];
         
-        //Format Rupiah
+        // Format Rupiah
         $payment_nominal_format="Rp " . number_format($payment_nominal,0,',','.');
 
-        //Buka detail siswa
+        // Buka detail siswa
         $student_nis=GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_nis');
         $student_name=GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_name');
 
-        //Buka Komponen Biaya
+        // Buka Komponen Biaya
         $component_name=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
         $component_category=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
 
@@ -135,14 +135,3 @@
         ';
     }
 ?>
-
-<script>
-    var id_student="<?php echo $id_student; ?>";
-    var id_fee_component="<?php echo $id_fee_component; ?>";
-    // Tempelkan ke atribut data-id tombol
-    $(".kembali_ke_riwayat_pembayaran").attr("data-id1", id_fee_component);
-    $(".kembali_ke_riwayat_pembayaran").attr("data-id2", id_student);
-
-    //Pada modal riwayat pembayaran siswa
-    $(".kembali_ke_riwayat_pembayaran_siswa").attr("data-id", id_student);
-</script>

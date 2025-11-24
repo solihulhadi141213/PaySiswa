@@ -16,7 +16,7 @@
     }
 
     //Validasi Komponen Pembayaran
-    if(empty($_POST['id_fee_component'])){
+    if(empty($_POST['id_fee_by_student'])){
         echo '
            <div class="alert alert-danger">
                 <small>Komponen Pembayaran Tidak Boleh Kosong!</small>
@@ -25,76 +25,12 @@
         exit;
     }
 
-    //Validasi ID Siswa
-    if(empty($_POST['id_student'])){
-        echo '
-           <div class="alert alert-danger">
-                <small>ID Siswa Tidak Boleh Kosong!</small>
-           </div>
-        ';
-        exit;
-    }
-
-    //Buat Variabel
-    $id_fee_component=$_POST['id_fee_component'];
-    $id_student=$_POST['id_student'];
-
-    //Buka Detail fee_component
-    $QryComponent = $Conn->prepare("SELECT * FROM fee_component WHERE id_fee_component = ?");
-    $QryComponent->bind_param("i", $id_fee_component);
-    if (!$QryComponent->execute()) {
-        $error=$Conn->error;
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
-            </div>
-        ';
-        exit;
-    }
-    $ResultComponent = $QryComponent->get_result();
-    $DataComponent = $ResultComponent->fetch_assoc();
-    $QryComponent->close();
-
-    //Buat Variabel
-    $id_fee_component   =$DataComponent['id_fee_component'];
-    $component_name     =$DataComponent['component_name'] ?? '-';
-    $component_category =$DataComponent['component_category'] ?? '-';
-    $periode_start      =$DataComponent['periode_start'] ?? '-';
-    $periode_end        =$DataComponent['periode_end'] ?? '-';
-    $fee_nominal        =$DataComponent['fee_nominal'] ?? '-';
-    
-    //Format Rupiah
-    $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
-
-    //Buka Detail Siswa
-    $QrySiswa = $Conn->prepare("SELECT * FROM student WHERE id_student = ?");
-    $QrySiswa->bind_param("i", $id_student);
-    if (!$QrySiswa->execute()) {
-        $error=$Conn->error;
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
-            </div>
-        ';
-        exit;
-    }
-    $ResultSiswa = $QrySiswa->get_result();
-    $DataSswa = $ResultSiswa->fetch_assoc();
-    $QrySiswa->close();
-
-    //Buat Variabel
-    $id_organization_class  =$DataSswa['id_organization_class'];
-    $student_nis            =$DataSswa['student_nis'] ?? '-';
-    $student_nisn           =$DataSswa['student_nisn'] ?? '-';
-    $student_name           =$DataSswa['student_name'];
-    $student_gender         =$DataSswa['student_gender'];
-    $student_parent         =$DataSswa['student_parent'];
-    $student_registered     =$DataSswa['student_registered'];
-    $student_status         =$DataSswa['student_status'];
+    //Buat Variabel dan sanitasi
+    $id_fee_by_student = validateAndSanitizeInput($_POST['id_fee_by_student']);
 
     //Buka Data fee_by_student
-    $QryFee = $Conn->prepare("SELECT * FROM fee_by_student WHERE id_student = ? AND id_fee_component = ?");
-    $QryFee->bind_param("ii", $id_student, $id_fee_component);
+    $QryFee = $Conn->prepare("SELECT * FROM fee_by_student WHERE id_fee_by_student = ?");
+    $QryFee->bind_param("i",$id_fee_by_student);
     if (!$QryFee->execute()) {
         $error=$Conn->error;
         echo '
@@ -108,11 +44,31 @@
     $DataFee= $ResultFee->fetch_assoc();
     $QryFee->close();
 
+    if(empty($DataFee['id_fee_by_student'])){
+        echo '
+            <div class="alert alert-danger">
+                <small>ID Tagihan <b>'.$id_fee_by_student.'</b> Tidak Valid (tidak ditemukan pada database)</small>
+            </div>
+        ';
+        exit;
+    }
+
     //Buat Variabel
-    $id_fee_by_student      =$DataFee['id_fee_by_student'];
-    $fee_nominal            =$DataFee['fee_nominal'];
-    $fee_discount           =$DataFee['fee_discount'];
-    $id_organization_class  =$DataFee['id_organization_class'];
+    $id_student             = $DataFee['id_student'];
+    $id_organization_class  = $DataFee['id_organization_class'];
+    $id_fee_component       = $DataFee['id_fee_component'];
+    $fee_nominal            = $DataFee['fee_nominal'];
+    $fee_discount           = $DataFee['fee_discount'];
+
+    //Buka Student
+    $student_nis            = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_nis');
+    $student_name           = GetDetailData($Conn, 'student', 'id_student', $id_student, 'student_name');
+
+    //Buka Data Komponen
+    $component_name         = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
+    $component_category     = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
+    $periode_month          = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
+    $periode_year           = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
 
     //Hitung Pembayaran Yang Sudah Masuk
     $JumlahPembayaranMasuk = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS jumlah FROM payment WHERE id_student='$id_student' AND id_fee_component='$id_fee_component'"));
@@ -130,12 +86,6 @@
     //Tampilkan Form
     echo '
         <input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student.'">
-        <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
-        <input type="hidden" name="id_fee_component" value="'.$id_fee_component.'">
-        <input type="hidden" name="id_student" value="'.$id_student.'">
-    ';
-
-    echo '
         <div class="row mb-2">
             <div class="col-4"><small>Siswa</small></div>
             <div class="col-1"><small>:</small></div>
@@ -177,53 +127,65 @@
             <div class="col-7"><small class="text text-grayish">'.$sisa_format.'</small></div>
         </div>
         <div class="row mb-3">
-            <div class="col-12"><small><br></small></div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="payment_datetime">Tgl.Bayar</label>
-            </div>
-            <div class="col-md-8">
-                <input type="date" name="payment_datetime" id="payment_datetime" class="form-control" value="'.date('Y-m-d').'">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="payment_nominal">Nominal</label>
-            </div>
-            <div class="col-8">
-                <input type="text" name="payment_nominal" id="payment_nominal" class="form-control form-money" value="'.$sisa.'">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="payment_method">Metode</label>
-            </div>
-            <div class="col-md-8">
-                <select name="payment_method" class="form-control">
-                    <option value="">Pilih</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Transfer">Transfer</option>
-                    <option value="E-wallet">E-wallet</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-12 mb-3">
-               <p></p>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-6">
-                <button type="button" class="btn btn-md btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#ModalTagihanSiswa" data-id="'.$id_student .'">
-                    <i class="bi bi-chevron-left"></i> Kembali
-                </button>
-            </div>
-            <div class="col-6">
-                <button type="submit" class="btn btn-md btn-primary btn-block">
-                    <i class="bi bi-save"></i> Simpan
-                </button>
-            </div>
+            <div class="col-12 border-1 border-bottom"><small><br></small></div>
         </div>
     ';
+
+    if(!empty($sisa)){
+        echo '
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="payment_datetime"><small>Tanggal</small></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="date" name="payment_datetime" id="payment_datetime" class="form-control" value="'.date('Y-m-d').'">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="payment_time"><small>Jam</small></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="time" name="payment_time" id="payment_time" class="form-control" value="'.date('H:i').'">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="payment_nominal"><small>Nominal Bayar</small></label>
+                </div>
+                <div class="col-8">
+                    <input type="text" name="payment_nominal" id="payment_nominal" class="form-control form-money" value="'.$sisa.'">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="payment_method"><small>Metode Pembayaran</small></label>
+                </div>
+                <div class="col-md-8">
+                    <select name="payment_method" id="payment_method" class="form-control">
+                        <option value="">Pilih</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Transfer">Transfer</option>
+                        <option value="E-wallet">E-wallet</option>
+                    </select>
+                </div>
+            </div>
+            <script>
+                $("#button_tambah_pembayaran").prop("disabled", false);
+            </script>
+        ';
+    }else{
+        echo '
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="alert alert-success">
+                        Tagihan sudah lunas, anda tidak bisa menambahkan pembayaran untuk tagihan ini.
+                    </div>
+                </div>
+            </div>
+            <script>
+                $("#button_tambah_pembayaran").prop("disabled", true);
+            </script>
+        ';
+    }
 ?>

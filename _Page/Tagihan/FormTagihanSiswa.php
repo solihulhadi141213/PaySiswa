@@ -48,7 +48,7 @@
     $id_student=validateAndSanitizeInput($_POST['id_student']);
     $id_organization_class=validateAndSanitizeInput($_POST['id_organization_class']);
 
-    //Buka Data sISWA
+    //Buka Data Siswa
     $Qry = $Conn->prepare("SELECT * FROM student WHERE id_student = ?");
     $Qry->bind_param("i", $id_student);
     if (!$Qry->execute()) {
@@ -247,17 +247,17 @@
                                                             <h6>Option</h6>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalRiwayatPembayaran" data-id1="'.$id_fee_component .'" data-id2="'.$id_student .'" title="Riwayat Pembayaran">
+                                                            <a href="javascript:void(0)" class="dropdown-item modal_riwayat_pembayaran" data-id="'.$id_fee_by_student .'" title="Riwayat Pembayaran">
                                                                 <i class="bi bi-clock-history"></i> Riwayat Pembayaran
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0)" class="dropdown-item modal_ubah_tagihan" data-id="'.$id_fee_by_student .'">
+                                                            <a href="javascript:void(0)" class="dropdown-item modal_ubah_tagihan" data-id="'.$id_fee_by_student .'" title="Ubah Tagihan">
                                                                 <i class="bi bi-pencil"></i> Edit Tagihan
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:void(0)" class="dropdown-item modal_hapus_tagihan_siswa" data-id="'.$id_fee_by_student .'" title="Ubah Tagihan">
+                                                            <a href="javascript:void(0)" class="dropdown-item modal_hapus_tagihan_siswa" data-id="'.$id_fee_by_student .'" title="Hapus Tagihan">
                                                                 <i class="bi bi-trash"></i> Hapus Tagihan
                                                             </a>
                                                         </li>
