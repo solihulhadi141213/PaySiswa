@@ -78,7 +78,7 @@
         <div class="row mb-2">
             <div class="col-12 text-center"><b class="text text-decoration-underline">DAFTAR TAGIHAN SISWA</b></div>
         </div>
-        <div class="row mb-2 border-1 border-bottom">
+        <div class="row mb-2">
             <div class="col-md-4">
                 <div class="row mb-2">
                     <div class="col-5"><small>Periode Akademik</small></div>
@@ -114,13 +114,6 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col-12 text-end">
-                <button type="button" class="btn btn-md btn-outline-secondary modal_metriks_tagihan">
-                    <i class="bi bi-table"></i> Metriks Tagihan
-                </button>
-            </div>
-        </div>
     ';
 
     //Hitung jumlah
@@ -142,6 +135,14 @@
     }else{
         //Inisialisasi Nomor
         $no = 1;
+
+        // Inisialisasi Akumulasi
+        $subtotal_biaya_pendidikan  = 0;
+        $subtotal_diskon            = 0;
+        $subtotal_tagihan           = 0;
+        $subtotal_pembayaran        = 0;
+        $subtotal_sisa              = 0;
+
         //MEMBUAT QUERY UNTUK MENAMPILKAN DATA DAN MENGURUTKAN BERDASARKAN NAMA
         $query = mysqli_query($Conn, "
             SELECT DISTINCT f.id_student 
@@ -209,6 +210,13 @@
                 $label_sisa_tagihan = '<span class="text text-dark">'.$sisa_tagihan_format.'</span>';
             }
 
+            //Akumulasi
+            $subtotal_biaya_pendidikan  = $subtotal_biaya_pendidikan + $jumlah_biaya_pendidikan;
+            $subtotal_diskon            = $subtotal_diskon + $jumlah_diskon;
+            $subtotal_tagihan           = $subtotal_tagihan + $jumlah_tagihan;
+            $subtotal_pembayaran        = $subtotal_pembayaran + $jumlah_pembayaran;
+            $subtotal_sisa              = $subtotal_sisa + $sisa_tagihan;
+
             //Tampilkan Data
             echo '
                 <tr>
@@ -256,6 +264,30 @@
             ';
             $no++;
         }
+        $subtotal_biaya_pendidikan  = $subtotal_biaya_pendidikan + $jumlah_biaya_pendidikan;
+        $subtotal_diskon            = $subtotal_diskon + $jumlah_diskon;
+        $subtotal_tagihan           = $subtotal_tagihan + $jumlah_tagihan;
+        $subtotal_pembayaran        = $subtotal_pembayaran + $jumlah_pembayaran;
+        $subtotal_sisa              = $subtotal_sisa + $sisa_tagihan;
+        
+        // Format Akumulasi
+        $subtotal_biaya_pendidikan_format   = "Rp " . number_format($subtotal_biaya_pendidikan,0,',','.');
+        $subtotal_diskon_format             = "Rp " . number_format($subtotal_diskon,0,',','.');
+        $subtotal_tagihan_format            = "Rp " . number_format($subtotal_tagihan,0,',','.');
+        $subtotal_pembayaran_format         = "Rp " . number_format($subtotal_pembayaran,0,',','.');
+        $subtotal_sisa_format               = "Rp " . number_format($subtotal_sisa,0,',','.');
+
+        // Menampilkan Data Akumulasi
+        echo '
+            <tr>
+                <td colspan="3"><small><b>JUMLAH/TOTAL</b></small></td>
+                <td align="right"><small><b>'.$subtotal_biaya_pendidikan_format.'</b></small></td>
+                <td align="right"><small><b>'.$subtotal_diskon_format.'</b></small></td>
+                <td align="right"><small><b>'.$subtotal_tagihan_format.'</b></small></td>
+                <td align="right"><small><b>'.$subtotal_pembayaran_format.'</b></small></td>
+                <td align="right"><small><b>'.$subtotal_sisa_format.'</b></small></td>
+            </tr>
+        ';
 
         echo '
             <script>

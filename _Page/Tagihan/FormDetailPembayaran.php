@@ -71,6 +71,7 @@
 
         //Tampilkan Data
         echo '
+            <input type="hidden" name="id" value="'.$id_payment.'">
             <div class="row mb-2">
                 <div class="col-4"><small>Tgl.Bayar</small></div>
                 <div class="col-1"><small>:</small></div>

@@ -140,6 +140,7 @@
 
     //Tampilkan Data
     echo '
+        <input type="hidden" name="id_fee_by_student" value="'.$id_fee_by_student.'">
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="row mb-2">

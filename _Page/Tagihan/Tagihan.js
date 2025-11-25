@@ -180,6 +180,22 @@ $(document).ready(function() {
     $(document).on('click', '.modal_export_tagihan', function() {
         //Tampilkan Modal
         $('#ModalExportTagihan').modal('show');
+
+        //Tangkap Data Dari Form Tagihan
+        var ProsesFilterTagihan = $('#ProsesFilterTagihan').serialize();
+
+        //Loading Form
+        $('#FormExportTagihan').html('Loading...');
+
+        // Kirim Ke Form Export Dengan AJAX
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Tagihan/FormExportTagihan.php',
+            data    : ProsesFilterTagihan,
+            success : function(data) {
+                $('#FormExportTagihan').html(data);
+            }
+        });
     });
 
     //Menampilkan Modal Filter
@@ -814,23 +830,4 @@ $(document).ready(function() {
             }
         });
     });
-
-
-    //Modal Export Tagihan
-    $('#ModalExportTagihan').on('show.bs.modal', function (e) {
-
-        //Tangkap Data Dari Form Tagihan
-        var ProsesFilterTagihan = $('#ProsesFilterTagihan').serialize();
-
-        // Kirim Ke Form Export Dengan AJAX
-        $.ajax({
-            type    : 'POST',
-            url     : '_Page/Tagihan/FormExportTagihan.php',
-            data    : ProsesFilterTagihan,
-            success : function(data) {
-                $('#FormExportTagihan').html(data);
-            }
-        });
-    });
-
 });

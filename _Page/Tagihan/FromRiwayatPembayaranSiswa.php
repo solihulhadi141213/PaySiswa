@@ -89,6 +89,8 @@
 
         //Tampilkan Data
         echo '
+            <input type="hidden" name="id_student" value="'.$id_student.'">
+            <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
             <div class="row mb-3">
                 <div class="col-md-6">
                    <div class="row mb-2">
@@ -141,27 +143,38 @@
         //Menampilkan Riwayat Pembayaran Siswa
         echo '<div class="row mb-2">';
         echo '  <div class="col-12">';
-        echo '      <div class="table table-responsive">';
+        echo '      <div class="table table-responsive border-1 border-top">';
         echo '          <table class="table table-hover table-striped ">';
         echo '              
                             <thead>
                                 <tr>
                                     <th><b>No</b></th>
-                                    <th><b>Tgl.Bayar</b></th>
-                                    <th><b>Uraian</b></th>
-                                    <th><b>Nominal</b></th>
+                                    <th><b>Tanggal</b></th>
+                                    <th><b>Jam</b></th>
+                                    <th><b>Komponen Biaya</b></th>
+                                    <th><b>Kategori</b></th>
+                                    <th><b>Bulan</b></th>
+                                    <th><b>Tahun</b></th>
                                     <th><b>Metode</b></th>
-                                    <th><b>Option</b></th>
+                                    <th><b>Pembayaran</b></th>
                                 </tr>
                             </thead>
         ';
         echo '              <tbody>';
+                                //Inisialisasi Nomor Urut
                                 $no=1;
+
+                                //Inisialisasi Pembayaran
+                                $subtotal_pembayaran = 0;
+
+                                //Hitung Jumlah Data
                                 $JumlahPayment = mysqli_num_rows(mysqli_query($Conn, "SELECT id_payment FROM payment WHERE id_student='$id_student'"));
+
+                                //Jika Tidak Ada Data
                                 if(empty($JumlahPayment)){
                                     echo '
                                         <tr>
-                                            <td colspan="5" class="text-center">
+                                            <td colspan="9" class="text-center">
                                                 <small>Tidak Ada Data Riwayat Pembayaran</small>
                                             </td>
                                         </tr>
@@ -174,46 +187,46 @@
                                         $payment_datetime = $data['payment_datetime'];
                                         $payment_nominal= $data['payment_nominal'];
                                         $payment_method= $data['payment_method'];
+
+                                        //Akumulasi Pembayaran
+                                        $subtotal_pembayaran = $subtotal_pembayaran + $payment_nominal;
                                         
                                         //Format Rupiah
                                         $payment_nominal_format="Rp " . number_format($payment_nominal,0,',','.');
 
                                         //Buka Detail Komponen
-                                        $component_name=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
-                                        $component_category=GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
+                                        $component_name     = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_name');
+                                        $component_category = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
+                                        $periode_month      = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
+                                        $periode_year       = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
+
+                                        //Nama Bulan
+                                        $bulan              = getNamaBulan($periode_month);
 
                                         echo '
                                             <tr>
                                                 <td><small>'.$no.'</small></td>
                                                 <td><small>'.date('d/m/Y', strtotime($payment_datetime)).'</small></td>
-                                                <td><small>'.$component_name.' | '.$component_category.'</small></td>
-                                                <td><small>'.$payment_nominal_format.'</small></td>
+                                                <td><small>'.date('H:i T', strtotime($payment_datetime)).'</small></td>
+                                                <td><small>'.$component_name.'</small></td>
+                                                <td><small>'.$component_category.'</small></td>
+                                                <td><small>'.$bulan.'</small></td>
+                                                <td><small>'.$periode_year.'</small></td>
                                                 <td><small>'.$payment_method.'</small></td>
-                                                <td>
-                                                   <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                                        <li class="dropdown-header text-start">
-                                                            <h6>Option</h6>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailPembayaran2" data-id="'.$id_payment .'">
-                                                                <i class="bi bi-info-circle"></i> Detail Pembayaran
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusPembayaran2" data-id="'.$id_payment .'">
-                                                                <i class="bi bi-trash"></i> Hapus Pembayaran
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
+                                                <td><small>'.$payment_nominal_format.'</small></td>
                                             </tr>
                                         ';
                                         $no++;
                                     }
                                 }
+                                //Format total pembayaran
+                                $subtotal_pembayaran_format="Rp " . number_format($subtotal_pembayaran,0,',','.');
+                                echo '
+                                    <tr>
+                                        <td colspan="8"><small><b>JUMLAH PEMBAYARAN</b></small></td>
+                                        <td class="text-right"><small><b>'.$subtotal_pembayaran_format.'</b></small></td>
+                                    </tr>
+                                ';
         echo '';
         echo '              </tbody>';
         echo '          </div>';

@@ -89,8 +89,8 @@
 
         //Form Hide
         echo '
-            <input type="hidden" name="id" value="'.$id_student.'">
-            <input type="hidden" name="tipe_file" value="PDF">
+            <input type="hidden" name="id_student" value="'.$id_student.'">
+            <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
         ';
         //Tampilkan Data
         echo '
