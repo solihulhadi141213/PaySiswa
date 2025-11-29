@@ -121,8 +121,3 @@
         ';
     }
 ?>
-<script>
-    var id_siswa="<?php echo $id_student; ?>";
-    // Tempelkan ke atribut data-id tombol
-    $(".kembali_ke_komponen_biaya").attr("data-id", id_siswa);
-</script>

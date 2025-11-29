@@ -29,9 +29,9 @@
     //Buat Variabel
     $id_fee_by_student=$_POST['id_fee_by_student'];
 
-    //Buka id_fee_component dan id_student
-    $id_fee_component=GetDetailData($Conn, 'fee_by_student', 'id_fee_by_student', $id_fee_by_student, 'id_fee_component');
-    $id_student=GetDetailData($Conn, 'fee_by_student', 'id_fee_by_student', $id_fee_by_student, 'id_student');
+    //Buka 'id_fee_component' dan 'id_student'
+    $id_fee_component   = GetDetailData($Conn, 'fee_by_student', 'id_fee_by_student', $id_fee_by_student, 'id_fee_component');
+    $id_student         = GetDetailData($Conn, 'fee_by_student', 'id_fee_by_student', $id_fee_by_student, 'id_student');
 
     //Buka Detail fee_component
     $QryComponent = $Conn->prepare("SELECT * FROM fee_component WHERE id_fee_component = ?");
@@ -50,12 +50,12 @@
     $QryComponent->close();
 
     //Buat Variabel
-    $id_fee_component   =$DataComponent['id_fee_component'];
-    $component_name     =$DataComponent['component_name'] ?? '-';
-    $component_category =$DataComponent['component_category'] ?? '-';
-    $periode_start      =$DataComponent['periode_start'] ?? '-';
-    $periode_end        =$DataComponent['periode_end'] ?? '-';
-    $fee_nominal        =$DataComponent['fee_nominal'] ?? '-';
+    $id_fee_component   = $DataComponent['id_fee_component'];
+    $component_name     = $DataComponent['component_name'];
+    $component_category = $DataComponent['component_category'];
+    $periode_month      = $DataComponent['periode_month'];
+    $periode_year       = $DataComponent['periode_year'];
+    $fee_nominal        = $DataComponent['fee_nominal'] ?? '0';
     
     //Format Rupiah
     $fee_nominal_format="Rp " . number_format($fee_nominal,0,',','.');
@@ -77,14 +77,11 @@
     $QrySiswa->close();
 
     //Buat Variabel
-    $id_organization_class  =$DataSswa['id_organization_class'];
-    $student_nis            =$DataSswa['student_nis'] ?? '-';
-    $student_nisn           =$DataSswa['student_nisn'] ?? '-';
-    $student_name           =$DataSswa['student_name'];
-    $student_gender         =$DataSswa['student_gender'];
-    $student_parent         =$DataSswa['student_parent'];
-    $student_registered     =$DataSswa['student_registered'];
-    $student_status         =$DataSswa['student_status'];
+    $id_organization_class  = $DataSswa['id_organization_class'];
+    $student_name           = $DataSswa['student_name'];
+    $student_nis            = $DataSswa['student_nis'];
+    $student_gender         = $DataSswa['student_gender'];
+    $student_status         = $DataSswa['student_status'];
 
     //Buka Data fee_by_student
     $QryFee = $Conn->prepare("SELECT * FROM fee_by_student WHERE id_student = ? AND id_fee_component = ?");
@@ -130,7 +127,7 @@
 
     echo '
         <div class="row mb-2">
-            <div class="col-4"><small>Siswa</small></div>
+            <div class="col-4"><small>Nama Siswa</small></div>
             <div class="col-1"><small>:</small></div>
             <div class="col-7"><small class="text text-grayish">'.$student_name.'</small></div>
         </div>
@@ -140,14 +137,14 @@
             <div class="col-7"><small class="text text-grayish">'.$student_nis.'</small></div>
         </div>
         <div class="row mb-2">
-            <div class="col-4"><small>Kategori Biaya</small></div>
-            <div class="col-1"><small>:</small></div>
-            <div class="col-7"><small class="text text-grayish">'.$component_category.'</small></div>
-        </div>
-        <div class="row mb-2">
             <div class="col-4"><small>Kompnen Biaya</small></div>
             <div class="col-1"><small>:</small></div>
             <div class="col-7"><small class="text text-grayish">'.$component_name.'</small></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4"><small>Kategori</small></div>
+            <div class="col-1"><small>:</small></div>
+            <div class="col-7"><small class="text text-grayish">'.$component_category.'</small></div>
         </div>
         <div class="row mb-2">
             <div class="col-4"><small>Tagihan</small></div>
@@ -173,26 +170,26 @@
             <div class="col-12"><small><br></small></div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="payment_datetime">Tgl.Bayar</label>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-12">
+                <label for="payment_datetime"><small>Tanggal Pembayaran</small></label>
                 <input type="date" name="payment_datetime" id="payment_datetime" class="form-control" value="'.date('Y-m-d').'">
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="payment_nominal">Nominal</label>
+            <div class="col-md-12">
+                <label for="payment_time"><small>Jam Pembayaran</small></label>
+                <input type="time" name="payment_time" id="payment_time" class="form-control" value="'.date('H:i').'">
             </div>
-            <div class="col-8">
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="payment_nominal"><small>Nominal</small></label>
                 <input type="text" name="payment_nominal" id="payment_nominal" class="form-control form-money" value="'.$sisa.'">
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="payment_method">Metode</label>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-12">
+                <label for="payment_method"><small>Metode Pembayaran</small></label>
                 <select name="payment_method" class="form-control">
                     <option value="">Pilih</option>
                     <option value="Cash">Cash</option>
@@ -203,8 +200,3 @@
         </div>
     ';
 ?>
-<script>
-    var id_siswa="<?php echo $id_student; ?>";
-    // Tempelkan ke atribut data-id tombol
-    $(".kembali_ke_komponen_biaya").attr("data-id", id_siswa);
-</script>

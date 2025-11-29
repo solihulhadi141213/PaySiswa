@@ -5,6 +5,9 @@
                 <i class="bi bi-grid"></i> <span>Dashboard</span>
             </a>
         </li>
+        <li class="nav-heading border-1 border-top">
+            <div class="mt-3">Fitur Dasar</div>
+        </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="PaymentGateway"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-gear"></i>
@@ -53,7 +56,9 @@
                 </li> 
             </ul>
         </li>
-        <li class="nav-heading">Referensi</li>
+        <li class="nav-heading border-1 border-top">
+            <div class="mt-3">Referensi</div>
+        </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="TahunAjaran"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=TahunAjaran">
                 <i class="bi bi-calendar-event"></i> <span>Tahun Akademik</span>
@@ -61,32 +66,35 @@
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="KomponenBiaya"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=KomponenBiaya">
-                <i class="bi bi-tags"></i> <span>Biaya Pendidikan</span>
+                <i class="bi bi-tags"></i> <span>Komponen Biaya</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Kelas"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Kelas">
-                <i class="bi bi-building"></i> <span>Manajemen Kelas</span>
+                <i class="bi bi-building"></i> <span>Kelas</span>
             </a>
+        </li>
+        <li class="nav-heading border-1 border-top">
+            <div class="mt-3">Master</div>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Siswa"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Siswa">
-                <i class="bi bi-people"></i> <span>Daftar Siswa</span>
+                <i class="bi bi-people"></i> <span>Siswa</span>
             </a>
         </li>
-        <li class="nav-heading">Master</li>
-        
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Tagihan"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Tagihan">
-                <i class="bi bi-calendar-week"></i> <span>Tagihan Siswa</span>
+                <i class="bi bi-calendar-week"></i> <span>Tagihan</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu=="Pembayaran"){echo "";}else{echo "collapsed";} ?>" href="index.php?Page=Pembayaran">
-                <i class="bi bi-cash-coin"></i> <span>Riwayat Pembayaran</span>
+                <i class="bi bi-cash-coin"></i> <span>Pembayaran</span>
             </a>
         </li>
-        <li class="nav-heading">Fitur Lainnya</li>
+        <li class="nav-heading border-1 border-top">
+            <div class="mt-3">Fitur Lainnya</div>
+        </li>
         <li class="nav-item">
             <a class="nav-link <?php if($PageMenu!=="Aktivitas"){echo "collapsed";} ?>" href="index.php?Page=Aktivitas">
                 <i class="bi bi-circle"></i>

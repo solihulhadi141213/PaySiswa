@@ -13,6 +13,7 @@ Password        :   Arunaparasilvanursari141213*#
   - Tambahkan timer pada captcha pada saat login
   - Fitur lupa password (Reset Password)
   - Memblokir Semua transaksi saat periode akademik ditutup
+  - Memastikan form filter bekerja secara interaktif
 
 ## Pembaharuan Database 
  - Penambahan tabel 'access_reset ' yang terhubung dengan 'id_access' berfungsi untuk fitur lupa password

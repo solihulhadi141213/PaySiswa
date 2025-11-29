@@ -30,43 +30,56 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-12 text-end">
-                                <button type="button" class="btn btn-md btn-info btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExport" title="Export Data Pembayaran">
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalExport" title="Export Data Pembayaran">
                                     <i class="bi bi-download"></i>
                                 </button>
                                 <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter" title="Filter Data">
                                     <i class="bi bi-filter"></i>
                                 </button>
-                                <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalSiswa" title="Tambah Pembayaran Baru">
+                                <button type="button" class="btn btn-md btn-primary btn-floating modal_siswa" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah/Input Pembayaran Siswa">
                                     <i class="bi bi-plus"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><b>No</b></th>
-                                        <th><b>Tgl.Bayar</b></th>
-                                        <th><b>NIS</b></th>
-                                        <th><b>Siswa</b></th>
-                                        <th><b>Kelas</b></th>
-                                        <th><b>Komponen/Uraian</b></th>
-                                        <th><b>Pembayaran</b></th>
-                                        <th><b>Metode</b></th>
-                                        <th><b>Opsi</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="TabelPembayaran">
-                                    <tr>
-                                        <td class="text-center" colspan="9">
-                                            <small>Tidak ada data pembayaran yang ditampilkan</small>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="row mb-2">
+                            <div class="col-12" id="title_pembayaran">
+                                <!-- Title Pembayaran Akan Muncul Disini -->
+                            </div>
                         </div>
+                         <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="table table-responsive border-1 border-top">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th><b>No</b></th>
+                                                <th><b>Nama Siswa</b></th>
+                                                <th><b>NIS</b></th>
+                                                <th><b>Periode</b></th>
+                                                <th><b>Jenjang</b></th>
+                                                <th><b>Kelas</b></th>
+                                                <th><b>Komponen</b></th>
+                                                <th><b>Kategori</b></th>
+                                                <th><b>Tanggal Bayar</b></th>
+                                                <th><b>Metode</b></th>
+                                                <th><b>Nominal</b></th>
+                                                <th><b>Opsi</b></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="TabelPembayaran">
+                                            <tr>
+                                                <td class="text-center" colspan="9">
+                                                    <small>Tidak ada data pembayaran yang ditampilkan</small>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="card-footer">
                         <div class="row">

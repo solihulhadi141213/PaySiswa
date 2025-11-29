@@ -15,7 +15,7 @@
     }
 
     //Validasi Form Required
-    $required = ['id_payment','payment_datetime','payment_method','payment_nominal'];
+    $required = ['id_payment','payment_datetime','payment_time','payment_method','payment_nominal'];
     foreach($required as $r){
         if(empty($_POST[$r])){
             echo '<div class="alert alert-danger"><small>Field '.htmlspecialchars($r).' wajib diisi!</small></div>';
@@ -26,8 +26,11 @@
     //Buat Variabel
     $id_payment             = validateAndSanitizeInput($_POST['id_payment']);
     $payment_datetime       = validateAndSanitizeInput($_POST['payment_datetime']);
+    $payment_time           = validateAndSanitizeInput($_POST['payment_time']);
     $payment_nominal        = validateAndSanitizeInput($_POST['payment_nominal']);
     $payment_method         = validateAndSanitizeInput($_POST['payment_method']);
+
+    $payment_datetime       ="$payment_datetime $payment_time";
 
     if(empty($_POST['payment_nominal'])){
         $payment_nominal=0;

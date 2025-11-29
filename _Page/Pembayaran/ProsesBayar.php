@@ -13,6 +13,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'Sesi Akses Sudah Berakhir, Silahkan Login Ulang!',
+            'id_payment' => '',
             'id_organization_class' => '',
             'id_student' => '',
             'id_fee_by_student' => ''
@@ -25,6 +26,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'ID Tagihan Tidak Boleh Kosong!',
+            'id_payment' => '',
             'id_organization_class' => '',
             'id_student' => '',
             'id_fee_by_student' => ''
@@ -37,6 +39,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'Tanggal Pembayaran Tidak Boleh Kosong!',
+            'id_payment' => '',
             'id_organization_class' => '',
             'id_student' => '',
             'id_fee_by_student' => ''
@@ -49,6 +52,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'Jam Pembayaran Tidak Boleh Kosong!',
+            'id_payment' => '',
             'id_organization_class' => '',
             'id_student' => '',
             'id_fee_by_student' => ''
@@ -61,6 +65,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'Metode Pembayaran Tidak Boleh Kosong!',
+            'id_payment' => '',
             'id_organization_class' => '',
             'id_student' => '',
             'id_fee_by_student' => ''
@@ -73,6 +78,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'Nomnal Pembayaran Tidak Boleh Kosong!',
+            'id_payment' => '',
             'id_organization_class' => '',
             'id_student' => '',
             'id_fee_by_student' => ''
@@ -124,6 +130,7 @@
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Insert pembayaran berhasil!',
+                'id_payment' => $id_payment,
                 'id_organization_class' => $id_organization_class,
                 'id_student' => $id_student,
                 'id_fee_by_student' => $id_fee_by_student
@@ -133,6 +140,7 @@
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Terjad kesalahan pada saat menympan LOG!',
+                'id_payment' => $id_payment,
                 'id_organization_class' => $id_organization_class,
                 'id_student' => $id_student,
                 'id_fee_by_student' => $id_fee_by_student
@@ -143,6 +151,7 @@
         echo json_encode([
             'status' => 'error',
             'message' => 'Terjad kesalahan pada saat nsert pembayaran!',
+            'id_payment' => $id_payment,
             'id_organization_class' => $id_organization_class,
             'id_student' => $id_student,
             'id_fee_by_student' => $id_fee_by_student

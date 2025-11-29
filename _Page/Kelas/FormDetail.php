@@ -50,9 +50,9 @@
         $Qry->close();
 
         //Buat Variabel
-        $id_organization_class  =$Data['id_organization_class'];
-        $class_level            =$Data['class_level'];
-        $class_name             =$Data['class_name'];
+        $id_academic_period     = $Data['id_academic_period'];
+        $class_level            = $Data['class_level'];
+        $class_name             = $Data['class_name'];
 
         //Hitung Jumlah Siswa
         $jumlah_siswa=mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class  FROM  student WHERE id_organization_class='$id_organization_class' AND student_status='Terdaftar'"));
@@ -60,25 +60,28 @@
         //Hitung Komponen Biaya
         $jumlah_komponen=mysqli_num_rows(mysqli_query($Conn, "SELECT id_fee_by_class FROM fee_by_class WHERE id_organization_class='$id_organization_class'"));
 
+        //Buka Periode Akademik
+        $academic_period        = GetDetailData($Conn, 'academic_period', 'id_academic_period', $id_academic_period, 'academic_period');
+
         //Tampilkan Data
         echo '
             <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
             <div class="row mb-2">
-                <div class="col-4"><small>ID</small></div>
+                <div class="col-4"><small>Periode Akademik</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
-                    <small class="text text-grayish">'.$id_organization_class.'</small>
+                    <small class="text text-grayish">'.$academic_period.'</small>
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4"><small>Level</small></div>
+                <div class="col-4"><small>Level/Jenjang</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text text-grayish">'.$class_level.'</small>
                 </div>
             </div>
             <div class="row mb-2">
-                <div class="col-4"><small>Kelas</small></div>
+                <div class="col-4"><small>Kelas/Rombel</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
                     <small class="text text-grayish">'.$class_name.'</small>

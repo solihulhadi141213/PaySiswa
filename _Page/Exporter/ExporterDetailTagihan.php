@@ -55,6 +55,9 @@
     $periode_month          = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
     $periode_year           = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
 
+    //Nama Bulan
+    $nama_bulan         = getNamaBulan($periode_month);
+
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_payment FROM payment  WHERE id_fee_by_student='$id_fee_by_student'"));
 ?>
 
@@ -95,6 +98,16 @@
                 padding-right : 15px;
                 width: 70px;
             }
+            table.nama_dokumen{
+               border-bottom: 3px double #000;
+            }
+            table.nama_dokumen tr td{
+                font-family: Arial, sans-serif;
+                padding-bottom : 20px;
+            }
+            table.identitas{
+                border-bottom: 3px double #000;
+            }
             table.identitas tr td{
                 font-family: Arial, sans-serif;
             }
@@ -125,109 +138,90 @@
                 </td>
             </tr>
         </table>
-        <table width="100%" class="identitas">
+        <table width="100%" class="nama_dokumen">
             <tr>
                 <td align="center">
-                    <span class="title_report">URAIAN TAGIHAN DAN RIWAYAT PEMBAYARAN SISWA</span>
+                    <b>DETAIL INFORMASI TAGIHAN</b>
                 </td>
             </tr>
         </table>
-        <br>
         <br>
         <table width="100%" class="identitas">
             <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <td><small>Nama Siswa</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$student_name"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>NIS</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$student_nis"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Gender</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$student_gender"; ?></small></td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td><small>Periode Akademik</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$academic_period"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Level/Jenjang</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$class_level"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Kelas</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$class_name"; ?></small></td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td><small>Komponen Biaya</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$component_name"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Kategori</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$component_category"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Periode</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$periode_month / $periode_year"; ?></small></td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <table>
-                        <tr>
-                            <td><small>Nominal Tagihan</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$fee_nominal_format"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Diskon/Potongan</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$fee_discount_format"; ?></small></td>
-                        </tr>
-                        <tr>
-                            <td><small>Jumlah Tagihan</small></td>
-                            <td><small>:</small></td>
-                            <td><small><?php echo "$jumlah_tagihan_format"; ?></small></td>
-                        </tr>
-                    </table>
+                <td><small>Nama Siswa</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$student_name"; ?></small></td>
+                <td></td>
+                <td><small>Komponen Biaya</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$component_name"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>NIS</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$student_nis"; ?></small></td>
+                <td></td>
+                <td><small>Kategori</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$component_category"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>Gender</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$student_gender"; ?></small></td>
+                <td></td>
+                <td><small>Periode</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$nama_bulan $periode_year"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>Periode Akademik</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$academic_period"; ?></small></td>
+                <td></td>
+                <td><small>Nominal Tagihan</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$fee_nominal_format"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>Level/Jenjang</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$class_level"; ?></small></td>
+                <td></td>
+                <td><small>Diskon/Potongan</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$fee_discount_format"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>Kelas</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$class_name"; ?></small></td>
+                <td></td>
+                <td><small>Jumlah Tagihan</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$jumlah_tagihan_format"; ?></small></td>
+            </tr>
+            <tr>
+                <td colspan="7"><br></td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%">
+            <tr>
+                <td align="center">
+                    <b>RIWAYAT PEMBAYARAN</b>
                 </td>
             </tr>
         </table>
         <br>
-        <br>
         <table class="custom-table">
-            <thead>
-                <tr>
-                    <td colspan="4" align="center"><b><small>RIWAYAT PEMBAYARAN</small></b></td>
-                </tr>
-                <tr>
-                    <td align="center"><small><b>No</b></small></td>
-                    <td align="left"><small><b>Tanggal Bayar</b></small></td>
-                    <td align="left"><small><b>Metode</b></small></td>
-                    <td align="right"><small><b>Nominal</b></small></td>
-                </tr>
-            </thead>
+            <tr>
+                <td align="center"><small><b>No</b></small></td>
+                <td align="left"><small><b>Tanggal Pembayaran</b></small></td>
+                <td align="left"><small><b>Waktu/Jam</b></small></td>
+                <td align="center"><small><b>Metode</b></small></td>
+                <td align="right"><small><b>Nominal</b></small></td>
+            </tr>
             <tbody>
                 <?php
                     //jika data tidak ada
@@ -252,7 +246,8 @@
                             $total_payment = $total_payment + $payment_nominal;
 
                             //Format Tanggal
-                            $payment_datetime_format    = date('d/m/Y H:i', strtotime($payment_datetime));
+                            $payment_datetime_format    = date('d/m/Y', strtotime($payment_datetime));
+                            $payment_time_format        = date('H:i T', strtotime($payment_datetime));
 
                             //Format Nominal
                             $payment_nominal_format     = "Rp " . number_format($payment_nominal,0,',','.');
@@ -262,7 +257,8 @@
                                 <tr>
                                     <td align="center"><small>'.$no.'</small></td>
                                     <td align="left"><small>'.$payment_datetime_format.'</small></td>
-                                    <td align="left"><small>'.$payment_method.'</small></td>
+                                    <td align="left"><small>'.$payment_time_format.'</small></td>
+                                    <td align="center"><small>'.$payment_method.'</small></td>
                                     <td align="right"><small>'.$payment_nominal_format.'</small></td>
                                 </tr>
                             ';
@@ -281,16 +277,14 @@
                         echo '
                             <tr>
                                 <td align="center"></td>
-                                <td align="left"><small><b>TOTAL BAYAR</b></small></td>
-                                <td align="left"></td>
+                                <td align="right" colspan="3"><small><b>TOTAL BAYAR</b></small></td>
                                 <td align="right"><small><b>'.$total_payment_format.'</b></small></td>
                             </tr>
                         ';
                         echo '
                             <tr>
                                 <td align="center"></td>
-                                <td align="left"><small><b>KETERANGAN</b></small></td>
-                                <td align="left"></td>
+                                <td align="right" colspan="3"><small><b>KETERANGAN</b></small></td>
                                 <td align="right"><small><b>'.$status_pembayaran.'</b></small></td>
                             </tr>
                         ';

@@ -1,3 +1,4 @@
+<!-- Modal Filter -->
 <div class="modal fade" id="ModalFilter" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -37,10 +38,12 @@
                                 <option value="">Pilih</option>
                                 <option value="student_name">Nama</option>
                                 <option value="student_nis">NIS</option>
-                                <option value="id_organization_class">Kelas</option>
+                                <option value="id_academic_period">Periode Akademik</option>
+                                <option value="id_organization_class">Kelas/Rombel</option>
                                 <option value="id_fee_component">Komponen Biaya</option>
                                 <option value="payment_datetime">Tanggal Pembayaran</option>
                                 <option value="payment_method">Metode</option>
+                                <option value="payment_nominal">Nominal Bayar</option>
                             </select>
                         </div>
                     </div>
@@ -68,26 +71,31 @@
                                 <option value="">Pilih</option>
                                 <option value="student_name">Nama</option>
                                 <option value="student_nis">NIS</option>
-                                <option value="id_organization_class">Kelas</option>
+                                <option value="id_academic_period">Periode Akademik</option>
+                                <option value="id_organization_class">Kelas/Rombel</option>
                                 <option value="id_fee_component">Komponen Biaya</option>
                                 <option value="payment_datetime">Tanggal Pembayaran</option>
                                 <option value="payment_method">Metode</option>
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-4">
-                            <label for="keyword">
-                                <small>Kata Kunci</small>
-                            </label>
-                        </div>
-                        <div class="col-8" id="FormFilter">
-                            <input type="text" name="keyword" id="keyword" class="form-control">
+                    <div class="row">
+                        <div class="col-12" id="FormFilter">
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <label for="keyword">
+                                        <small>Kata Kunci</small>
+                                    </label>
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" name="keyword" id="keyword" class="form-control">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Filter
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -98,6 +106,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Siswa -->
 <div class="modal fade" id="ModalSiswa" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -108,7 +118,7 @@
             <div class="modal-body">
                 <form action="javascript:void(0);" id="ProsesFilterSiswa">
                     <input type="hidden" name="page_siswa" id="page_siswa" value="1">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-2 mb-2">
                             <label for="batas_siswa">
                                 <small>Batas</small>
@@ -141,12 +151,6 @@
                             <div id="FormFilterSiswa">
                                 <input type="text" class="form-control" name="keyword_siswa" id="keyword_siswa" placeholder="Kata Kunci">
                             </div>
-                            <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="semua_siswa" name="semua_siswa" value="true">
-                                <label class="form-check-label" for="semua_siswa">
-                                    <small>Tampilkan juga siswa yang sudah lulus/keluar</small>
-                                </label>
-                            </div>
                         </div>
                         <div class="col-md-2 mb-2">
                             <small><br></small>
@@ -155,10 +159,29 @@
                             </button>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="semua_siswa" name="semua_siswa" value="true">
+                                <label class="form-check-label" for="semua_siswa">
+                                    <small><small>Tampilkan juga siswa yang sudah lulus/keluar</small></small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-12">
-                        <div class="table table-responsive">
+                        <div class="alert alert-info">
+                            <small>
+                                <i class="bi bi-info-circle"></i> Silahkan pilih salah satu siswa yang ada pada tabel berikut ini.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table table-responsive border-1 border-top">
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
@@ -174,7 +197,7 @@
                                 <tbody id="TabelSiswa">
                                     <tr>
                                         <td colspan="5" class="text-center">
-                                            <small class="text-danger">Tidak Ada Data Siswa Yang Ditampilkan</small>
+                                            <small class="text-dark">Loading..</small>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -207,12 +230,13 @@
     </div>
 </div>
 
+<!-- Modal Komponen Biaya -->
 <div class="modal fade" id="ModalKomponenBiaya" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-dark">
-                    <i class="bi bi-check-circle"></i> Pilih Komponen Biaya
+                    <i class="bi bi-check-circle"></i> Tagihan Siswa
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -232,6 +256,38 @@
     </div>
 </div>
 
+<!-- Modal Detail Tagihan -->
+<div class="modal fade" id="ModalDetailTagihan" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="_Page/Exporter/ExporterDetailTagihan.php" method="GET" target="_blank">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-info-circle"></i> Detail Tagihan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormDetailTagihan">
+                            <!-- Form Detail Tagihan -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Bayar -->
 <div class="modal fade" id="ModalBayar" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -258,7 +314,7 @@
                     <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya">
                         <i class="bi bi-chevron-left"></i> Kembali
                     </button>
                 </div>
@@ -267,31 +323,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalDetailTagihan" tabindex="-1">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
-                    <i class="bi bi-info-circle"></i> Detail Tagihan
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-md-12" id="FormDetailTagihan">
-                        <!-- Form Detail Tagihan -->
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
-                    <i class="bi bi-chevron-left"></i> Kembali
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<!-- Modal Edit Tagihan -->
 <div class="modal fade" id="ModalEditTagihan" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -318,7 +350,7 @@
                     <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya">
                         <i class="bi bi-chevron-left"></i> Kembali
                     </button>
                 </div>
@@ -326,6 +358,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Hapus Tagihan -->
 <div class="modal fade" id="ModalHapusTagihan" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -349,10 +383,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check-circle"></i> Ya, Hapus
                     </button>
-                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="">
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya" data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya">
                         <i class="bi bi-chevron-left"></i> Kembali
                     </button>
                 </div>
@@ -361,30 +395,38 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalDetail" tabindex="-1">
+<!-- Modal Detail Pembayaran -->
+<div class="modal fade" id="ModalDetailPembayaran" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
-                    <i class="bi bi-info-circle"></i> Detail Pembayaran
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-md-12" id="FormDetail">
-                        <!-- Form Detail Pembayaran -->
+            <form action="_Page/Exporter/ExporterPembayaran.php" method="GET" target="_blank">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-info-circle"></i> Detail Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormDetailPembayaran">
+                            <!-- Form Detail Pembayaran -->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<!-- Modal Edit Pembayarran -->
 <div class="modal fade" id="ModalEdit" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -419,6 +461,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Hapus Pembayaran -->
 <div class="modal fade" id="ModalHapus" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -442,7 +486,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check-circle"></i> Ya, Hapus
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -453,6 +497,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Export Pembayaran -->
 <div class="modal fade" id="ModalExport" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -482,7 +528,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-download"></i> Export
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -490,6 +536,89 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Menampilkan Modal Detail Siswa -->
+<div class="modal fade" id="ModalDetailSiswa" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <form action="index.php" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-info-circle"></i> Detail Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormDetailSiswa">
+                            <!-- Form Detail Siswa -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        Selengkapnya <i class="bi bi-chevron-right"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Menampilkan Modal 'ModalDetailKelas' -->
+<div class="modal fade" id="ModalDetailKelas" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Kelas/Rombel
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailKelas">
+                        <!-- Form Detail Kelas -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Menampilkan Modal 'ModalDetailKomponenBiaya' -->
+<div class="modal fade" id="ModalDetailKomponenBiaya" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Komponen Biaya
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailKomponenBiaya">
+                        <!-- Form Detail Komponen Biaya -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
         </div>
     </div>
 </div>

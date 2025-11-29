@@ -188,8 +188,8 @@
                         <td><small class="'.$label_status.'">'.$academic_period.'</small></td>
                         <td><small class="'.$label_status.'">'.$label_status2.'</small></td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary btn-floating"  data-bs-toggle="modal" data-bs-target="#ModalKomponenBiaya" data-id="'.$id_student .'">
-                                <i class="bi bi-check"></i>
+                            <button type="button" class="btn btn-sm btn-primary btn-floating modal_komponen_biaya" data-id="'.$id_student .'" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Lihat Data Tagihan">
+                                <i class="bi bi-chevron-right"></i>
                             </button>
                         </td>
                     </tr>

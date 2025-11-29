@@ -59,8 +59,9 @@
         $payment_method         = $Data['payment_method'];
 
         //Format
-        $payment_nominal=round($payment_nominal);
-        $payment_datetime=date('Y-m-d', strtotime($payment_datetime));
+        $payment_nominal    = round($payment_nominal);
+        $payment_date       = date('Y-m-d', strtotime($payment_datetime));
+        $payment_time       = date('H:i', strtotime($payment_datetime));
         
 
         //Buka detail siswa
@@ -125,7 +126,18 @@
                 </div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">
-                    <input type="date" name="payment_datetime" id="payment_datetime" class="form-control" value="'.$payment_datetime.'">
+                    <input type="date" name="payment_datetime" id="payment_datetime" class="form-control" value="'.$payment_date.'">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4">
+                    <label for="payment_time_edit">
+                        <small>Jam Bayar</small>
+                    </label>
+                </div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <input type="time" name="payment_time" id="payment_time_edit" class="form-control" value="'.$payment_time.'">
                 </div>
             </div>
             <div class="row mb-3">

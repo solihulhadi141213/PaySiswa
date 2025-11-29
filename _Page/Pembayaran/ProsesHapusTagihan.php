@@ -12,21 +12,19 @@
 
     //Validasi Akses
     if (empty($SessionIdAccess)) {
-        echo '
-            <div class="alert alert-danger">
-                <small>Sesi Akses Sudah Berakhir. Silahkan Login Ulang!</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Sesi Akses Sudah Berakhir! Silahkan Login Ulang!'
+        ]);
         exit;
     }
 
     //Validasi id_fee_by_student
     if(empty($_POST['id_fee_by_student'])){
-        echo '
-            <div class="alert alert-danger">
-                <small>ID Tagihan Siswa Tidak Boleh Kosong!</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'ID Tagihan Siswa Tidak Boleh Kosong!'
+        ]);
         exit;
     }
 
@@ -38,11 +36,10 @@
     $Qry->bind_param("s", $id_fee_by_student);
     if (!$Qry->execute()) {
         $error=$Conn->error;
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.'</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan pada saat membuka data dari database!<br>Keterangan : '.$error.''
+        ]);
         exit;
     }
     $Result = $Qry->get_result();
@@ -61,22 +58,21 @@
         $deskripsi_log="Hapus Tagihan Berhasil";
         $InputLog=addLog($Conn,$SessionIdAccess,$now,$kategori_log,$deskripsi_log);
         if($InputLog=="Success"){
-            echo '
-                <input type="hidden" name="get_id_student_hapus_tagihan" id="get_id_student_hapus_tagihan" value="'.$id_student.'">
-                <small class="text-success" id="NotifikasiHapusTagihanBerhasil">Success</small>
-            ';
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Hapus Tagihan Berhasil!'
+            ]);
         }else{
-            echo '
-                <div class="alert alert-danger">
-                    <small>Terjadi kesalahan pada saat menyimpan Log!</small>
-                </div>
-            ';
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan pada saat menyimpan Log!'
+            ]);
         }
     }else{
-        echo '
-            <div class="alert alert-danger">
-                <small>Terjadi kesalahan pada saat menghapus data pada database!</small>
-            </div>
-        ';
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan pada saat menghapus data pada database!'
+        ]);
+        exit;
     }
 ?>

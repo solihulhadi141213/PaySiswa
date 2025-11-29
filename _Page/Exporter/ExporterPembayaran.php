@@ -1,7 +1,7 @@
 <?php
     //Zona Waktu
     date_default_timezone_set('Asia/Jakarta');
-
+   
     //Koneksi
     include "../../_Config/Connection.php";
     include "../../_Config/SettingGeneral.php";
@@ -63,8 +63,12 @@
     $component_category     = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'component_category');
     $periode_month          = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_month');
     $periode_year           = GetDetailData($Conn, 'fee_component', 'id_fee_component', $id_fee_component, 'periode_year');
+    $nama_bulan             = getNamaBulan($periode_month);
 
     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_payment FROM payment  WHERE id_fee_by_student='$id_fee_by_student'"));
+
+    //Susun text
+    $text = "$app_base_url/_Page/Exporter/ExporterPembayaran.php?id=$id_payment";
 ?>
 
 <html>
@@ -147,29 +151,12 @@
         </table>
         <br>
         <table width="100%" class="tabel_uraiian">
-            <tr>
-                <td><small>ID Pembayaran</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$id_payment"; ?></small></td>
-                <td></td>
-                <td><small>Komponen Biaya</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$component_name"; ?></small></td>
-                <td></td>
-                <td><small>Nominal Pembayaran</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$payment_nominal_format"; ?></small></td>
-            </tr>
-            <tr>
+             <tr>
                 <td><small>Petugas</small></td>
                 <td><small>:</small></td>
                 <td><small><?php echo "$access_name"; ?></small></td>
                 <td></td>
-                <td><small>Kategori</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$component_category"; ?></small></td>
-                <td></td>
-                <td><small>Tanggal</small></td>
+                <td><small>Tanggal Bayar</small></td>
                 <td><small>:</small></td>
                 <td><small><?php echo "$tanggal_bayar"; ?></small></td>
             </tr>
@@ -178,11 +165,7 @@
                 <td><small>:</small></td>
                 <td><small><?php echo "$student_name"; ?></small></td>
                 <td></td>
-                <td><small>Periode</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$periode_month/$periode_year"; ?></small></td>
-                 <td></td>
-                <td><small>Waktu (Jam)</small></td>
+                <td><small>Jam Bayar</small></td>
                 <td><small>:</small></td>
                 <td><small><?php echo "$jam_bayar"; ?></small></td>
             </tr>
@@ -191,27 +174,57 @@
                 <td><small>:</small></td>
                 <td><small><?php echo "$student_nis"; ?></small></td>
                 <td></td>
-                <td><small>Periode Akademik</small></td>
+                <td><small>Komponen Biaya</small></td>
                 <td><small>:</small></td>
-                <td><small><?php echo "$academic_period"; ?></small></td>
-                <td></td>
-                <td><small>Metode Pembayaran</small></td>
-                <td><small>:</small></td>
-                <td><small><?php echo "$payment_method"; ?></small></td>
+                <td><small><?php echo "$component_name"; ?></small></td>
             </tr>
             <tr>
                 <td><small>Gender</small></td>
                 <td><small>:</small></td>
                 <td><small><?php echo "$student_gender"; ?></small></td>
                 <td></td>
+                <td><small>Kategori</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$component_category"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>Periode Akademik</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$academic_period"; ?></small></td>
+                <td></td>
+                <td><small>Periode Bulan</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$nama_bulan"; ?></small></td>
+            </tr>
+            <tr>
+                <td><small>Level/Jenjang</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$class_level"; ?></small></td>
+                <td></td>
+                <td><small>Periode Tahun</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$periode_year"; ?></small></td>
+            </tr>
+            <tr>
                 <td><small>Kelas / Rombel</small></td>
                 <td><small>:</small></td>
-                <td><small><?php echo "$class_level / $class_name "; ?></small></td>
+                <td><small><?php echo "$class_name "; ?></small></td>
+                <td></td>
+                <td><small>Nominal Pembayaran</small></td>
+                <td><small>:</small></td>
+                <td><small><?php echo "$payment_nominal_format"; ?></small></td>
             </tr>
             <tr>
                 <td colspan="7"><br></td>
             </tr>
         </table>
-        <br>
+        <table width="100%" class="tabel_uraiian">
+            <tr>
+                <td align="center">
+                    <small>ID Pembayaran</small><br>
+                    <img src="../../qr.php?text=<?php echo "$text" ?>" alt="QR Code"><br>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
