@@ -6,6 +6,7 @@ Password        :   Arunaparasilvanursari141213*#
 ## Notifiikasi Yang Perlu Ada
   - Data tagiihan siswa yang belum lunas sedangkan siswa sudah naik kelas/lulus
   - Data siswa yang belum punya NIS 
+  - Memberitahukan kepada user bahwa terdapat periode akademik yang perlu dikunci ketika periode sudah lewat dari tanggal sekarang
   
 ## Melengkapi Fitur
   - Lengkapi Log Aktivitas

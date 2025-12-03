@@ -1,4 +1,40 @@
 <!-- Filter Data -->
+<div class="modal fade" id="ModalExportTahunAjaran" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="_Page/Exporter/ExportTahunAjaran.php" method="GET" target="_blank">
+                <input type="hidden" name="page" id="page" value="1">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-download"></i> Cetak/Export Tahun Ajaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-12 text-center">
+                            <div class="alert alert-info">
+                                <small>
+                                    <b><i class="bi bi-info-circle"></i> Penting</b><br>
+                                    Semakin besar data, maka akan membutuhkan waktu yang lebih lama untuk menampilkan output data ini.
+
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-download"></i> Cetak / Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Data -->
 <div class="modal fade" id="ModalFilter" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -84,7 +120,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check"></i> Tampilkan
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -95,6 +131,8 @@
         </div>
     </div>
 </div>
+
+<!-- Tambah Periode Pendidikan -->
 <div class="modal fade" id="ModalTambah" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -135,7 +173,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -146,6 +184,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Detail Periode Pendidikan -->
 <div class="modal fade" id="ModalDetail" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -170,7 +210,7 @@
 </div>
 
 <div class="modal fade" id="ModalDaftarKelas" tabindex="-1">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-dark"><i class="bi bi-list"></i> Daftar Kelas (Rombongan Belajar)</h5>
@@ -178,28 +218,24 @@
             </div>
             <div class="modal-body">
                 <div class="row mb-2">
-                    <div class="col-12 text-center">
-                        <b id="title_daftar_kelas" class="text text-decoration-underline">DAFTAR KELAS PERIODE</b>
+                    <div class="col-12 text-center" id="title_daftar_kelas">
+                        <!-- Menampilkan Titla Daftar Kelas -->
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <div class="table table-responsive">
+                        <div class="table table-responsive border-top border-1">
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th><b>No</b></th>
-                                        <th><b>Kelas</b></th>
-                                        <th><b>Siswa</b></th>
-                                        <th><b>Komponen Biaya</b></th>
-                                        <th><b>Tagihan Siswa</b></th>
-                                        <th><b>Pembayaran</b></th>
-                                        <th><b>Sisa Tunggakan</b></th>
+                                        <th><b>Jenjang / Level</b></th>
+                                        <th><b>Kelas / Rombel</b></th>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelDaftarKelas">
                                     <tr>
-                                        <td colspan="7" class="text-center">
+                                        <td colspan="3" class="text-center">
                                             <small>No Data</small>
                                         </td>
                                     </tr>
@@ -227,18 +263,19 @@
             <div class="modal-body">
                 <div class="row mb-3">
                     <div class="col-12 text-center">
-                        <span>DAFTAR SISWA</span><br>
-                        <b id="title_daftar_Siswa_per_kelas_2" class="text text-decoration-underline"></b> / <b class="text text-decoration-underline" id="title_daftar_Siswa_per_kelas_1"></b> 
+                        <b>DAFTAR SISWA PER KELAS</b><br>
+                        <span id="title_siswa_per_kelas"></span>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-12">
                         <div class="table table-responsive">
-                            <table class="table table-striped table-hover border-top">
+                            <table class="table table-hover border-top">
                                 <thead>
                                     <tr>
-                                        <th rowspan="2" class="text-center" valign="middle"><b>No</b></th>
-                                        <th rowspan="2" class="text-center" valign="middle"><b>Kelas</b></th>
+                                        <th rowspan="2" class="text-left" valign="middle"><b>No</b></th>
+                                        <th rowspan="2" class="text-left" valign="middle"><b>Jenjang</b></th>
+                                        <th rowspan="2" class="text-left" valign="middle"><b>Kelas</b></th>
                                         <th colspan="3" class="text-center" valign="middle"><b>Jumlah Siswa</b></th>
                                         <th rowspan="2" class="text-center" valign="middle"><b>Opsi</b></th>
                                     </tr>
@@ -250,7 +287,7 @@
                                 </thead>
                                 <tbody id="TabelSiswaPerKelas">
                                     <tr>
-                                        <td colspan="6" class="text-center">
+                                        <td colspan="7" class="text-center">
                                             <small>No Data</small>
                                         </td>
                                     </tr>
@@ -268,6 +305,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Daftar Siswa  -->
 <div class="modal fade" id="ModalDaftarSiswa" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -317,8 +356,9 @@
     </div>
 </div>
 
+<!-- Modal Komponen Biaya -->
 <div class="modal fade" id="ModalKomponenBiaya" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-dark"><i class="bi bi-list"></i> Komponen Biaya Pendidikan</h5>
@@ -326,28 +366,32 @@
             </div>
             <div class="modal-body">
                 <div class="row mb-3">
-                    <div class="col-12 text-center">
-                        <b>DAFTAR KOMPONEN BIAYA</b><br>
-                        <b id="title_komponen_biaya" class="text text-decoration-underline"></b>
+                    <div class="col-12 text-center" id="title_komponen_biaya">
+                        <!-- Menampilkan Title Komponen Biaya -->
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <div class="table table-responsive">
+                        <div class="table table-responsive border-1 border-top">
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th><b>No</b></th>
-                                        <th><b>Biaya Pendidikan</b></th>
-                                        <th><b>Kategori</b></th>
-                                        <th><b>Bulan</b></th>
-                                        <th><b>Tahun</b></th>
-                                        <th><b>Nominal</b></th>
+                                        <th><small><b>No</b></small></th>
+                                        <th><small><b>Komponen Biaya</b></small></th>
+                                        <th><small><b>Kategori</b></small></th>
+                                        <th><small><b>Periode</b></small></th>
+                                        <th><small><b>Nominal</b></small></th>
+                                        <th><small><b>Biaya Pendidikan</b></small></th>
+                                        <th><small><b>Diskon</b></small></th>
+                                        <th><small><b>Tagihan</b></small></th>
+                                        <th><small><b>Pembayaran</b></small></th>
+                                        <th><small><b>Sisa/Tunggakan</b></small></th>
+                                        <th><small><b>Opsi</b></small></th>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelKomponenBiaya">
                                     <tr>
-                                        <td colspan="6" class="text-center">
+                                        <td colspan="11" class="text-center">
                                             <small>No Data</small>
                                         </td>
                                     </tr>
@@ -358,6 +402,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="" class="btn btn-primary btn-rounded" target="_blank" id="export_komponen_biaya">
+                    <i class="bi bi-download"></i> Cetak / Export
+                </a>
                 <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
@@ -366,43 +413,41 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalTagihanSiswa" tabindex="-1">
-    <div class="modal-dialog modal-xl">
+<!-- Modal Rincian Komponen Biaya -->
+<div class="modal fade" id="ModalRincianKomponenBiaya" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-dark"><i class="bi bi-list"></i> Tagihan & Pembayaran</h5>
+                <h5 class="modal-title text-dark"><i class="bi bi-list"></i> Rincian Komponen Biaya Pendidikan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row mb-3">
-                    <div class="col-12 text-center">
-                        <b>DAFTAR TAGIHAN & PEMBAYARAN</b><br>
-                        <b id="title_tagihan_biaya_pendidikan" class="text text-decoration-underline"></b>
+                    <div class="col-12" id="title_rincian_komponen_biaya">
+                        <!-- Menampilkan Title Rincian Komponen Biaya -->
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-hover border-top">
+                        <div class="table table-responsive border-1 border-top">
+                            <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <td align="center"><b>No</b></th>
-                                        <td align="left"><b>Kelas</b></th>
-                                        <td align="right">
-                                            <b>
-                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Komponen Biaya Pendidikan">KBP</a>
-                                            </b>
-                                        </th>
-                                        <td align="right"><b>Tagihan</b></th>
-                                        <td align="right"><b>Diskon</b></th>
-                                        <td align="right"><b>Pembayaran</b></th>
-                                        <td align="right"><b>Sisa</b></th>
-                                        <td align="center"><b>opsi</b></th>
+                                        <th><small><b>No</b></small></th>
+                                        <th><small><b>Nama Siswa</b></small></th>
+                                        <th><small><b>NIS</b></small></th>
+                                        <th><small><b>Jenjang / Level</b></small></th>
+                                        <th><small><b>Rombel / Kelas</b></small></th>
+                                        <th><small><b>Biaya Pendidikan</b></small></th>
+                                        <th><small><b>Diskon</b></small></th>
+                                        <th><small><b>Tagihan</b></small></th>
+                                        <th><small><b>Pembayaran</b></small></th>
+                                        <th><small><b>Sisa / Tunggakan</b></small></th>
                                     </tr>
                                 </thead>
-                                <tbody id="TabelTagihanSiswa">
+                                <tbody id="TabelRincianKomponenBiaya">
                                     <tr>
-                                        <td colspan="8" class="text-center">
+                                        <td colspan="11" class="text-center">
                                             <small>No Data</small>
                                         </td>
                                     </tr>
@@ -413,21 +458,72 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-three-dots-vertical"></i> Export
+                <a href="" class="btn btn-primary btn-rounded" id="export_rincian_komponen_biaya" target="_blank">
+                    <i class="bi bi-download"></i> Cetak / Export
+                </a>
+                <button type="button" class="btn btn-secondary btn-rounded kembali_ke_komponen_biaya">
+                    <i class="bi bi-chevron-left"></i> Kembali
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);" id="ExportTagihanSiswaPdf" target="_blank">
-                            <i class="bi bi-file-pdf"></i> Export To PDF
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);" id="ExportTagihanSiswaHtml" target="_blank">
-                            <i class="bi bi-filetype-html"></i> Export To HTML
-                        </a>
-                    </li>
-                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tagihan Siswa -->
+<div class="modal fade" id="ModalTagihanSiswa" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-list"></i> Tagihan & Pembayaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-12 text-center" id="title_tagihan_siswa">
+                        <!-- Title Tagihan Siswa -->
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="table table-responsive">
+                            <table class="table table-striped table-hover border-top">
+                                <thead>
+                                    <tr>
+                                        <td align="center"><small><b>No</b></small></th>
+                                        <td align="left"><small><b>Jenjang/Level</b></small></th>
+                                        <td align="left"><small><b>Rombel/Kelas</b></small></th>
+                                        <td align="left"><small><b>Siswa</b></small></th>
+                                        <td align="left">
+                                            <small>
+                                                <b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jumlah Komponen Biaya Pendidikan">
+                                                    K.B.P
+                                                </b>
+                                            </small>
+                                        </th>
+                                        <td align="right"><small><b>Biaya Pendidikan</b></small></th>
+                                        <td align="right"><small><b>Diskon/Potongan</b></small></th>
+                                        <td align="right"><small><b>Tagihan</b></small></th>
+                                        <td align="right"><small><b>Pembayaran</b></small></th>
+                                        <td align="right"><small><b>Sisa/Tunggakan</b></small></th>
+                                        <td align="center"><small><b>opsi</b></small></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="TabelTagihanSiswa">
+                                    <tr>
+                                        <td colspan="11" class="text-center">
+                                            <small>No Data</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-md btn-primary btn-rounded" id="export_tagihan_siswa" target="_blank">
+                    <i class="bi bi-download"></i> Cetak / Export
+                </a>
                 <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
@@ -445,9 +541,8 @@
             </div>
             <div class="modal-body">
                 <div class="row mb-3">
-                    <div class="col-12 text-center">
-                        <b>DAFTAR TAGIHAN BIAYA PENDIDIKAN</b><br>
-                        <b id="title_riincian_tagihan_biaya_pendidikan" class="text text-decoration-underline"></b>
+                    <div class="col-12 text-center" id="title_riincian_tagihan_biaya_pendidikan">
+                        <!-- Title Rincian Tagihan Biaya Pendidikan Disini -->
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -457,22 +552,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-three-dots-vertical"></i> Export
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);" id="ExportRincianTagihanSiswaPdf" target="_blank">
-                            <i class="bi bi-file-pdf"></i> Export To PDF
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);" id="ExportRincianTagihanSiswaHtml" target="_blank">
-                            <i class="bi bi-filetype-html"></i> Export To HTML
-                        </a>
-                    </li>
-                </ul>
-                <button type="button" class="btn btn-secondary btn-rounded" id="button_kembali_ke_tagihan_siswa" data-id="">
+                <a href="" class="btn btn-primary btn-rounded" id="export_rincian_tagihan_siswa" target="_blank">
+                    <i class="bi bi-download"></i> Cetak / Export
+                </a>
+                <button type="button" class="btn btn-secondary btn-rounded kembali_ke_tagihan_siswa">
                     <i class="bi bi-chevron-left"></i> Kembali
                 </button>
             </div>
@@ -480,56 +563,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalRiwayatPembayaran" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark"><i class="bi bi-list"></i> Riwayat Pembayaran</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-12 text-center">
-                        <b>RIWAYAT PEMBAYARAN</b><br>
-                        <b id="title_riwayat_pembayaran" class="text text-decoration-underline"></b>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-12">
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-hover border-top">
-                                <thead>
-                                    <tr>
-                                        <td align="center"><b>No</b></th>
-                                        <td align="left"><b>Siswa</b></th>
-                                        <td align="left"><b>NIS</b></th>
-                                        <td align="left"><b>Kelas</b></th>
-                                        <td align="left"><b>Komponen</b></th>
-                                        <td align="right"><b>Tgl.Bayar</b></th>
-                                        <td align="right"><b>Nominal</b></th>
-                                        <td align="center"><b>Metode</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="TabelRiwayatPembayaran">
-                                    <tr>
-                                        <td colspan="8" class="text-center">
-                                            <small>No Data</small>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="ModalEdit" tabindex="-1">
     <div class="modal-dialog modal-md">
@@ -552,7 +585,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -584,7 +617,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-check"></i> Ya, Hapus
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -616,7 +649,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">

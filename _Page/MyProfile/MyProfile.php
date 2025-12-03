@@ -99,21 +99,77 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT id_access_feature FROM access_feature "));
-                                    if(empty($jml_data)){
+                                    // ======================= CEK JUMLAH DATA ===========================
+                                    $stmtCount = $Conn->prepare("SELECT COUNT(id_access_feature) FROM access_feature");
+                                    $stmtCount->execute();
+                                    $stmtCount->bind_result($jml_data);
+                                    $stmtCount->fetch();
+                                    $stmtCount->close();
+
+                                    if ($jml_data == 0) {
                                         echo '
                                             <tr>
-                                                <td colspan="5" class="text-center"><small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan</small></td>
+                                                <td colspan="5" class="text-center">
+                                                    <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan</small>
+                                                </td>
                                             </tr>
                                         ';
                                         exit;
                                     }
 
-                                    //Tampilkan Data Secara Distinct 'feature_category' dari tabel 'access_feature'
+                                    // ======================= AMBIL SEMUA KATEGORI ===========================
+                                    $queryKategori = $Conn->prepare("
+                                        SELECT DISTINCT feature_category 
+                                        FROM access_feature 
+                                        ORDER BY feature_category ASC
+                                    ");
+                                    $queryKategori->execute();
+                                    $resKategori = $queryKategori->get_result();
+
+                                    $kategori_list = [];
+                                    while ($row = $resKategori->fetch_assoc()) {
+                                        $kategori_list[] = $row['feature_category'];
+                                    }
+                                    $queryKategori->close();
+
+                                    // ======================= AMBIL SEMUA FITUR SEKALIGUS =====================
+                                    $queryFitur = $Conn->prepare("
+                                        SELECT id_access_feature, feature_category, feature_name, feature_description
+                                        FROM access_feature
+                                        ORDER BY feature_category ASC, feature_name ASC
+                                    ");
+                                    $queryFitur->execute();
+                                    $resFitur = $queryFitur->get_result();
+
+                                    // Kelompokkan fitur berdasarkan kategori
+                                    $fitur_by_kategori = [];
+                                    while ($f = $resFitur->fetch_assoc()) {
+                                        $fitur_by_kategori[$f['feature_category']][] = $f;
+                                    }
+                                    $queryFitur->close();
+
+                                    // ======================= AMBIL SEMUA PERMISSION SEKALIGUS ================
+                                    $queryPermission = $Conn->prepare("
+                                        SELECT id_access_feature 
+                                        FROM access_permission 
+                                        WHERE id_access = ?
+                                    ");
+                                    $queryPermission->bind_param("s", $SessionIdAccess);
+                                    $queryPermission->execute();
+                                    $resPermission = $queryPermission->get_result();
+
+                                    // Konversi hasil permission ke array (lebih cepat)
+                                    $permission = [];
+                                    while ($p = $resPermission->fetch_assoc()) {
+                                        $permission[$p['id_access_feature']] = true;
+                                    }
+                                    $queryPermission->close();
+
+                                    // ======================= TAMPILKAN DATA ===========================
                                     $no = 1;
-                                    $query_kategori = mysqli_query($Conn, "SELECT DISTINCT feature_category FROM access_feature ORDER BY feature_category ASC");
-                                    while ($data_kategori = mysqli_fetch_array($query_kategori)) {
-                                        $feature_category = $data_kategori['feature_category'];
+
+                                    foreach ($kategori_list as $feature_category) {
+
                                         echo '
                                             <tr>
                                                 <td class="text-center"><small><b>'.$no.'</b></small></td>
@@ -121,40 +177,42 @@
                                             </tr>
                                         ';
 
-                                        //Menampilkan 'access_feature' berdasarkan 'feature_category'
                                         $no_data = 1;
-                                        $query = mysqli_query($Conn, "SELECT * FROM access_feature WHERE feature_category='$feature_category' ORDER BY feature_name ASC");
-                                        while ($data = mysqli_fetch_array($query)) {
-                                            $id_access_feature  = $data['id_access_feature'];
-                                            $feature_name       = $data['feature_name'];
-                                            $feature_description       = $data['feature_description'];
 
-                                            //Memeriksa Apakah '$SessionIdAccess'memiliki 'id_access_feature' dari tabel 'access_permission' 
-                                            $QryPermission = mysqli_query($Conn,"SELECT id_permission FROM access_permission WHERE id_access_feature='$id_access_feature' AND id_access='$SessionIdAccess'")or die(mysqli_error($Conn));
-                                            $DataPermission = mysqli_fetch_array($QryPermission);
-                                            if(empty($DataPermission['id_permission'])){
-                                                $label_status_permission = '<span class="text-danger"><i class="bi bi-x-circle"></i></span>';
-                                                $text_color = 'text-grayish';
-                                            }else{
-                                                $label_status_permission = '<span class="text-success"><i class="bi bi-check-circle"></i></span>';
-                                                $text_color = 'text-dark';
+                                        if (!empty($fitur_by_kategori[$feature_category])) {
+                                            foreach ($fitur_by_kategori[$feature_category] as $data) {
+
+                                                $id_access_feature   = $data['id_access_feature'];
+                                                $feature_name        = $data['feature_name'];
+                                                $feature_description = $data['feature_description'];
+
+                                                // Cek permission tanpa query DB (super cepat)
+                                                if (isset($permission[$id_access_feature])) {
+                                                    $label_status_permission = '<span class="text-success"><i class="bi bi-check-circle"></i></span>';
+                                                    $text_color = 'text-dark';
+                                                } else {
+                                                    $label_status_permission = '<span class="text-danger"><i class="bi bi-x-circle"></i></span>';
+                                                    $text_color = 'text-grayish';
+                                                }
+
+                                                echo '
+                                                    <tr>
+                                                        <td></td>
+                                                        <td><small class="'.$text_color.'">'.$no.'.'.$no_data.'</small></td>
+                                                        <td><small class="'.$text_color.'">'.$feature_name.'</small></td>
+                                                        <td><small class="'.$text_color.'">'.$feature_description.'</small></td>
+                                                        <td><small>'.$label_status_permission.'</small></td>
+                                                    </tr>
+                                                ';
+
+                                                $no_data++;
                                             }
-
-                                            //Tampilkan Baris Tabel
-                                            echo '
-                                                 <tr>
-                                                    <td></td>
-                                                    <td><small class="'.$text_color.'">'.$no.'.'.$no_data.'</small></td>
-                                                    <td><small class="'.$text_color.'">'.$feature_name.'</small></td>
-                                                    <td><small class="'.$text_color.'">'.$feature_description.'</small></td>
-                                                    <td><small>'.$label_status_permission.'</small></td>
-                                                </tr>
-                                            ';
-                                            $no_data++;
                                         }
+
                                         $no++;
                                     }
                                 ?>
+
                             </tbody>
                         </table>
                     </div>

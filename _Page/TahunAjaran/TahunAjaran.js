@@ -9,10 +9,7 @@ function filterAndLoadTable() {
             $('#TabelTahunAjaran').html(data);
 
             // Re-inisialisasi Tooltip Bootstrap 5
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+            $('[data-bs-toggle="tooltip"]').tooltip();
         }
     });
 }
@@ -56,10 +53,24 @@ function ShowTabelTagihanSiswa(id_academic_period) {
 
 
 
-//Menampilkan Data Pertama Kali
+// LOAD HALAMAN
 $(document).ready(function() {
 
+    /* Menampilkan Data Tabel Pertama Kali */
     filterAndLoadTable();
+    
+    /* Menampilkan Modal Filter Dengan Event Click 'modal_filter' */
+    $(document).on('click', '.modal_filter', function(){
+        //Tampilkan Modal
+        $('#ModalFilter').modal('show');
+    });
+
+    //Ketika Filter Data 'ProsesFilter' Di Submit
+    $('#ProsesFilter').submit(function(){
+        $('#page').val("1");
+        filterAndLoadTable();
+        $('#ModalFilter').modal('hide');
+    });
 
     //Pagging
     $(document).on('click', '#next_button', function() {
@@ -75,12 +86,7 @@ $(document).ready(function() {
         filterAndLoadTable(0);
     });
 
-    //Filter Data
-    $('#ProsesFilter').submit(function(){
-        $('#page').val("1");
-        filterAndLoadTable();
-        $('#ModalFilter').modal('hide');
-    });
+    
 
     //Ketika KeywordBy Diubah
     $('#KeywordBy').change(function(){
@@ -94,6 +100,19 @@ $(document).ready(function() {
             }
         });
     });
+
+    /* Menampilkan Modal 'ModalExportTahunAjaran' Dengan Event Click 'modal_export_periode_akademik' */
+    $(document).on('click', '.modal_export_periode_akademik', function(){
+        //Tampilkan Modal 'ModalExportTahunAjaran'
+        $('#ModalExportTahunAjaran').modal('show');
+    });
+
+    /* Menampilkan Modal 'ModalTambah' Dengan Event Click 'modal_tambah_periode_akademik' */
+    $(document).on('click', '.modal_tambah_periode_akademik', function(){
+        //Tampilkan Modal 'ModalTambah'
+        $('#ModalTambah').modal('show');
+    });
+
 
     //Proses Tambah
     $('#ProsesTambah').submit(function(){
@@ -126,10 +145,19 @@ $(document).ready(function() {
         });
     });
 
-    //Modal Detail 
-    $('#ModalDetail').on('show.bs.modal', function (e) {
-        var id_academic_period = $(e.relatedTarget).data('id');
+    //Menampilkan Modal 'ModalDetail' dengan event click 'modal_detail'
+    $(document).on('click', '.modal_detail', function(){
+
+        //Tangkap 'id_academic_period'
+        var id_academic_period = $(this).data('id');
+
+        //Tampilkan Modal 'ModalDetail'
+        $('#ModalDetail').modal('show');
+
+        //Form Loading
         $('#FormDetail').html("Loading...");
+
+        //Tampilkan Form Loading Dengan AJAX
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/TahunAjaran/FormDetail.php',
@@ -193,34 +221,88 @@ $(document).ready(function() {
     });
 
     //Modal Komponen Biaya 
-    $('#ModalKomponenBiaya').on('show.bs.modal', function (e) {
-        var id_academic_period = $(e.relatedTarget).data('id');
+    $(document).on('click', '.modal_komponen_biaya', function () {
+
+        //Tangkap 'id_academic_period'
+        var id_academic_period = $(this).data('id');
+
+        //Tampilkan Modal
+        $('#ModalKomponenBiaya').modal('show');
+
+        //Loading Tabel
         $('#TabelKomponenBiaya').html('<tr><td colspan="6" class="text-center">Loadiing...</td></tr>');
+
+        //Tampilkan Data 'TabelKomponenBiaya' dengan AJAX
         $.ajax({
             type 	    : 'POST',
             url 	    : '_Page/TahunAjaran/TabelKomponenBiaya.php',
             data        : {id_academic_period: id_academic_period},
             success     : function(data){
+
+                //Tampilkan data
                 $('#TabelKomponenBiaya').html(data);
+                
+                // Re-inisialisasi Tooltip Bootstrap 5
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            }
+        });
+    });
+
+    //Tombol Kembali Ke Komponen Biaya 'kembali_ke_komponen_biaya'
+    $(document).on('click', '.kembali_ke_komponen_biaya', function () {
+        
+        //Tampilkan Modal 'ModalKomponenBiaya'
+        $('#ModalKomponenBiaya').modal('show');
+
+        //Tutup Modal 'ModalRincianKomponenBiaya'
+        $('#ModalRincianKomponenBiaya').modal('hide');
+        
+    });
+
+
+    //Modal Komponen Biaya 
+    $(document).on('click', '.modal_rincian_komponen_biaya', function () {
+
+        //Tangkap 'id_fee_component'
+        var id_fee_component = $(this).data('id');
+
+        //Tampilkan Modal
+        $('#ModalRincianKomponenBiaya').modal('show');
+
+        //Loading Tabel
+        $('#TabelRincianKomponenBiaya').html('<tr><td colspan="11" class="text-center">Loadiing...</td></tr>');
+
+        //Tampilkan Data 'TabelKomponenBiaya' dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/TahunAjaran/TabelRincianKomponenBiaya.php',
+            data        : {id_fee_component: id_fee_component},
+            success     : function(data){
+
+                //Tampilkan data
+                $('#TabelRincianKomponenBiaya').html(data);
+                
+                // Re-inisialisasi Tooltip Bootstrap 5
+                $('[data-bs-toggle="tooltip"]').tooltip();
             }
         });
     });
 
     //Menampilkan Modal Tagihan Siswa
-    $(document).on('click', '[data-bs-target="#ModalTagihanSiswa"]', function () {
+    $(document).on('click', '.modal_tagihan_siswa', function () {
 
         //Menangkap 'id_academic_period'
         var id_academic_period = $(this).data('id');
+
+        //Tampilkan Modal
+         $('#ModalTagihanSiswa').modal('show');
 
         //Menampilkan Data Tabel Dengan Fungsi 'ShowTabelTagihanSiswa()'
         ShowTabelTagihanSiswa(id_academic_period);
     });
 
-    //Tombol Kembali Ke Tagihan Siswa
-    $(document).on('click', '#button_kembali_ke_tagihan_siswa', function () {
-
-        //Menangkap 'id_academic_period'
-        var id_academic_period = $(this).data('id');
+    //Tombol 'kembali_ke_tagihan_siswa'
+    $(document).on('click', '.kembali_ke_tagihan_siswa', function () {
 
         //Tutup Modal
         $('#ModalRincianTagihanSiswa').modal('hide');
@@ -241,20 +323,6 @@ $(document).ready(function() {
             data        : {id_academic_period: id_academic_period, id_organization_class: id_organization_class},
             success     : function(data){
                 $('#TabelRincianTagihanSiswa').html(data);
-            }
-        });
-    });
-
-    //Modal Riwayat Pembayaran
-    $('#ModalRiwayatPembayaran').on('show.bs.modal', function (e) {
-        var id_academic_period = $(e.relatedTarget).data('id');
-        $('#TabelRiwayatPembayaran').html('<tr><td colspan="8" class="text-center">Loadiing...</td></tr>');
-        $.ajax({
-            type 	    : 'POST',
-            url 	    : '_Page/TahunAjaran/TabelRiwayatPembayaran.php',
-            data        : {id_academic_period: id_academic_period},
-            success     : function(data){
-                $('#TabelRiwayatPembayaran').html(data);
             }
         });
     });

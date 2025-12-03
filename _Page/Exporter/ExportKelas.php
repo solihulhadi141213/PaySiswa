@@ -102,7 +102,10 @@
         <table width="100%" class="identitas">
             <tr>
                 <td align="center">
-                    <span class="title_report">REKAPITULASI TAGIHAN & PEMBAYARAN KELAS</span>
+                    <b>
+                        REKAPITULASI TAGIHAN & PEMBAYARAN BERDASARKAN KELAS<br>
+                        <span class="title_report">PERIODE AKADEMIK <?php echo $academic_period ?></span>
+                    </b>
                 </td>
             </tr>
         </table>
@@ -229,5 +232,19 @@
                 ?>
             </tbody>
         </table>
+        <?php
+            // Membuat QR Code Dokumen
+            $text = "$app_base_url/_Page/Exporter/ExportKelas.php?id_academic_period=$id_academic_period";
+            echo '
+                <table class="qr_table">
+                    <tr>
+                        <td align="center">
+                            <img src="../../qr.php?text='.$text.'" alt="QR Code"><br>
+                        </td>
+                    </tr>
+                     <tr><td align="center">Scan Me</td></tr>
+                </table> 
+            ';
+        ?>
     </body>
 </html>

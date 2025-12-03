@@ -38,10 +38,13 @@
                         <form action="javascript:void(0);" id="ProsesBatas">
                             <div class="row">
                                 <div class="col-12 text-end">
-                                    <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter">
+                                    <button type="button" class="btn btn-md btn-outline-primary btn-floating modal_export_periode_akademik" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Cetak/Export Data Periode Akademik">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-md btn-secondary btn-floating modal_filter" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Filter Data">
                                         <i class="bi bi-filter"></i>
                                     </button>
-                                    <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalTambah">
+                                    <button type="button" class="btn btn-md btn-primary btn-floating modal_tambah_periode_akademik" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tambah Periode Akademik">
                                         <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
@@ -53,21 +56,30 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th><b>No</b></th>
-                                        <th><b>Tahun Akademik</b></th>
-                                        <th><b>Mulai</b></th>
-                                        <th><b>Berakhir</b></th>
-                                        <th><b>Rombel</b></th>
-                                        <th><b>Siswa</b></th>
+                                        <th><small><b>No</b></small></th>
+                                        <th><small><b>Tahun Akademik</b></small></th>
+                                        <th><small><b>Kelas/Rombel</b></small></th>
+                                        <th><small><b>Siswa</b></small></th>
                                         <th>
-                                            <b>
-                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Komponen Biaya Pendidikan">KBP</a>
-                                            </b>
+                                            <small data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Komponen Biaya Pendidikan">
+                                                <b><i class="bi bi-info-circle"></i> K.B.P</b>
+                                            </small>
                                         </th>
-                                        <th><b>Tagihan</b></th>
-                                        <th><b>Pembayaran</b></th>
-                                        <th><b>Status</b></th>
-                                        <th><b>Opsi</b></th>
+                                        <th>
+                                            <small data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jumlah Tagihan Sebelum Diskon">
+                                                <b><i class="bi bi-info-circle"></i> Biaya/Tagihan</b>
+                                            </small>
+                                        </th>
+                                        <th><small><b>Diskon/Potongan</b></small></th>
+                                        <th>
+                                            <small data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Jumlah Tagihan Setelah Diskon/Potongan">
+                                                <b><i class="bi bi-info-circle"></i> Tagihan</b>
+                                            </small>
+                                        </th>
+                                        <th><small><b>Pembayaran</b></small></th>
+                                        <th><small><b>Sisa/Tunggakan</b></small></th>
+                                        <th><small><b>Status</b></small></th>
+                                        <th><small><b>Opsi</b></small></th>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelTahunAjaran">
