@@ -26,6 +26,9 @@ function ShowTransaksi() {
         data        : ProsesFilterTransaksi,
         success     : function(data){
             $('#TabelTransaksi').html(data);
+
+            // 🔁 Re-inisialisasi tooltip setelah data dimuat
+            $('[data-bs-toggle="tooltip"]').tooltip();
         }
     });
 }
@@ -38,6 +41,9 @@ function ShowLogOrder() {
         data        : ProsesFilterLogOrder,
         success     : function(data){
             $('#TabelLogOrder').html(data);
+
+            // 🔁 Re-inisialisasi tooltip setelah data dimuat
+            $('[data-bs-toggle="tooltip"]').tooltip();
         }
     });
 }
@@ -129,6 +135,11 @@ $(document).ready(function() {
             ShowTransaksi(0);
         });
 
+        //Jika Click 'modal_filter_log_order'
+        $('.modal_filter_transaksi').on('click', function(e) {
+             $('#ModalFilterTransaksi').modal('show');
+        });
+
         // Ketika Submit Filter 'ProsesFilterTransaksi'
         $('#ProsesFilterTransaksi').submit(function(){
 
@@ -159,6 +170,11 @@ $(document).ready(function() {
             ShowLogOrder();
         });
 
+        //Jika Click 'modal_filter_log_order'
+        $('.modal_filter_log_order').on('click', function(e) {
+             $('#ModalFilterLogOrder').modal('show');
+        });
+
         // Ketika Submit Filter 'ProsesFilterLogOrder'
         $('#ProsesFilterLogOrder').submit(function(){
 
@@ -184,6 +200,30 @@ $(document).ready(function() {
         });
 
     }
+
+    //Jika Click 'modal_filter_log_order'
+    $(document).on('click', '.modal_status_transaksi', function() {
+
+        //Tangkap 'order_id'
+        var order_id = $(this).data('id');
+
+        //Tampilkan Modal 'ModalStatusTransaksi'
+        $('#ModalStatusTransaksi').modal('show');
+
+        //Loading Form 'FormStatusTransaksi'
+        $('#FormStatusTransaksi').html('Loading...');
+
+        // Tampilkan FormStatusTransaksi dengan ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/SettingPayment/FormStatusTransaksi.php',
+            data        : {order_id: order_id},
+            success     : function(data){
+                $('#FormStatusTransaksi').html(data);
+            }
+        });
+    });
+
     
 
     //Modal Setting Koneksi

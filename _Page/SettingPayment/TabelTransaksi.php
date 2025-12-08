@@ -203,7 +203,7 @@
             <tr>
                 <td align="center"><small>'.$no.'</small></td>
                 <td align="left">
-                    <a href="javascript:void(0);" class="" data-bs-toggle="modal" data-bs-target="#ModalStatusTransaksi" data-id="'.$order_id.'">
+                    <a href="javascript:void(0);" class="modal_status_transaksi" data-id="'.$order_id.'" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Lihat Status Transaksi">
                         <small class="underscore_doted">'.$order_id_format.'***</small>
                     </a>
                 </td>

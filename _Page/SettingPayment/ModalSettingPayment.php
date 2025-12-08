@@ -486,6 +486,27 @@
     </div>
 </div>
 
+<div class="modal fade" id="ModalStatusTransaksi" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dak">
+                    <i class="bi bi-info-circle"></i> Status Transaksi
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="FormStatusTransaksi">
+                <!-- Form Status Transaksi -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="ModalFilterLogOrder" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">

@@ -35,8 +35,8 @@
             <code class="text text-grayish">
                 URL yang digunakan untuk meminta status transaksi berdasarkan Order ID
                 <ul>
-                    <li>Sanbox : https://api.sandbox.midtrans.com</li>
-                    <li>Production : https://api.midtrans.com</li>
+                    <li>Sanbox : https://api.sandbox.midtrans.com/v2</li>
+                    <li>Production : https://api.midtrans.com/v2</li>
                 </ul>
             </code>
         </small>

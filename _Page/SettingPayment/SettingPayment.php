@@ -195,7 +195,7 @@
                                         <div class="col-12 mb-3">
                                             <div class="row mb-3 mt-3">
                                                 <div class="col-12 text-end">
-                                                    <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilterTransaksi">
+                                                    <button type="button" class="btn btn-md btn-secondary btn-floating modal_filter_transaksi" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Filter Transaction">
                                                         <i class="bi bi-filter"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-md btn-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalCreatSnapToken">
@@ -279,10 +279,10 @@
                                         <div class="col-12 mb-3">
                                             <div class="row mt-3 mb-3">
                                                 <div class="col-12 mb-3 text-end">
-                                                    <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilterLogOrder">
+                                                    <button type="button" class="btn btn-md btn-secondary btn-floating modal_filter_log_order" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Filter Log Payment">
                                                         <i class="bi bi-filter"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-md btn-primary btn-floating" id="ReloadPaymentLog">
+                                                    <button type="button" class="btn btn-md btn-primary btn-floating" id="ReloadPaymentLog" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Reload Tabel">
                                                         <i class="bi bi-arrow-clockwise"></i>
                                                     </button>
                                                 </div>
