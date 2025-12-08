@@ -107,6 +107,8 @@
 - Web Admin Template : https://bootstrapmade.com/bootstrap-admin-templates/
 - Relation Database Design : https://drawsql.app/teams/rsu-el-syifa/diagrams/school-system
 - Sequance Diagram : https://drive.google.com/file/d/1fX6SMki9oydaelz97KHcJVUzifKv_pj5/view?usp=sharing
+- Dokumentasi Integrasi Midtrans : https://docs.midtrans.com/reference/quick-start-1
+- Payment Simulator :https://simulator.sandbox.midtrans.com/
 
 ## Tutorial dan Dokumentasi Lengkap
 > Untuk mendapatkan informasi lengkap mengenai aplikasi ini, bisa juga mengakses halaman github book berikut ini:

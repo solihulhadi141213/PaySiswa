@@ -1,5 +1,4 @@
 function ShowConnectionSetting() {
-    $('#ConnectionSetting').html("Loading...");
     $.ajax({
         type 	    : 'POST',
         url 	    : '_Page/SettingPayment/ConnectionSetting.php',
@@ -10,12 +9,35 @@ function ShowConnectionSetting() {
 }
 
 function ShowProfileSetting() {
-    $('#TabelProfileSetting').html("Loading...");
     $.ajax({
         type 	    : 'POST',
         url 	    : '_Page/SettingPayment/TabelProfileSetting.php',
         success     : function(data){
             $('#TabelProfileSetting').html(data);
+        }
+    });
+}
+
+function ShowTransaksi() {
+    var ProsesFilterTransaksi = $('#ProsesFilterTransaksi').serialize();
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/SettingPayment/TabelTransaksi.php',
+        data        : ProsesFilterTransaksi,
+        success     : function(data){
+            $('#TabelTransaksi').html(data);
+        }
+    });
+}
+
+function ShowLogOrder() {
+    var ProsesFilterLogOrder = $('#ProsesFilterLogOrder').serialize();
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/SettingPayment/TabelLogOrder.php',
+        data        : ProsesFilterLogOrder,
+        success     : function(data){
+            $('#TabelLogOrder').html(data);
         }
     });
 }
@@ -63,11 +85,106 @@ function formatRupiah(angka) {
 }
 
 $(document).ready(function() {
-    //Menampilkan Setting Koneksi
-    ShowConnectionSetting();
 
-    //Menampilkan Tabel Profil Setting
-    ShowProfileSetting();
+    //Menampilkan 'ConnectionSetting'
+    if ($("#ConnectionSetting").length) {
+
+        //Loading 'ConnectionSetting'
+        $('#ConnectionSetting').html('<div class="row"><div class="col-12 text-center">Loading...</div></div>');
+
+        //Tampilkan dengan fungsi
+        ShowConnectionSetting();
+    }
+
+    //Menampilkan 'TabelProfileSetting'
+    if ($("#TabelProfileSetting").length) {
+
+        // Loading TabelProfileSetting
+        $('#TabelProfileSetting').html('<tr><td colspan="8" class="text-center"><small>Loading...</small></td></tr>');
+
+        // Tampilkan Fungsi
+       ShowProfileSetting();
+    }
+
+    //Menampilkan 'TabelTransaksi'
+    if ($("#TabelTransaksi").length) {
+
+        // Loading Tabel Transaksi
+        $('#TabelTransaksi').html('<tr><td colspan="8" class="text-center"><small>Loading...</small></td></tr>');
+
+        // Tampilkan Fungsi Transaksi
+        ShowTransaksi();
+
+        // Pagging
+        $(document).on('click', '#next_button_transaction', function() {
+            var page_now = parseInt($('#page_transaksi').val(), 10); // Pastikan nilai diambil sebagai angka
+            var next_page = page_now + 1;
+            $('#page_transaksi').val(next_page);
+            ShowTransaksi(0);
+        });
+        $(document).on('click', '#prev_button_transaction', function() {
+            var page_now = parseInt($('#page_transaksi').val(), 10); // Pastikan nilai diambil sebagai angka
+            var next_page = page_now - 1;
+            $('#page_transaksi').val(next_page);
+            ShowTransaksi(0);
+        });
+
+        // Ketika Submit Filter 'ProsesFilterTransaksi'
+        $('#ProsesFilterTransaksi').submit(function(){
+
+            //Tutup modal filter
+            $('#ModalFilterTransaksi').modal('hide');
+
+            //Tampilkan data dengan finction
+            ShowTransaksi(0);
+        });
+    }
+
+    //Menampilkan 'TabelLogOrder'
+    if ($("#TabelLogOrder").length) {
+
+        // Loading Tabel Transaksi
+        $('#TabelLogOrder').html('<tr><td colspan="10" class="text-center"><small>Loading..</small></td></tr>');
+
+        // Tampilkan Fungsi Transaksi
+        ShowLogOrder();
+
+        //Jika Reload Payment Log Di Click
+        $('#ReloadPaymentLog').on('click', function(e) {
+
+            //Loading Table
+            $('#TabelLogOrder').html('<tr><td colspan="10" class="text-center"><small>Loading..</small></td></tr>');
+
+            //Tampilkan Data
+            ShowLogOrder();
+        });
+
+        // Ketika Submit Filter 'ProsesFilterLogOrder'
+        $('#ProsesFilterLogOrder').submit(function(){
+
+            //Tutup modal filter
+            $('#ModalFilterLogOrder').modal('hide');
+
+            //Tampilkan data dengan finction
+            ShowLogOrder();
+        });
+
+        // Pagging
+        $(document).on('click', '#next_button_order', function() {
+            var page_now = parseInt($('#page_order').val(), 10); // Pastikan nilai diambil sebagai angka
+            var next_page = page_now + 1;
+            $('#page_order').val(next_page);
+            ShowLogOrder(0);
+        });
+        $(document).on('click', '#prev_button_order', function() {
+            var page_now = parseInt($('#page_order').val(), 10); // Pastikan nilai diambil sebagai angka
+            var next_page = page_now - 1;
+            $('#page_order').val(next_page);
+            ShowLogOrder(0);
+        });
+
+    }
+    
 
     //Modal Setting Koneksi
     $('#ModalSettingKoneksi').on('show.bs.modal', function (e) {
@@ -374,6 +491,83 @@ $(document).ready(function() {
         }
     });
     
+    //Proses Creat Scap Token
+    $('#ProsesCreatSnapToken').submit(function(){
+        
+        // Mengambil data dari form
+        var ProsesCreatSnapToken = $('#ProsesCreatSnapToken').serialize();
+        
+        // Loading 'NotifikasiCreatSnapToken'
+        $('#NotifikasiCreatSnapToken').html('Loading...');
+        
+        // Mengirimkan data melalui AJAX
+        $.ajax({
+            url         : '_Page/SettingPayment/GenerateSnapToken.php',
+            method      : 'POST',
+            data        : ProsesCreatSnapToken,
+            dataType    : 'json',
+            success: function(response) {
+                var status          = response.status;
+                var message         = response.message;
+                var token           = response.token;
+                var kode_transaksi  = response.kode_transaksi;
+                var order_id        = response.order_id;
+                var name            = response.name;
+                var email           = response.email;
+                var phone           = response.phone;
+                var gross_amount    = response.gross_amount;
+                var datetime        = response.datetime;
+                var server_key      = response.server_key;
+                var production      = response.production;
+
+                if(status=='success'){
+
+                    if(token=='undefined'){
+                        //Menampilkan Pemberitahuan Kesalahan
+                        $('#NotifikasiCreatSnapToken').html('<div class="alert alert-danger"><small>Tidak Ada Snap Token Yang Diterima Pada Saat Generate Token<br>'+token+'</small></div>');
+                    }else{
+                        // Kosongkan 
+                        $('#NotifikasiCreatSnapToken').html('');
+
+                        // Tutup Form 'ModalCreatSnapToken'
+                        $('#ModalCreatSnapToken').modal('hide');
+
+                        // Tampilkan Modal 'ModalSnapButton'
+                        $('#ModalSnapButton').modal('show');
+                        
+                        // Loading 'FormSnapButton'
+                        $('#FormSnapButton').html('Loading...');
+
+                        // Tampilkan Snap Button dengan AJAX
+                        $.ajax({
+                            type 	    : 'POST',
+                            url 	    : '_Page/SettingPayment/GenerateSnapButton.php',
+                            data        : {
+                                token: token, 
+                                kode_transaksi: kode_transaksi, 
+                                order_id: order_id,
+                                name: name,
+                                email: email,
+                                phone: phone,
+                                gross_amount: gross_amount,
+                                datetime: datetime,
+                                server_key: server_key,
+                                production: production
+                            },
+                            success     : function(data){
+                                $('#FormSnapButton').html(data);
+                            }
+                        });
+                    }
+
+                }else{
+
+                    //Menampilkan Pemberitahuan Kesalahan
+                    $('#NotifikasiCreatSnapToken').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+            }
+        });
+    });
 
 });
 
@@ -507,33 +701,7 @@ $('#KeywordBy').change(function(){
         }
     });
 });
-//Fungsi Menampilkan Data
-function filterAndLoadTable() {
-    var ProsesFilter = $('#ProsesFilter').serialize();
-    $.ajax({
-        type: 'POST',
-        url: '_Page/SettingPayment/TabelPaymentLog.php',
-        data: ProsesFilter,
-        success: function(data) {
-            $('#MenampilkanTabelPaymentLog').html(data);
-        }
-    });
-}
-//Menampilkan Data Pertama Kali
-$(document).ready(function() {
-    filterAndLoadTable();
-});
-//Filter Data
-$('#ProsesFilter').submit(function(){
-    $('#page').val("1");
-    filterAndLoadTable();
-    $('#ModalFilter').modal('hide');
-});
-//Reload Data
-$('#ReloadPaymentLog').click(function(){
-    $('#page').val("1");
-    filterAndLoadTable();
-});
+
 //Modal Detail Order Transaksi
 $('#ModalDetailOrderTransaksi').on('show.bs.modal', function (e) {
     var id_order_transaksi = $(e.relatedTarget).data('id');
@@ -544,6 +712,20 @@ $('#ModalDetailOrderTransaksi').on('show.bs.modal', function (e) {
         data        : {id_order_transaksi: id_order_transaksi},
         success     : function(data){
             $('#FormDetailOrderTransaksi').html(data);
+        }
+    });
+});
+
+//Modal Detail Transaksi
+$('#ModalDetailTransaksi').on('show.bs.modal', function (e) {
+    var id_transaction = $(e.relatedTarget).data('id');
+    $('#FormDetailTransaksi').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/SettingPayment/FormDetailTransaksi.php',
+        data        : {id_transaction: id_transaction},
+        success     : function(data){
+            $('#FormDetailTransaksi').html(data);
         }
     });
 });

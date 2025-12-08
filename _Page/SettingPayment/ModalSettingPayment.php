@@ -208,7 +208,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         Lanjutkan <i class="bi bi-arrow-right-circle"></i>
                     </button>
                     <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
@@ -227,9 +227,9 @@
                 <h5 class="modal-title text-dak"><i class="bi bi-cash-coin"></i> Tombol Pembayaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="FormSnapButton">
                 <div class="row">
-                    <div class="col-md-12 mb-4"  id="NotifikasiGenerateSnapButton">
+                    <div class="col-md-12 mb-4"  >
 
                     </div>
                 </div>
@@ -324,10 +324,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-rounded">
+                    <button type="submit" class="btn btn-primary btn-rounded">
                         <i class="bi bi-filter"></i> Filter
                     </button>
-                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
@@ -348,10 +348,247 @@
                 <!-- Form Detail Order Transaksi -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalFilterTransaksi" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesFilterTransaksi">
+                <input type="hidden" name="page" id="page_transaksi" value="1">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-funnel"></i> Filter Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="batas_transaksi">
+                                <small>Limit</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="batas" id="batas_transaksi" class="form-control">
+                                <option value="5">5</option>
+                                <option selected value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="250">250</option>
+                                <option value="500">500</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="OrderByTransaksi">
+                                <small>Dasar Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="OrderBy" id="OrderByTransaksi" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="kode_transaksi">Kode Transaksi</option>
+                                <option value="order_id">Order Id</option>
+                                <option value="datetime">Datetime</option>
+                                <option value="ServerKey">Server Key</option>
+                                <option value="Production">Production</option>
+                                <option value="gross_amount">Gross Amount</option>
+                                <option value="name">Name</option>
+                                <option value="email">Email</option>
+                                <option value="phone">Phone</option>
+                                <option value="snapToken">Snap Token</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="ShortByTransaksi">
+                                <small>Tipe Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="ShortBy" id="ShortByTransaksi" class="form-control">
+                                <option value="ASC">A To Z</option>
+                                <option selected value="DESC">Z To A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="KeywordByTransaksi">
+                                <small>Dasar Pencarian</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="keyword_by" id="KeywordByTransaksi" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="kode_transaksi">Kode Transaksi</option>
+                                <option value="order_id">Order Id</option>
+                                <option value="datetime">Datetime</option>
+                                <option value="ServerKey">Server Key</option>
+                                <option value="Production">Production</option>
+                                <option value="gross_amount">Gross Amount</option>
+                                <option value="name">Name</option>
+                                <option value="email">Email</option>
+                                <option value="phone">Phone</option>
+                                <option value="snapToken">Snap Token</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="keyword">
+                                <small>Kata Kunci</small>
+                            </label>
+                        </div>
+                        <div class="col-8" id="FormFilter">
+                            <input type="text" name="keyword" id="keyword" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Filter
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalDetailTransaksi" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dak">
+                    <i class="bi bi-info-circle"></i> Detail Transaksi
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="FormDetailTransaksi">
+                <!-- Form Detail Transaksi -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalFilterLogOrder" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesFilterLogOrder">
+                <input type="hidden" name="page" id="page_order" value="1">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-funnel"></i> Filter Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="batas_order">
+                                <small>Limit</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="batas" id="batas_order" class="form-control">
+                                <option value="5">5</option>
+                                <option selected value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="250">250</option>
+                                <option value="500">500</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="OrderByOrder">
+                                <small>Dasar Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="OrderBy" id="OrderByOrder" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="id_transaction">ID Transaksi</option>
+                                <option value="kode_transaksi">Kode Transaksi</option>
+                                <option value="order_id">Order ID</option>
+                                <option value="transaction_time">Datetime</option>
+                                <option value="status_code">Status Code</option>
+                                <option value="payment_type">Payment Type</option>
+                                <option value="gross_amount">Gross Amount</option>
+                                <option value="fraud_status">Fraud Status</option>
+                                <option value="transaction_status">Transaction Status</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="ShortByOrder">
+                                <small>Tipe Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="ShortBy" id="ShortByOrder" class="form-control">
+                                <option value="ASC">A To Z</option>
+                                <option selected value="DESC">Z To A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="KeywordByOrder">
+                                <small>Dasar Pencarian</small>
+                            </label>
+                        </div>
+                        <div class="col-8">
+                            <select name="keyword_by" id="KeywordByOrder" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="id_transaction">ID Transaksi</option>
+                                <option value="kode_transaksi">Kode Transaksi</option>
+                                <option value="order_id">Order ID</option>
+                                <option value="transaction_time">Datetime</option>
+                                <option value="status_code">Status Code</option>
+                                <option value="payment_type">Payment Type</option>
+                                <option value="gross_amount">Gross Amount</option>
+                                <option value="fraud_status">Fraud Status</option>
+                                <option value="transaction_status">Transaction Status</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label for="keyword">
+                                <small>Kata Kunci</small>
+                            </label>
+                        </div>
+                        <div class="col-8" id="FormFilterOrder">
+                            <input type="text" name="keyword" id="keyword" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-save"></i> Filter
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <?php
     //Connection
     include "../../_Config/Connection.php";
-    include "../../_Config/globalFunction.php";
+    include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
 
     //Tanggal/Waktu Sekarang

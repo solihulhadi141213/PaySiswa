@@ -1,4 +1,4 @@
-<div class="row mb-3 mt-4">
+<div class="row mb-2">
     <div class="col-md-12">
         <label class="form-label" for="kode_transaksi">
             <small>Kode Transaksi</small>
@@ -16,26 +16,7 @@
         </small>
     </div>
 </div>
-<div class="row mb-3 mt-4">
-    <div class="col-md-12">
-        <label class="form-label" for="order_id">
-            <small>Order ID</small>
-        </label>
-        <div class="input-group">
-            <input type="text" name="order_id" id="order_id" class="form-control" required>
-            <span class="input-group-text" id="inputGroupPrepend">
-                <a href="javascript:void(0);" id="GenerateOrderId">
-                    <code class="text text-success">Generate</code>
-                </a>
-            </span>
-        </div>
-        <small class="text text-grayish">
-            ID transaksi unik yang hanya dapat digunakan satu kali pada saat meminta kode token snap. 
-            Karakter yang diperbolehkan adalah Alfanumerik, tanda hubung(-), garis bawah(_), tanda gelombang (~), dan titik (.) String, maksimal 50.
-        </small>
-    </div>
-</div>
-<div class="row mb-3">
+<div class="row mb-2">
     <div class="col-md-12">
         <label class="form-label" for="gross_amount">
             <small>Jumlah Tagihan (Rp)</small>
@@ -46,24 +27,15 @@
         </small>
     </div>
 </div>
-<div class="row mb-3">
+<div class="row mb-2">
     <div class="col-md-12">
         <small>Nama Pelanggan</small>
     </div>
-    <div class="col-6">
-        <input type="text" name="first_name" id="first_name" class="form-control" required>
-        <label for="first_name">
-            <small class="text text-grayish">Nama Depan</small>
-        </label>
-    </div>
-    <div class="col-6">
-        <input type="text" name="last_name" id="last_name" class="form-control">
-        <label for="last_name">
-            <small class="text text-grayish">Nama Belakang</small>
-        </label>
+    <div class="col-12">
+        <input type="text" name="name" id="name" class="form-control" required>
     </div>
 </div>
-<div class="row mb-3">
+<div class="row mb-2">
     <div class="col-md-12">
         <label class="form-label" for="email">
             <small>Email</small>
@@ -74,7 +46,7 @@
         </small>
     </div>
 </div>
-<div class="row mb-3">
+<div class="row mb-2">
     <div class="col-md-12">
         <label class="form-label" for="phone">Kontak/HP</label>
         <input type="text" name="phone" id="phone" class="form-control" required>
@@ -83,7 +55,3 @@
         </small>
     </div>
 </div>
-
-<script>
-    
-</script>
