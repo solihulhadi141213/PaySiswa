@@ -15,7 +15,7 @@
             }else{
                 $SessionIdAkses=$_SESSION ["id_akses_anggota"];
                 $SessionLoginToken=$_SESSION ["login_token"];
-                $HapusAksesToken = mysqli_query($Conn, "DELETE FROM akses_login WHERE id_akses='$SessionIdAkses' AND token='$SessionLoginToken'") or die(mysqli_error($Conn));
+                $HapusAksesToken = mysqli_query($Conn, "DELETE FROM access_login WHERE id_access='$SessionIdAkses' AND token='$SessionLoginToken'") or die(mysqli_error($Conn));
                 if($HapusAksesToken){
                     session_destroy();   
                     session_unset();
@@ -35,7 +35,7 @@
         }else{
             $SessionIdAkses=$_SESSION ["id_akses"];
             $SessionLoginToken=$_SESSION ["login_token"];
-            $HapusAksesToken = mysqli_query($Conn, "DELETE FROM akses_login WHERE id_akses='$SessionIdAkses' AND token='$SessionLoginToken'") or die(mysqli_error($Conn));
+            $HapusAksesToken = mysqli_query($Conn, "DELETE FROM access_login WHERE id_access='$SessionIdAkses' AND token='$SessionLoginToken'") or die(mysqli_error($Conn));
             if($HapusAksesToken){
                 session_destroy();   
                 session_unset();
