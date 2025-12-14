@@ -497,6 +497,9 @@ $(document).ready(function() {
 
         //Tutup modal 'ModalRiwayatPembayaran'
         $('#ModalRiwayatPembayaran').modal('hide');
+
+        //Tutup modal 'ModalRequestPayment'
+        $('#ModalRequestPayment').modal('hide');
     });
 
     //Proses Ubah Tagihan
@@ -826,6 +829,82 @@ $(document).ready(function() {
                 }else{
                     // Jika Gagal
                     $('#NotifikasiHapusPembayaran').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
+                }
+            }
+        });
+    });
+
+    //Modal Request Payment
+    $(document).on('click', '.request_payment', function() {
+
+        //Tangkap 'id_fee_by_student'
+        var id_fee_by_student   = $(this).data('id');
+
+        //Tampilkan Modal
+        $('#ModalRequestPayment').modal('show');
+
+        //tutup 'ModalTagihanSiswa'
+        $('#ModalTagihanSiswa').modal('hide');
+
+        //Tampilkan Loading
+        $('#FormRequestPayment').html("Loading...");
+
+        //Kosongkan Notifikasi
+        $('#NotifikasiRequestPayment').html('');
+
+        //Buka Data Dengan AJAX
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/FormRequestPayment.php',
+            data 	    :  {id_fee_by_student: id_fee_by_student},
+            success     : function(data){
+                $('#FormRequestPayment').html(data);
+            }
+        });
+    });
+
+    //Submit 'ProsesRequestPayment'
+    $('#ProsesRequestPayment').submit(function(){
+               
+        //Loading 'NotifikasiHapusPembayaran'
+        $('#NotifikasiRequestPayment').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+
+        //Get Data Form
+        var ProsesRequestPayment = $('#ProsesRequestPayment').serialize();
+
+        //Simpan Data Dengan Ajax
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Tagihan/ProsesRequestPayment.php',
+            data 	    :  ProsesRequestPayment,
+            enctype     : 'multipart/form-data',
+            dataType    : 'json',
+            success     : function(response){
+
+                //Menangkap Response
+                var status                  = response.status;
+                var message                 = response.message;
+                var id_organization_class   = response.id_organization_class;
+                var id_student              = response.id_student;
+
+                // Jika Berhasil
+                if(status=="success"){
+
+                    //Tutup Modal 'ModalRequestPayment'
+                    $('#ModalRequestPayment').modal('hide');
+
+                    //Buka 'ModalRiwayatPembayaran'
+                    $('#ModalTagihanSiswa').modal('show');
+
+                    //Reload Tagihan Siswa
+                    ShowTagihanSiswa(id_student,id_organization_class);
+
+                    //Reload Tabel Tagihan
+                    FilterTagihan();
+
+                }else{
+                    // Jika Gagal
+                    $('#NotifikasiRequestPayment').html('<div class="alert alert-danger"><small>'+message+'</small></div>');
                 }
             }
         });

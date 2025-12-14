@@ -165,7 +165,7 @@
             $jumlah_biaya_pendidikan        = $SumBiayaPendidikan['biaya_pendidikan'];
             $jumlah_biaya_pendidikan_format = "" . number_format($jumlah_biaya_pendidikan,0,',','.');
             if(empty($jumlah_biaya_pendidikan)){
-                $label_jumlah_biaya_pendidikan = '<span class="text text-grayish">Rp 0</span>';
+                $label_jumlah_biaya_pendidikan = '<span class="text text-grayish">0</span>';
             }else{
                 $label_jumlah_biaya_pendidikan = '<span class="text text-dark">'.$jumlah_biaya_pendidikan_format.'</span>';
             }
@@ -174,9 +174,9 @@
             $SumDiskon              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_discount) AS total_diskon FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
             $jumlah_diskon          = $SumDiskon['total_diskon'];
             $jumlah_diskon          = round($jumlah_diskon);
-            $jumlah_diskon_format   = "Rp " . number_format($jumlah_diskon,0,',','.');
+            $jumlah_diskon_format   = "" . number_format($jumlah_diskon,0,',','.');
             if(empty($jumlah_diskon)){
-                $label_jumlah_diskon = '<span class="text text-grayish">Rp 0</span>';
+                $label_jumlah_diskon = '<span class="text text-grayish">0</span>';
             }else{
                 $label_jumlah_diskon = '<span class="text text-dark">'.$jumlah_diskon_format.'</span>';
             }
@@ -184,9 +184,9 @@
             ## Hitung Jumlah Tagihan
             $SumTagihan              = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS total_tagihan FROM fee_by_student WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
             $jumlah_tagihan          = $SumTagihan['total_tagihan'];
-            $jumlah_tagihan_format   = "Rp " . number_format($jumlah_tagihan,0,',','.');
+            $jumlah_tagihan_format   = "" . number_format($jumlah_tagihan,0,',','.');
             if(empty($jumlah_tagihan)){
-                $label_jumlah_tagihan = '<span class="text text-grayish">Rp 0</span>';
+                $label_jumlah_tagihan = '<span class="text text-grayish">0</span>';
             }else{
                 $label_jumlah_tagihan = '<span class="text text-dark">'.$jumlah_tagihan_format.'</span>';
             }
@@ -194,18 +194,18 @@
             ## Hitung Jumlah Pembayaran
             $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_student='$id_student' AND id_organization_class='$id_organization_class'"));
             $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
-            $jumlah_pembayaran_format   = "Rp " . number_format($jumlah_pembayaran,0,',','.');
+            $jumlah_pembayaran_format   = "" . number_format($jumlah_pembayaran,0,',','.');
             if(empty($jumlah_pembayaran)){
-                $label_jumlah_pembayaran = '<span class="text text-grayish">Rp 0</span>';
+                $label_jumlah_pembayaran = '<span class="text text-grayish">0</span>';
             }else{
                 $label_jumlah_pembayaran = '<span class="text text-success">'.$jumlah_pembayaran_format.'</span>';
             }
 
             ## Menghitung Sisa Tagihan
             $sisa_tagihan = $jumlah_tagihan-$jumlah_pembayaran;
-            $sisa_tagihan_format   = "Rp " . number_format($sisa_tagihan,0,',','.');
+            $sisa_tagihan_format   = "" . number_format($sisa_tagihan,0,',','.');
             if(empty($sisa_tagihan)){
-                $label_sisa_tagihan = '<span class="text text-grayish">Rp 0</span>';
+                $label_sisa_tagihan = '<span class="text text-grayish">0</span>';
             }else{
                 $label_sisa_tagihan = '<span class="text text-dark">'.$sisa_tagihan_format.'</span>';
             }
@@ -216,6 +216,8 @@
             $subtotal_tagihan           = $subtotal_tagihan + $jumlah_tagihan;
             $subtotal_pembayaran        = $subtotal_pembayaran + $jumlah_pembayaran;
             $subtotal_sisa              = $subtotal_sisa + $sisa_tagihan;
+
+           
 
             //Tampilkan Data
             echo '
@@ -271,11 +273,11 @@
         $subtotal_sisa              = $subtotal_sisa + $sisa_tagihan;
         
         // Format Akumulasi
-        $subtotal_biaya_pendidikan_format   = "Rp " . number_format($subtotal_biaya_pendidikan,0,',','.');
-        $subtotal_diskon_format             = "Rp " . number_format($subtotal_diskon,0,',','.');
-        $subtotal_tagihan_format            = "Rp " . number_format($subtotal_tagihan,0,',','.');
-        $subtotal_pembayaran_format         = "Rp " . number_format($subtotal_pembayaran,0,',','.');
-        $subtotal_sisa_format               = "Rp " . number_format($subtotal_sisa,0,',','.');
+        $subtotal_biaya_pendidikan_format   = "" . number_format($subtotal_biaya_pendidikan,0,',','.');
+        $subtotal_diskon_format             = "" . number_format($subtotal_diskon,0,',','.');
+        $subtotal_tagihan_format            = "" . number_format($subtotal_tagihan,0,',','.');
+        $subtotal_pembayaran_format         = "" . number_format($subtotal_pembayaran,0,',','.');
+        $subtotal_sisa_format               = "" . number_format($subtotal_sisa,0,',','.');
 
         // Menampilkan Data Akumulasi
         echo '

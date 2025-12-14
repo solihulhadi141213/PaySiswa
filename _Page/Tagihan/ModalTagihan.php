@@ -500,3 +500,39 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Request Payment -->
+<div class="modal fade" id="ModalRequestPayment" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesRequestPayment">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-info-circle"></i> Buat Link Pembayaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormRequestPayment">
+                            <!-- Form Request Payment -->
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="NotifikasiRequestPayment">
+                            <!-- Notifikasi Request Payment -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded" id="button_request_payment">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded kembali_ke_modal_tagihan">
+                        <i class="bi bi-chevron-left"></i> Kembali
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@
     $servername = "localhost";
     $username = "root";
     $password = "arunaparasilvanursari";
-    $db = "pay_siswa_host";
+    $db = "pay_siswa";
     
     // Create connection
     $Conn = new mysqli($servername, $username, $password, $db);

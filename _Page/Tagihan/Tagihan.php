@@ -1,6 +1,6 @@
 <?php
     //Cek Aksesibilitas ke halaman ini
-    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'KnaWJNAapiLrlNcgi3zOfJdbd4rXkXCnxv3o');
+    $IjinAksesSaya=IjinAksesSaya($Conn,$SessionIdAccess,'GDieyvUTSPcRwowF71lsC4KxirmcVfwMvcpW');
     if($IjinAksesSaya!=="Ada"){
         include "_Page/Error/NoAccess.php";
     }else{
@@ -72,7 +72,7 @@
                                 </thead>
                                 <tbody id="TabelTagihan">
                                     <tr>
-                                        <td colspan="9" class="text-center">
+                                        <td colspan="10" class="text-center">
                                             <small>Loading..</small>
                                         </td>
                                     </tr>

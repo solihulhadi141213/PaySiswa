@@ -143,6 +143,7 @@
                 </div>
             </div>
         ';
+
         //Menampilkan Komponen Biaya/Tagihan
         echo '<div class="row mb-2">';
         echo '  <div class="col-12">';
@@ -151,16 +152,17 @@
         echo '              
                             <thead>
                                 <tr>
-                                    <th><b>No</b></th>
-                                    <th><b>Biaya Pendidikan</b></th>
-                                    <th><b>Kategori</b></th>
-                                    <th><b>Bulan</b></th>
-                                    <th><b>Tahun</b></th>
-                                    <th><b>Tagihan</b></th>
-                                    <th><b>Diskon</b></th>
-                                    <th><b>Bayar</b></th>
-                                    <th><b>Sisa</b></th>
-                                    <th><b>Opsi</b></th>
+                                    <th><b><small>No</b></th>
+                                    <th><b><small>Biaya Pendidikan</small></b></th>
+                                    <th><b><small>Kategori</small></b></th>
+                                    <th><b><small>Bulan</small></b></th>
+                                    <th><b><small>Tahun</small></b></th>
+                                    <th><b><small>Tagihan</small></b></th>
+                                    <th><b><small>Diskon</small></b></th>
+                                    <th><b><small>Bayar</small></b></th>
+                                    <th><b><small>Sisa</small></b></th>
+                                    <th><b><small>Gateway</small></b></th>
+                                    <th><b><small>Opsi</small></b></th>
                                 </tr>
                             </thead>
         ';
@@ -170,7 +172,7 @@
                                 if(empty($JumlahKomponen)){
                                     echo '
                                         <tr>
-                                            <td colspan="10" class="text-center">
+                                            <td colspan="11" class="text-center">
                                                 <small>Tidak Ada Data Komponen Tagihan</small>
                                             </td>
                                         </tr>
@@ -199,8 +201,8 @@
                                         $nama_bulan=getNamaBulan($periode_month);
 
                                         //Format Rupiah
-                                        $fee_nominal_format     = "Rp" . number_format($fee_nominal,0,',','.');
-                                        $fee_discount_format    = "Rp" . number_format($fee_discount,0,',','.');
+                                        $fee_nominal_format     = "" . number_format($fee_nominal,0,',','.');
+                                        $fee_discount_format    = "" . number_format($fee_discount,0,',','.');
 
                                         //Hitung Pembayaran Yang Sudah Masuk
                                         $JumlahPembayaranMasuk = mysqli_fetch_array(mysqli_query($Conn, "SELECT SUM(payment_nominal) AS jumlah FROM payment WHERE id_fee_by_student='$id_fee_by_student'"));
@@ -227,19 +229,55 @@
                                         $jumlah_fee_discount=$jumlah_fee_discount+$fee_discount;
                                         $jumlah_pembayaran_masuk=$jumlah_pembayaran_masuk+$JumlahPembayaranMasuk;
                                         $jumlah_sisa_pembayaran=$jumlah_sisa_pembayaran+$sisa_pembayaran;
+
+                                         //Cek Request Payment
+                                        $id_payment_request = GetDetailData($Conn, 'payment_request', 'id_fee_by_student', $id_fee_by_student, 'id_payment_request');
+
+                                        if(empty($id_payment_request)){
+                                            $gateway = '
+                                                <a href="javascript:void(0);" class="request_payment" data-id="'.$id_fee_by_student.'">
+                                                    <span class="text-danger">
+                                                        <i class="bi bi-plus"></i> Request
+                                                    </span>
+                                                </a>
+                                            ';
+                                        }else{
+                                           $gateway = '
+                                                <a href="javascript:void(0);" class="show_request_payment" data-id="'.$id_payment_request.'" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span class="text-success text-decoration-underline">
+                                                        Open Link <i class="bi bi-three-dots-vertical"></i>
+                                                    </span>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                    <li>
+                                                        <a href="payment_link.php?id='.$id_payment_request .'" class="dropdown-item" target="_blank" title="Buka Link Pembayaran">
+                                                            <i class="bi bi-arrow-up-right"></i> Open Link
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0)" class="dropdown-item modal_hapus_link" data-id="'.$id_payment_request .'" title="Hapus Permintaan Pembayaran">
+                                                            <i class="bi bi-trash"></i> Hapus Link
+                                                        </a>
+                                                    </li>
+                                                        
+                                                </ul>
+                                            ';
+                                        }
+
                                         echo '
                                             <tr>
-                                                <td><small>'.$no.'</small></td>
-                                                <td><small>'.$component_name.'</small></td>
-                                                <td><small>'.$component_category.'</small></td>
-                                                <td><small>'.$nama_bulan.'</small></td>
-                                                <td><small>'.$periode_year.'</small></td>
-                                                <td><small>'.$fee_nominal_format.'</small></td>
-                                                <td><small>'.$fee_discount_format.'</small></td>
-                                                <td><small>'.$JumlahPembayaranMasukFormat.'</small></td>
-                                                <td><small>'.$sisa_pembayaran_format.'</small></td>
+                                                <td><small><small>'.$no.'</small></small></td>
+                                                <td><small><small>'.$component_name.'</small></small></td>
+                                                <td><small><small>'.$component_category.'</small></small></td>
+                                                <td><small><small>'.$nama_bulan.'</small></small></td>
+                                                <td><small><small>'.$periode_year.'</small></small></td>
+                                                <td><small><small>'.$fee_nominal_format.'</small></small></td>
+                                                <td><small><small>'.$fee_discount_format.'</small></small></td>
+                                                <td><small><small>'.$JumlahPembayaranMasukFormat.'</small></small></td>
+                                                <td><small><small>'.$sisa_pembayaran_format.'</small></small></td>
+                                                <td><small><small>'.$gateway.'</small></small></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-sm btn-outline-dark btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button type="button" class="btn btn-sm btn-outline-dark btn-floating" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="bi bi-three-dots-vertical"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
@@ -283,6 +321,7 @@
                                             <td><b><small>'.$jumlah_fee_discount.'</small></b></td>
                                             <td><b><small>'.$jumlah_pembayaran_masuk.'</small></b></td>
                                             <td><b><small>'.$jumlah_sisa_pembayaran.'</small></b></td>
+                                            <td></td>
                                             <td></td>
                                         </tr>
                                     ';
