@@ -19,4 +19,5 @@ Password        :   Arunaparasilvanursari141213*#
 ## Pembaharuan Database 
  - Penambahan tabel 'access_reset ' yang terhubung dengan 'id_access' berfungsi untuk fitur lupa password
  - Menambahkan TABEL 'payment_request' 
+ - Menambahkan TABEL 'auth_payment'
  - Pada Halaman Tagihan, Akses referensi selalu tidak sama dengan yang di hosting

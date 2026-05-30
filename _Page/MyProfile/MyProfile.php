@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header text-center">
                     <b class="card-title">
@@ -81,7 +81,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
                     <b class="card-title"><i class="bi bi-app"></i> Izin Pengguna</b>

@@ -68,91 +68,33 @@
             </div>
         ';
     } else {
-        // Mulai CURL untuk Get Token
-        $curl = curl_init();
-        $postData = json_encode([
-            "USER_KEY"   => $USER_KEY,
-            "SECRET_KEY" => $SECRET_KEY
-        ]);
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL            => rtrim($api_payment_url, "/") . "/_API/get_token.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => 30,
-            CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => $postData,
-            CURLOPT_HTTPHEADER     => array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($postData)
-            ),
-            CURLOPT_SSL_VERIFYHOST => 0,  // ⚠️ Disable SSL check (testing only)
-            CURLOPT_SSL_VERIFYPEER => 0   // ⚠️ Disable SSL check (testing only)
-        ));
-        
-        $response = curl_exec($curl);
-        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $curlErrNo = curl_errno($curl);
-        $curlErr   = curl_error($curl);
-        curl_close($curl);
-
-        if ($curlErrNo) {
-            // Jika ada error CURL
+        // Melalui function, request x-token
+        $res_x_token = RequestXtoken($Conn);
+        if ($res_x_token['status'] !== 'success') {
+            $message = $res_x_token['message'];
             echo '
                 <div class="alert alert-danger">
                     <small>
-                        <b>CURL Error!</b><br>
-                        Kode Error: ' . $curlErrNo . '<br>
-                        Pesan: ' . htmlspecialchars($curlErr) . '
+                        <b>Terjadi Kesalahan Pada Saat Request X-Token!</b><br>
+                        ' . $message . '
                     </small>
                 </div>
             ';
             exit;
         }
 
-        // Decode Response JSON
-        $response_array = json_decode($response, true);
+        $x_token = $res_x_token['x-token'];
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            // Jika JSON tidak valid
-            echo '
-                <div class="alert alert-danger">
-                    <small>
-                        <b>Response bukan JSON valid!</b><br>
-                        HTTP Code: ' . $httpCode . '<br>
-                        Response Asli: <pre>' . htmlspecialchars($response) . '</pre>
-                    </small>
-                </div>
-            ';
-            exit;
-        }
-
-        // Cek isi response
-        if (isset($response_array['code']) && $response_array['code'] == 200) {
-            echo '
-                <div class="row mb-3">
-                    <div class="col-12 text-center">
-                        <div class="alert alert-success">
-                            <h2><i class="bi bi-check-circle"></i></h2>
-                            <b>Koneksi Berhasil!</b><br>
-                            <small>X-Token : <code class="text text-grayish">' . htmlspecialchars($response_array['metadata']['x-token'] ?? '-') . '</code></small>
-                        </div>
+        echo '
+            <div class="row mb-3">
+                <div class="col-12 text-center">
+                    <div class="alert alert-success">
+                        <h2><i class="bi bi-check-circle"></i></h2>
+                        <b>Koneksi Berhasil!</b><br>
+                        <small>X-Token : <code class="text text-grayish">' . htmlspecialchars($x_token) . '</code></small>
                     </div>
                 </div>
-            ';
-        } else {
-            echo '
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="alert alert-danger">
-                            <small>
-                                <b>Koneksi gagal!</b><br>
-                                HTTP Code: ' . $httpCode . '<br>
-                                Pesan: ' . htmlspecialchars($response_array['status'] ?? 'Tidak ada keterangan') . '
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            ';
-        }
+            </div>
+        ';
     }
 ?>

@@ -11,7 +11,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="9" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -22,7 +22,7 @@
     if(empty($_POST['id_academic_period'])){
         echo '
             <tr>
-                <td colspan="9" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Pilih Tahun Akademik Terlebih Dulu</small>
                 </td>
             </tr>
@@ -44,7 +44,7 @@
     if(empty($jml_data)){
         echo '
             <tr>
-                <td colspan="9" class="text-center">
+                <td colspan="11" class="text-center">
                     <small class="text-danger">Tidak ada data <b>Kelas</b> pada periode akademik tersebut</small>
                 </td>
             </tr>
