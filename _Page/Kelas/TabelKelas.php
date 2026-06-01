@@ -127,7 +127,11 @@
 
             //Hitung Jumlah Nomiinal Tagihan
             $SumNominalTagihan = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal) AS nominal_tagihan FROM fee_by_student WHERE id_organization_class='$id_organization_class'"));
-            $jumlah_nominal_tagihan = $SumNominalTagihan['nominal_tagihan'];
+            if(!empty($SumNominalTagihan['nominal_tagihan'])){
+                $jumlah_nominal_tagihan = $SumNominalTagihan['nominal_tagihan'];
+            }else{
+                $jumlah_nominal_tagihan = 0;
+            }
             $jumlah_nominal_tagihan_format  = "Rp " . number_format($jumlah_nominal_tagihan,0,',','.');
             if(empty($jumlah_nominal_tagihan)){
                 $label_nominal_tagihan='
@@ -149,7 +153,11 @@
 
             //Hitung Jumlah Diskon
             $SumDiskon = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_discount) AS jumlah_diskon FROM fee_by_student WHERE id_organization_class='$id_organization_class'"));
-            $jumlah_diskon = $SumDiskon['jumlah_diskon'];
+            if(!empty($SumDiskon['jumlah_diskon'])){
+                $jumlah_diskon = $SumDiskon['jumlah_diskon'];
+            }else{
+                $jumlah_diskon = 0;
+            }
             $jumlah_diskon_format  = "Rp " . number_format($jumlah_diskon,0,',','.');
             if(empty($jumlah_diskon)){
                 $labal_jumlah_diskon='
@@ -170,8 +178,12 @@
             }
 
             //Hitung Jumlah Tagihan
-            $SumTagihan = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal - fee_discount) AS total_tagihan FROM fee_by_student WHERE id_organization_class='$id_organization_class'"));
-            $jumlah_tagihan = $SumTagihan['total_tagihan'];
+            $SumTagihan             = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal - fee_discount) AS total_tagihan FROM fee_by_student WHERE id_organization_class='$id_organization_class'"));
+            if(!empty($SumTagihan['total_tagihan'])){
+                $jumlah_tagihan         = $SumTagihan['total_tagihan'];
+            }else{
+                $jumlah_tagihan         = 0;
+            }
             $jumlah_tagihan_format  = "Rp " . number_format($jumlah_tagihan,0,',','.');
             $jumlah_tagihan_format2 = "" . number_format($jumlah_tagihan,0,',','.');
             if(empty($jumlah_tagihan)){
@@ -193,9 +205,13 @@
             }
 
             //Hitung Jumlah Pembayaran
-            $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_organization_class='$id_organization_class'"));
-            $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
-            $jumlah_pembayaran_format   = "Rp " . number_format($jumlah_pembayaran,0,',','.');
+            $SumPembayaran            = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_organization_class='$id_organization_class'"));
+            if(!empty($SumPembayaran['payment_nominal'])){
+                $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
+            }else{
+                $jumlah_pembayaran = 0;
+            }
+            $jumlah_pembayaran_format = "Rp " . number_format($jumlah_pembayaran,0,',','.');
             if(empty($jumlah_pembayaran)){
                 $label_jumlah_pembayaran='
                     <small data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Jumlah Pembayaran Siswa">

@@ -10,7 +10,7 @@
     if(empty($SessionIdAccess)){
         echo '
             <tr>
-                <td colspan="10" class="text-center">
+                <td colspan="12" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang!</small>
                 </td>
             </tr>
@@ -95,8 +95,8 @@
         if(empty($jml_data)){
             echo '
                 <tr>
-                    <td colspan="10" class="text-center">
-                        <small class="text-danger">Tidak Ada Data Fitur Aplikasi Yang Ditampilkan!</small>
+                    <td colspan="12" class="text-center">
+                        <small class="text-danger">Tidak Ada Data Siswa Yang Ditampilkan!</small>
                     </td>
                 </tr>
             ';
@@ -193,12 +193,21 @@
                 //Menghitung Sisa Tunggakan
                 ## Hitung Jumlah Tagihan
                 $SumTagihan = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal - fee_discount) AS total_tagihan FROM fee_by_student WHERE id_student='$id_student'"));
-                $jumlah_tagihan = $SumTagihan['total_tagihan'];
+                if(!empty($SumTagihan['total_tagihan'])){
+                    $jumlah_tagihan = $SumTagihan['total_tagihan'];
+                }else{
+                    $jumlah_tagihan = 0;
+                }
                 $jumlah_tagihan_format  = "" . number_format($jumlah_tagihan,0,',','.');
 
                 ## Hitung Jumlah Pembayaran
                 $SumPembayaran = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS payment_nominal FROM payment WHERE id_student='$id_student'"));
-                $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
+                if(!empty($SumPembayaran['payment_nominal'])){
+                    $jumlah_pembayaran = $SumPembayaran['payment_nominal'];
+                }else{
+                    $jumlah_pembayaran = 0;
+                }
+                
                 $jumlah_pembayaran_format   = "" . number_format($jumlah_pembayaran,0,',','.');
 
                 ## Menghitung Sisa Tagihan

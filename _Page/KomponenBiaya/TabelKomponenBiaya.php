@@ -92,8 +92,13 @@
 
         //Menghitung Jumlah Nominal Tagihan
         $SumTagihan                 = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS jumlah_tagihan FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_rp_tagihan          = $SumTagihan['jumlah_tagihan'];
+        if(!empty($SumTagihan['jumlah_tagihan'])){
+            $jumlah_rp_tagihan = $SumTagihan['jumlah_tagihan'];
+        }else{
+           $jumlah_rp_tagihan = 0;
+        }
         $jumlah_rp_tagihan_format   = "Rp " . number_format($jumlah_rp_tagihan,0,',','.');
+        
         if(empty($jumlah_rp_tagihan)){
             $label_jumlah_rp_tagihan = '<span class="text text-grayish">Rp 0</span>';
         }else{
@@ -102,8 +107,13 @@
 
         //Menghitung Jumlah Pembayaran
         $SumPembayaran                  = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS jumlah_pembayaran FROM payment WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_pembayaran              = $SumPembayaran['jumlah_pembayaran'];
+        if(!empty($SumPembayaran['jumlah_pembayaran'])){
+            $jumlah_pembayaran = $SumPembayaran['jumlah_pembayaran'];
+        }else{
+            $jumlah_pembayaran = 0;
+        }
         $jumlah_pembayaran_format       = "Rp " . number_format($jumlah_pembayaran,0,',','.');
+        
         if(empty($jumlah_pembayaran)){
             $label_jumlah_rp_pembayaran = '<span class="text text-grayish">Rp 0</span>';
         }else{

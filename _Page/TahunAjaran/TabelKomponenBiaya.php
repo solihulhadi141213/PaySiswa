@@ -65,12 +65,12 @@
     $no=1;
     $QeryKomponenBiaya = mysqli_query($Conn, "SELECT * FROM fee_component WHERE id_academic_period='$id_academic_period' ORDER BY periode_month ASC");
     while ($DataKomponenBiaya = mysqli_fetch_array($QeryKomponenBiaya)) {
-        $id_fee_component         = $DataKomponenBiaya['id_fee_component'];
-        $component_name         = $DataKomponenBiaya['component_name'];
-        $component_category     = $DataKomponenBiaya['component_category'];
-        $periode_month          = $DataKomponenBiaya['periode_month'];
-        $periode_year           = $DataKomponenBiaya['periode_year'];
-        $fee_nominal            = $DataKomponenBiaya['fee_nominal'];
+        $id_fee_component   = $DataKomponenBiaya['id_fee_component'];
+        $component_name     = $DataKomponenBiaya['component_name'];
+        $component_category = $DataKomponenBiaya['component_category'];
+        $periode_month      = $DataKomponenBiaya['periode_month'];
+        $periode_year       = $DataKomponenBiaya['periode_year'];
+        $fee_nominal        = $DataKomponenBiaya['fee_nominal'];
 
         //Nama Bulan
         $nama_bulan = getNamaBulan($periode_month);
@@ -78,29 +78,48 @@
         //Menghitung Biaya Pendidikan, Diskon, Tagihan, Pembayaran, dan Sisa tunggakan
         # Jumlah Biaya Pendidikan
         $SumFeeNominal      = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal) AS jumlah_fee_nominal FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_fee_nominal = $SumFeeNominal['jumlah_fee_nominal'];
+        if(!empty($SumFeeNominal['jumlah_fee_nominal'])){
+            $jumlah_fee_nominal = $SumFeeNominal['jumlah_fee_nominal'];
+        }else{
+            $jumlah_fee_nominal = 0;
+        }
+        
 
         # Jumlah Diskon/potongan
         $SumFeeDiscount      = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_discount) AS jumlah_fee_discount FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_fee_discount = $SumFeeDiscount['jumlah_fee_discount'];
+        if(!empty($SumFeeDiscount['jumlah_fee_discount'])){
+            $jumlah_fee_discount = $SumFeeDiscount['jumlah_fee_discount'];
+        }else{
+            $jumlah_fee_discount = 0;
+        }
+        
 
         # Jumlah Tagihan
         $SumTagihan         = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS jumlah_tagihan FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_tagihan     = $SumTagihan['jumlah_tagihan'];
+        if(!empty($SumTagihan['jumlah_tagihan'])){
+            $jumlah_tagihan     = $SumTagihan['jumlah_tagihan'];
+        }else{
+            $jumlah_tagihan     = 0;
+        }
+        
 
         # Jumlah Pembayaran
         $SumPayment         = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(payment_nominal) AS jumlah_pembayaran FROM payment WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_pembayaran  = $SumPayment['jumlah_pembayaran'];
+        if(!empty($SumPayment['jumlah_pembayaran'])){
+            $jumlah_pembayaran  = $SumPayment['jumlah_pembayaran'];
+        }else{
+            $jumlah_pembayaran  = 0;
+        }
+        
+          # Sisa Tunggakan
+        $jumlah_tunggakan = $jumlah_tagihan - $jumlah_pembayaran;
 
-        # Sisa Tunggakan
-        $jumlah_tunggakan          = $jumlah_tagihan - $jumlah_pembayaran;
-
-        # akumulasi subtotal
-        $subtotal_biaya         = $subtotal_biaya + $jumlah_fee_nominal ;
-        $subtotal_diskon        = $subtotal_diskon + $jumlah_fee_discount ;
-        $subtotal_tagihan       = $subtotal_tagihan + $jumlah_tagihan ;
-        $subtotal_pembayaran    = $subtotal_pembayaran + $jumlah_pembayaran ;
-        $subtotal_tunggakan     = $subtotal_tunggakan + $jumlah_tunggakan ;
+          # akumulasi subtotal
+        $subtotal_biaya      = $subtotal_biaya + $jumlah_fee_nominal ;
+        $subtotal_diskon     = $subtotal_diskon + $jumlah_fee_discount ;
+        $subtotal_tagihan    = $subtotal_tagihan + $jumlah_tagihan ;
+        $subtotal_pembayaran = $subtotal_pembayaran + $jumlah_pembayaran ;
+        $subtotal_tunggakan  = $subtotal_tunggakan + $jumlah_tunggakan ;
 
         # Format Rupiah
         $fee_nominal_format             = "Rp " . number_format($fee_nominal,0,',','.');

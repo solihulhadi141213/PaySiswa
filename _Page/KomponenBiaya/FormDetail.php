@@ -71,7 +71,11 @@
 
         //Menghitung Jumlah Nominal Tagihan
         $SumTagihan                 = mysqli_fetch_array(mysqli_query($Conn,"SELECT SUM(fee_nominal-fee_discount) AS jumlah_tagihan FROM fee_by_student WHERE id_fee_component='$id_fee_component'"));
-        $jumlah_rp_tagihan          = $SumTagihan['jumlah_tagihan'];
+        if(!empty($SumTagihan['jumlah_tagihan'])){
+            $jumlah_rp_tagihan = $SumTagihan['jumlah_tagihan'];
+        }else{
+            $jumlah_rp_tagihan = 0;
+        }
         $jumlah_rp_tagihan_format   = "Rp " . number_format($jumlah_rp_tagihan,0,',','.');
 
         //Tampilkan Data
