@@ -459,10 +459,10 @@
 </div>
 
 <div class="modal fade" id="ModalImport" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-light">
                     <i class="bi bi-upload"></i> Import Siswa
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -510,16 +510,19 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th><b>Baris</b></th>
+                                        <th><b>No</b></th>
                                         <th><b>NIS</b></th>
                                         <th><b>Nama</b></th>
                                         <th><b>Gender</b></th>
+                                        <th><b>ID Kelas</b></th>
+                                        <th><b>Tgl Daftar</b></th>
+                                        <th><b>Status</b></th>
                                         <th><b>Keterangan</b></th>
                                     </tr>
                                 </thead>
                                 <tbody id="NotifikasiImport">
                                     <tr>
-                                        <td colspan="4" class="text-center">
+                                        <td colspan="8" class="text-center">
                                             <small class="text-danger">Belum Ada Proses Import</small>
                                         </td>
                                     </tr>
@@ -529,7 +532,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-primary">
                 <button type="button" disabled class="btn btn-warning btn-rounded" id="ResetFormImport">
                     <i class="bi bi-arrow-repeat"></i> Reset Form
                 </button>
@@ -537,6 +540,58 @@
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalExport" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="_Page/Siswa/ProsesExport.php" target="_blank" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-download"></i> Export Data Siswa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="tipe_file_siswa">
+                                <small>Pilih Format Data :</small>
+                            </label>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipe_file_siswa" id="tipe_file_siswa_html" value="HTML">
+                                <label class="form-check-label" for="tipe_file_siswa_html">
+                                    <small>HTML</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipe_file_siswa" id="tipe_file_siswa_csv" value="CSV">
+                                <label class="form-check-label" for="tipe_file_siswa_csv">
+                                    <small>CSV</small>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipe_file_siswa" id="tipe_file_siswa_excel" value="EXCEL" checked>
+                                <label class="form-check-label" for="tipe_file_siswa_excel">
+                                    <small>EXCEL</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

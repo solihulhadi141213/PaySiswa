@@ -71,16 +71,21 @@
         }
 
         //Parent
-        $parent_arry=json_decode($student_parent, true);
-        if(empty($parent_arry['nama'])){
-            $parent_nama="-";
-        }else{
-            $parent_nama=$parent_arry['nama'];
-        }
-        if(empty($parent_arry['kontak'])){
-            $parent_kontak="-";
-        }else{
-            $parent_kontak=$parent_arry['kontak'];
+        $parent_nama="-";
+        $parent_kontak="-";
+        if(!empty($Data['student_parent'])){
+
+            $parent_arry=json_decode($student_parent, true);
+            if(empty($parent_arry['nama'])){
+                $parent_nama="-";
+            }else{
+                $parent_nama=$parent_arry['nama'];
+            }
+            if(empty($parent_arry['kontak'])){
+                $parent_kontak="-";
+            }else{
+                $parent_kontak=$parent_arry['kontak'];
+            }
         }
 
         //Tempat lahir

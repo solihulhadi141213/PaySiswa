@@ -67,6 +67,13 @@
         echo '
             <input type="hidden" name="id_organization_class" value="'.$id_organization_class.'">
             <div class="row mb-2">
+                <div class="col-4"><small>ID Kelas</small></div>
+                <div class="col-1"><small>:</small></div>
+                <div class="col-7">
+                    <small class="text text-grayish">'.$id_organization_class.'</small>
+                </div>
+            </div>
+            <div class="row mb-2">
                 <div class="col-4"><small>Periode Akademik</small></div>
                 <div class="col-1"><small>:</small></div>
                 <div class="col-7">

@@ -17,7 +17,7 @@
     if (empty($SessionIdAccess)) {
         echo '
             <tr>
-                <td colspan="5" class="text-center">
+                <td colspan="8" class="text-center">
                     <small class="text-danger">Sesi Akses Sudah Berakhir! Silahkan Login Ulang.</small>
                 </td>
             </tr>
@@ -29,7 +29,7 @@
     if(empty($_FILES['data_siswa']['name'])) {
         echo '
             <tr>
-                <td colspan="5" class="text-center">
+                <td colspan="8" class="text-center">
                     <small class="text-danger">Silahkan pilih file untuk di upload</small>
                 </td>
             </tr>
@@ -81,7 +81,7 @@
             if(empty($JumlahValidator)) {
                 echo '
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="8" class="text-center">
                             <small class="text-danger">Tidak ada data pada file excel yang anda upload</small>
                         </td>
                     </tr>
@@ -100,7 +100,7 @@
                     echo '
                         <tr>
                             <td>'.$i.'</td>
-                            <td colspan="4" class="text-center">
+                            <td colspan="7" class="text-center">
                                 <small class="text-danger">NIS tidak boleh kosong</small>
                             </td>
                         </tr>
@@ -113,7 +113,7 @@
                         <tr>
                             <td>'.$i.'</td>
                             <td>'.$sheetData[$i][0].'</td>
-                            <td colspan="3" class="text-center">
+                            <td colspan="6" class="text-center">
                                 <small class="text-danger">Nama tidak boleh kosong</small>
                             </td>
                         </tr>
@@ -127,7 +127,7 @@
                             <td>'.$i.'</td>
                             <td>'.$sheetData[$i][0].'</td>
                             <td>'.$sheetData[$i][1].'</td>
-                            <td colspan="2" class="text-center">
+                            <td colspan="5" class="text-center">
                                 <small class="text-danger">Gender tidak boleh kosong</small>
                             </td>
                         </tr>
@@ -142,7 +142,7 @@
                             <td>'.$sheetData[$i][0].'</td>
                             <td>'.$sheetData[$i][1].'</td>
                             <td>'.$sheetData[$i][2].'</td>
-                            <td class="text-center">
+                            <td colspan="4" class="text-center">
                                 <small class="text-danger">Tanggal Daftar tidak boleh kosong</small>
                             </td>
                         </tr>
@@ -157,7 +157,7 @@
                             <td>'.$sheetData[$i][0].'</td>
                             <td>'.$sheetData[$i][1].'</td>
                             <td>'.$sheetData[$i][2].'</td>
-                            <td class="text-center">
+                            <td colspan="4" class="text-center">
                                 <small class="text-danger">Status siswa tidak boleh kosong</small>
                             </td>
                         </tr>
@@ -170,7 +170,7 @@
                 $student_gender = mysqli_real_escape_string($Conn, $sheetData[$i][2]);
                 
                 if(empty($sheetData[$i][3])) {
-                    $id_organization_class = "";
+                    $id_organization_class = null;
                 } else {
                     $id_organization_class = mysqli_real_escape_string($Conn, $sheetData[$i][3]);
                 }
@@ -187,7 +187,7 @@
                             <td>'.$student_nis.'</td>
                             <td>'.$student_name.'</td>
                             <td>'.$student_gender.'</td>
-                            <td class="text-center">
+                            <td colspan="4" class="text-center">
                                 <small class="text-danger">NIS Sudah Terdaftar</small>
                             </td>
                         </tr>
@@ -203,7 +203,7 @@
                             <td>'.$student_nis.'</td>
                             <td>'.$student_name.'</td>
                             <td>'.$student_gender.'</td>
-                            <td class="text-center">
+                            <td colspan="4" class="text-center">
                                 <small class="text-danger">Gender hanya boleh Female dan Male</small>
                             </td>
                         </tr>
@@ -220,7 +220,7 @@
                             <td>'.$student_nis.'</td>
                             <td>'.$student_name.'</td>
                             <td>'.$student_gender.'</td>
-                            <td class="text-center">
+                            <td colspan="4" class="text-center">
                                 <small class="text-danger">Format tanggal tidak valid</small>
                             </td>
                         </tr>
@@ -231,7 +231,12 @@
                 $student_registered_formatted = date('Y-m-d', $student_registered_timestamp);
                 
                 // Validasi id_organization_class
-                $ValidasiKelas = mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_organization_class='$id_organization_class'"));
+                if(!empty($id_organization_class)){
+                    $ValidasiKelas = mysqli_num_rows(mysqli_query($Conn, "SELECT id_organization_class FROM organization_class WHERE id_organization_class='$id_organization_class'"));
+                }else{
+                    $ValidasiKelas = 1;
+                }
+                
                 if(empty($ValidasiKelas)) {
                     echo '
                         <tr>
@@ -239,7 +244,7 @@
                             <td>'.$student_nis.'</td>
                             <td>'.$student_name.'</td>
                             <td>'.$student_gender.'</td>
-                            <td class="text-center">
+                            <td colspan="4" class="text-center">
                                 <small class="text-danger">ID Kelas Tidak Ditemukan</small>
                             </td>
                         </tr>
@@ -247,24 +252,32 @@
                     continue;
                 }
                 
-                // Simpan Data
-                $EntryAnggota = "INSERT INTO student (
-                    id_organization_class,
-                    student_nis,
-                    student_name,
-                    student_gender,
-                    student_registered,
-                    student_status
-                ) VALUES (
-                    '$id_organization_class',
-                    '$student_nis',
-                    '$student_name',
-                    '$student_gender',
-                    '$student_registered_formatted',
-                    '$student_status'
-                )";
-                
-                $InputAnggota = mysqli_query($Conn, $EntryAnggota);
+                // Simpan Data Dengan Prepared Statement
+                $stmt = mysqli_prepare(
+                    $Conn,
+                    "INSERT INTO student (
+                        id_organization_class,
+                        student_nis,
+                        student_name,
+                        student_gender,
+                        student_registered,
+                        student_status
+                    ) VALUES (?, ?, ?, ?, ?, ?)"
+                );
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "isssss",
+                    $id_organization_class,
+                    $student_nis,
+                    $student_name,
+                    $student_gender,
+                    $student_registered_formatted,
+                    $student_status
+                );
+
+                $InputAnggota = mysqli_stmt_execute($stmt);
+
                 if($InputAnggota) {
                     echo '
                         <tr>
@@ -272,6 +285,9 @@
                             <td>'.$student_nis.'</td>
                             <td>'.$student_name.'</td>
                             <td>'.$student_gender.'</td>
+                            <td>'.($id_organization_class ?? '-').'</td>
+                            <td>'.$student_registered_formatted.'</td>
+                            <td>'.$student_status.'</td>
                             <td class="text-center">
                                 <small class="text-success">Success</small>
                             </td>
@@ -285,18 +301,26 @@
                             <td>'.$student_nis.'</td>
                             <td>'.$student_name.'</td>
                             <td>'.$student_gender.'</td>
+                            <td>'.($id_organization_class ?? '-').'</td>
+                            <td>'.$student_registered_formatted.'</td>
+                            <td>'.$student_status.'</td>
                             <td class="text-center">
-                                <small class="text-danger">Terjadi kesalahan pada saat proses input: '.mysqli_error($Conn).'</small>
+                                <small class="text-danger">
+                                    Terjadi kesalahan pada saat proses input:
+                                    '.mysqli_stmt_error($stmt).'
+                                </small>
                             </td>
                         </tr>
                     ';
                 }
+
+                mysqli_stmt_close($stmt);
             }
             
             // Tampilkan ringkasan
             echo '
                 <tr>
-                    <td colspan="5" class="text-center">
+                    <td colspan="8" class="text-center">
                         <small class="text-info">Proses selesai. '.$JumlahKodeValid.' dari '.$JumlahValidator.' data berhasil diimpor.</small>
                     </td>
                 </tr>
@@ -310,7 +334,7 @@
             
             echo '
                 <tr>
-                    <td colspan="5" class="text-center">
+                    <td colspan="8" class="text-center">
                         <small class="text-danger">Error membaca file: '.$e->getMessage().'</small>
                     </td>
                 </tr>
@@ -320,7 +344,7 @@
     } else {
         echo '
             <tr>
-                <td colspan="5" class="text-center">
+                <td colspan="8" class="text-center">
                     <small class="text-danger">File tidak valid. Silahkan upload file Excel atau CSV.</small>
                 </td>
             </tr>

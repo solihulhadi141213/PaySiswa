@@ -30,9 +30,24 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-12 text-end">
-                                <button type="button" class="btn btn-md btn-outline-primary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalImport" title="Import Data Siswa">
-                                    <i class="bi bi-upload"></i>
+                                <button type="button" class="btn btn-md btn-outline-primary btn-floating"  data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-database"></i>
                                 </button>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Option</h6>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalImport" title="Import Data Siswa">
+                                            <i class="bi bi-upload"></i> Import
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalExport" title="Export Data Siswa">
+                                            <i class="bi bi-download"></i> Export
+                                        </a>
+                                    </li>
+                                </ul>
                                 <button type="button" class="btn btn-md btn-secondary btn-floating" data-bs-toggle="modal" data-bs-target="#ModalFilter" title="Filter Data Siswa">
                                     <i class="bi bi-filter"></i>
                                 </button>
@@ -50,11 +65,10 @@
                                         <td valign="middle">
                                             <input type="checkbox" name="check_all" class="form-check-input" value="check_all">
                                         </td>
-                                        <td valign="middle"><b>No</b></td>
                                         <td valign="middle"><b>Nama</b></td>
                                         <td valign="middle"><b>NIS</b></td>
-                                        <td valign="middle"><b>Level <br> Jenjang</b></td>
-                                        <td valign="middle"><b>Kelas <br> Rombel</b></td>
+                                        <td valign="middle"><b>Jenjang</b></td>
+                                        <td valign="middle"><b>Kelas</b></td>
                                         <td valign="middle">
                                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Tahun Akademik / Periode Akademik">
                                                 <b class="text-dark"><i class="bi bi-info-circle"></i> T.A</b>
@@ -65,16 +79,16 @@
                                                 <b class="text-dark"><i class="bi bi-info-circle"></i> L/P</b>
                                             </a>
                                         </td>
-                                        <td valign="middle"><b>Tanggal <br>Daftar</b></td>
+                                        <td valign="middle"><b>Tgl.Daftar</b></td>
                                         <td valign="middle"><b>Status</b></td>
-                                        <td valign="middle"><b>Sisa <br>Tunggakan</b></td>
+                                        <td valign="middle"><b>Tunggakan</b></td>
                                         <td valign="middle"><b>Opsi</b></td>
                                     </tr>
                                 </thead>
                                 <tbody id="TabelSiswa">
                                     <tr>
-                                        <td class="text-center" colspan="10">
-                                            <small>Tidak ada data siswa yang ditampilkan</small>
+                                        <td class="text-center" colspan="11">
+                                            <small>No Data</small>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -233,13 +233,8 @@
                             <input type="checkbox" name="id_student[]" class="form-check-input" value="'.$id_student .'">
                         </td>
                         <td>
-                            <a href="javascript:void(0);" class="badge badge-info" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
-                                '.$no.'
-                            </a>
-                        </td>
-                        <td>
-                            <a href="javascript:void(0);" class="text-dark" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
-                                <small>'.$student_name.'</small>
+                            <a href="javascript:void(0);" class="badge badge-primary text-primary" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="'.$id_student .'">
+                                '.$student_name.'
                             </a>
                         </td>
                         <td><small>'.$student_nis.'</small></td>

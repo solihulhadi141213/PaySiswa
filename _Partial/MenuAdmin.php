@@ -20,11 +20,11 @@
                         <i class="bi bi-circle"></i><span>Pengaturan Umum</span>
                     </a>
                 </li> 
-                <!-- <li>
+                <li>
                     <a href="index.php?Page=PaymentGateway" class="<?php if($PageMenu=="PaymentGateway"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Payment Gateway</span>
                     </a>
-                </li> -->
+                </li>
                 <li>
                     <a href="index.php?Page=SettingEmail" class="<?php if($PageMenu=="SettingEmail"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Email Gateway</span>
